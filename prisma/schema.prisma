@@ -12,15 +12,15 @@ generator client {
 }
 
 model Station {
-  id            String                                @id @default(cuid())
-  name          String                                @unique
-  capacity      Int
-  city          String
-  address       String                                @unique
-  stationId     Int                                   @unique
-  coords        Unsupported("geography(Point, 4326)")
-  DepartureRide Ride[]                                @relation("departure")
-  ReturnRide    Ride[]                                @relation("return")
+  id               String                                @id @default(cuid())
+  name             String                                @unique
+  capacity         Int
+  city             String
+  address          String                                @unique
+  stationId        Int                                   @unique
+  coords           Unsupported("geography(Point, 4326)")
+  DepartureStation Ride[]                                @relation("departure")
+  ReturnStation    Ride[]                                @relation("return")
 
   @@index([coords], name: "location_idx", type: Gist)
   @@map(name: "stations")
@@ -34,6 +34,8 @@ model Ride {
   departureStationId Int
   returnStationId    Int
   returnTime         DateTime @map(name: "return_time")
+  distance           Int
+  duration           Int
 
   @@map(name: "rides")
 }

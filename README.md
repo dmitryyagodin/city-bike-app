@@ -9,3 +9,6 @@ npx prisma init
 
 Push database shemes to postgres:
 npx prisma db push
+
+Seed transformed data to the database
+npx prisma db seed
