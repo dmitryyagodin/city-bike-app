@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+model Station {
+  id            String                                @id @default(cuid())
+  name          String                                @unique
+  capacity      Int
+  city          String
+  address       String                                @unique
+  stationId     Int                                   @unique
+  coords        Unsupported("geography(Point, 4326)")
+  DepartureRide Ride[]                                @relation("departure")
+  ReturnRide    Ride[]                                @relation("return")
+
+  @@index([coords], name: "location_idx", type: Gist)
+  @@map(name: "stations")
+}
+
+model Ride {
+  id                 String   @id @default(cuid())
+  departureTime      DateTime @map(name: "departure_time")
+  departureStation   Station  @relation("departure", fields: [departureStationId], references: [stationId])
+  returnStation      Station  @relation("return", fields: [returnStationId], references: [stationId])
+  departureStationId Int
+  returnStationId    Int
+  returnTime         DateTime @map(name: "return_time")
+
+  @@map(name: "rides")
+}
