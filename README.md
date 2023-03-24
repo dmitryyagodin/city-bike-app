@@ -12,3 +12,6 @@ npx prisma db push
 
 Seed transformed data to the database
 npx prisma db seed
+
+Check types wihout compiling the code to js
+tsc --noEmit

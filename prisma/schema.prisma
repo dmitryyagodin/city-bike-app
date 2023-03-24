@@ -12,17 +12,19 @@ generator client {
 }
 
 model Station {
-  id               String                                @id @default(cuid())
-  name             String                                @unique
-  capacity         Int
-  city             String
-  address          String                                @unique
-  stationId        Int                                   @unique
-  coords           Unsupported("geography(Point, 4326)")
+  id             String                                @id @default(cuid())
+  name             String?                                
+  capacity         String?
+  city             String?
+  address          String?                               
+  stationId        String                                @unique
+  latitude         String
+  longitude        String
   DepartureStation Ride[]                                @relation("departure")
   ReturnStation    Ride[]                                @relation("return")
 
-  @@index([coords], name: "location_idx", type: Gist)
+  // coords           Unsupported("geography(Point, 4326)")
+  // @@index([coords], name: "location_idx", type: Gist)
   @@map(name: "stations")
 }
 
@@ -31,11 +33,19 @@ model Ride {
   departureTime      DateTime @map(name: "departure_time")
   departureStation   Station  @relation("departure", fields: [departureStationId], references: [stationId])
   returnStation      Station  @relation("return", fields: [returnStationId], references: [stationId])
-  departureStationId Int
-  returnStationId    Int
+  departureStationId String
+  returnStationId    String
   returnTime         DateTime @map(name: "return_time")
   distance           Int
   duration           Int
 
   @@map(name: "rides")
+}
+
+model File {
+  id String @id @default(cuid())
+  name String
+  age Int
+
+  @@map(name: "files")
 }

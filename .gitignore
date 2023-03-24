@@ -38,3 +38,4 @@ next-env.d.ts
 # project working notes
 notes.md
 .env
+*/node_modules/*
