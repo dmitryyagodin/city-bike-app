@@ -39,3 +39,5 @@ next-env.d.ts
 notes.md
 .env
 */node_modules/*
+
+/db/data/
