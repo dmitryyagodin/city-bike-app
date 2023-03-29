@@ -97,6 +97,8 @@ ALTER TABLE "rides" RENAME "Covered distance (m)" TO "distance";
 
 ALTER TABLE "rides" RENAME "Duration (sec.)" TO "duration";
 
+ALTER TABLE "rides" ADD COLUMN "id" SERIAL PRIMARY KEY;
+
 DELETE FROM rides r
 WHERE NOT EXISTS (
         SELECT
@@ -115,13 +117,11 @@ WHERE NOT EXISTS (
 
 ALTER TABLE "rides"
 ADD
-    CONSTRAINT departure_station FOREIGN KEY("departure_station_id") REFERENCES stations("station_id") ON DELETE
-SET NULL;
+    CONSTRAINT departure_station FOREIGN KEY("departure_station_id") REFERENCES stations("station_id") ON DELETE RESTRICT;
 
 ALTER TABLE "rides"
 ADD
-    CONSTRAINT return_station FOREIGN KEY("return_station_id") REFERENCES stations("station_id") ON DELETE
-SET NULL;
+    CONSTRAINT return_station FOREIGN KEY("return_station_id") REFERENCES stations("station_id") ON DELETE RESTRICT;
 
 -- CreateIndex
 

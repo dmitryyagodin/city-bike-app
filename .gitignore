@@ -40,4 +40,5 @@ notes.md
 .env
 */node_modules/*
 
-/db/data/
+/data
+.gitignore

@@ -1,51 +1,50 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
 }
 
-model Station {
-  id             String                                @id @default(cuid())
-  name             String?                                
-  capacity         String?
-  city             String?
-  address          String?                               
-  stationId        String                                @unique
-  latitude         String
-  longitude        String
-  DepartureStation Ride[]                                @relation("departure")
-  ReturnStation    Ride[]                                @relation("return")
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis(schema: "public")]
+}
 
-  // coords           Unsupported("geography(Point, 4326)")
-  // @@index([coords], name: "location_idx", type: Gist)
-  @@map(name: "stations")
+model Station {
+  // FID                                        String?
+  station_id                                 Int      @id @unique(map: "stations_id_key")
+  station_name                               String
+  station_address                            String
+  capacity                                   Int
+  longitude                                  Decimal @db.Decimal(10, 6)
+  latitude                                   Decimal @db.Decimal(11, 6)
+  rides_rides_departure_station_idTostations Ride[]   @relation("rides_departure_station_idTostations")
+  rides_rides_return_station_idTostations    Ride[]   @relation("rides_return_station_idTostations")
+
+  @@map("stations")
 }
 
 model Ride {
-  id                 String   @id @default(cuid())
-  departureTime      DateTime @map(name: "departure_time")
-  departureStation   Station  @relation("departure", fields: [departureStationId], references: [stationId])
-  returnStation      Station  @relation("return", fields: [returnStationId], references: [stationId])
-  departureStationId String
-  returnStationId    String
-  returnTime         DateTime @map(name: "return_time")
-  distance           Int
-  duration           Int
+  departureTime                                 DateTime @map("departure_time")
+  returnTime                                    DateTime @map("return_time")
+  departure_station_id                          Int
+  departure_station_name                        String
+  return_station_id                             Int
+  return_station_name                           String
+  distance                                      Decimal  @db.Decimal
+  duration                                      Int
+  id                                            Int      @id @default(autoincrement())
+  stations_rides_departure_station_idTostations Station  @relation("rides_departure_station_idTostations", fields: [departure_station_id], references: [station_id], onUpdate: NoAction, map: "departure_station")
+  stations_rides_return_station_idTostations    Station  @relation("rides_return_station_idTostations", fields: [return_station_id], references: [station_id], onUpdate: NoAction, map: "return_station")
 
-  @@map(name: "rides")
+  @@index([departure_station_id])
+  @@index([return_station_id])
+  @@map("rides")
 }
 
-model File {
-  id String @id @default(cuid())
-  name String
-  age Int
-
-  @@map(name: "files")
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
 }

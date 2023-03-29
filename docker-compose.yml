@@ -5,10 +5,10 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - ./../.env
+      - ./.env
     volumes:
-      - postgres:/var/lib/postgresql/
       - ./data:/tmp
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/var/lib/postgresql/
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   postgres:
