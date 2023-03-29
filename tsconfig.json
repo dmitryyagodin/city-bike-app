@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@api/*": ["pages/api/*"],
-      "@backend": ["backend"],
-      "@backend/*": ["backend/*"],
-      "@db": ["lib/prisma"]
+      "@api/*": ["src/pages/api/*"],
+      "@db": ["src/lib/prisma"],
+      "@styles/": ["src/styles/*"],
+      "@components/": ["src/pages/components/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -21,7 +21,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "declaration": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
