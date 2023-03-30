@@ -15,3 +15,6 @@ npx prisma db seed
 
 Check types wihout compiling the code to js
 tsc --noEmit
+
+# run with cypress tests
+docker-compose up --exit-code-from cypress
