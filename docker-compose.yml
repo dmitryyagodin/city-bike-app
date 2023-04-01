@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgis/postgis:15-3.3
-    container_name: postgres
+    image: city-bike-db
+    build: db/
     ports:
       - 5432:5432
     env_file:
@@ -11,7 +11,7 @@ services:
       - postgres:/var/lib/postgresql/
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   app:
-    image: city-bike-next
+    image: city-bike-app
     build: .
     ports:
       - 3000:3000
@@ -24,7 +24,7 @@ services:
       - ./public:/app/public
       - ./src:/app/src
   cypress:
-    image: "cypress/included:4.4.0"
+    image: "cypress/included"
     depends_on:
       - app
     environment:

@@ -1,4 +1,8 @@
-CREATE EXTENSION IF NOT EXISTS postgis;
+-- SELECT 'CREATE DATABASE city_bikes'
+
+-- WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'city_bikes')\gexec
+
+-- CREATE EXTENSION IF NOT EXISTS postgis;
 
 CREATE TABLE
     IF NOT EXISTS "stations" (
@@ -99,6 +103,10 @@ ALTER TABLE "rides" RENAME "Duration (sec.)" TO "duration";
 
 ALTER TABLE "rides" ADD COLUMN "id" SERIAL PRIMARY KEY;
 
+/*
+ Remove those rides whose departure_station_id cannot be found in the stations table 
+ */
+
 DELETE FROM rides r
 WHERE NOT EXISTS (
         SELECT
@@ -107,12 +115,40 @@ WHERE NOT EXISTS (
             r.departure_station_id = s.station_id
     );
 
+/*
+ Remove those rides whose return_station_id cannot be found in the stations table 
+ */
+
 DELETE FROM rides r
 WHERE NOT EXISTS (
         SELECT
         FROM stations s
         WHERE
             r.return_station_id = s.station_id
+    );
+
+/*
+ Delete duplicates - rows with similar values across all columns (highly unlikely situation)
+ */
+
+DELETE FROM rides
+WHERE id IN (
+        SELECT id
+        FROM (
+                SELECT
+                    id,
+                    ROW_NUMBER() OVER(
+                        PARTITION BY departure_time,
+                        return_time,
+                        departure_station_id,
+                        return_station_id,
+                        distance
+                        ORDER BY
+                            id
+                    ) AS row_num
+                FROM rides
+            ) t
+        WHERE t.row_num > 1
     );
 
 ALTER TABLE "rides"
