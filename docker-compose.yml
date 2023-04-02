@@ -24,7 +24,7 @@ services:
       - ./public:/app/public
       - ./src:/app/src
   cypress:
-    image: "cypress/included"
+    image: "cypress/included:12.9.0"
     depends_on:
       - app
     environment:
