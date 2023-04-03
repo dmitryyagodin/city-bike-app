@@ -38,5 +38,13 @@ npx prisma db seed
 Check types wihout compiling the code to js
 tsc --noEmit
 
-# run with cypress tests
+## Testing
+
+
+```bash
+# Start the app containers and exist after completing the cypress tests
 docker-compose up --exit-code-from cypress
+```
+
+Read more:
+[E2E testing in Next.js with Cypress and TypeScript](https://blog.logrocket.com/end-to-end-testing-next-js-apps-cypress-typescript/)

@@ -4,8 +4,9 @@
     "paths": {
       "@api/*": ["src/pages/api/*"],
       "@db": ["src/lib/prisma"],
+      "@lib": ["src/lib"],
       "@styles/": ["src/styles/*"],
-      "@components/": ["src/pages/components/*"]
+      "@components": ["src/pages/components/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
