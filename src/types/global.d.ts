@@ -18,6 +18,7 @@ declare global {
     departure_station_name: string;
     return_station_id: number;
     return_station_name: string;
+    duration: number | string;
     distance: number;
     id: number;
   };
