@@ -5,10 +5,12 @@ export default function Table({ rows }) {
     <table>
       <thead>
         <tr>
+          <th>Departure Time</th>
           <th>Departure</th>
           <th>Distance</th>
           <th>Duration</th>
           <th>Return</th>
+          <th>Return time</th>
         </tr>
       </thead>
       <tbody>

@@ -24,7 +24,7 @@ describe('The rides page should include <table> with 5 <th> cols', () => {
     cy.get('h1').should('exist');
     cy.get('table').within(() => {
       cy.get('th')
-        .should('have.length', 5)
+        .should('have.length', 6)
         .each(($el) => expect($el).not.to.be.empty);
     });
   });
