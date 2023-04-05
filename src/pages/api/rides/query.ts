@@ -1,17 +1,15 @@
-import {getRides} from './index';
+import { getRides } from './index';
 
 export default async function handle(req, res) {
-  
   const query = {};
-  const {orderBy, page} = req.query;
-  
-  if (orderBy) {
-    Object.entries(req.query.orderBy).forEach(([key, value]) => {
-      const [field, order] = value.split('-');
-      query[key] = [ { [field]: order  } ];
-    } );
+
+  if (req.query.orderBy) {
+    const [field, order] = req.query.orderBy.split('-');
+    query.orderBy = [{ [field]: order }];
   }
-  
-  const rides = await getRides(query);  
-  res.json(rides);
+
+  if (req.query.skip) query.skip = Number(req.query.skip);
+
+  const { rides, totalCount } = await getRides(query);
+  res.json({ rides, totalCount });
 }

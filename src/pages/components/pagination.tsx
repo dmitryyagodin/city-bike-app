@@ -1,15 +1,14 @@
 import Link from 'next/link';
 
-export default function Pagination({currentPath, nextPageNumber, totalPages}) {
-  const nextPageUrl = currentPath.includes('?') ?
-   currentPath + `&page=${nextPageNumber}` : currentPath + `?skip=${nextPageNumber}`;
-  
+export default function Pagination(props) {
   return (
     <nav>
-       <Link href={nextPageUrl}>
-        Next page<br/>
-        <span>{nextPageNumber} of {totalPages}</span>
-       </Link>    
+      <Link href={props.href}>
+        Next page
+        <span>
+          {props.nextPageNumber} of {props.totalPages}
+        </span>
+      </Link>
     </nav>
-  );  
+  );
 }
