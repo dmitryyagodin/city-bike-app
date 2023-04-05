@@ -5,7 +5,7 @@ import RidesFilter from '../components/ridesFilter';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Pagination from '../components/pagination';
-import { getNextPageUrl } from '../../lib/utils.ts';
+import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 
 const RIDES_ON_PAGE = 50;
 
@@ -43,11 +43,13 @@ const Rides: NextPage<Props> = ({ rides, count }) => {
   return (
     <div>
       <h1>Bike rides</h1>
+      <h2>{numberWithCommas(totalRides)} results</h2>
       <RidesFilter />
       <Pagination
-        href={getNextPageUrl(router, skip)}
+        prevHref={skip > 50 ? getNavPageUrl(router, skip - 100): false}
+        nextHref={getNavPageUrl(router, skip)}
         nextPageNumber={skip / RIDES_ON_PAGE + 1}
-        totalPages={Math.ceil(totalRides / RIDES_ON_PAGE)}
+        totalPages={numberWithCommas(Math.ceil(totalRides / RIDES_ON_PAGE))}
       />
       <Table rows={filteredRides} />
     </div>

@@ -28,7 +28,7 @@ export function getDuration(seconds: number): string {
   return (seconds / 60).toFixed(1);
 }
 
-export function getNextPageUrl(router, skip: number): string {
+export function getNavPageUrl(router, skip: number): string {
   let href = router.asPath;
   if (router.query.skip) {
     href = href.replace(/skip=\d+/, `skip=${skip}`);
@@ -38,4 +38,8 @@ export function getNextPageUrl(router, skip: number): string {
     href += `?skip=${skip}`;
   }
   return href;
+}
+
+export function numberWithCommas(num:number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

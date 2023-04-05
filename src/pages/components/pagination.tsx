@@ -3,7 +3,18 @@ import Link from 'next/link';
 export default function Pagination(props) {
   return (
     <nav>
-      <Link href={props.href}>
+      {
+        props.prevHref &&
+        
+        <Link href={props.prevHref}>
+        Prev page
+        <span>
+          {props.nextPageNumber - 2} of {props.totalPages}
+        </span>
+        </Link>
+
+      }
+      <Link href={props.nextHref}>
         Next page
         <span>
           {props.nextPageNumber} of {props.totalPages}
