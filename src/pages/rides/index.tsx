@@ -11,17 +11,19 @@ const RIDES_ON_PAGE = 50;
 
 type Props = {
   rides: { rides: Ride[] };
-  count: number;
+  totalCount: number;
 };
 
-const Rides: NextPage<Props> = ({ rides, count }) => {
+const Rides: NextPage<Props> = ({ rides, totalCount }) => {
   const router = useRouter();
 
   const [filteredRides, setFilteredRides] = useState(rides);
-  const [skip, setSkip] = useState(50);
-  const [totalRides, setTotalRides] = useState(count);
+  const [showItems, setShowItems] = useState(RIDES_ON_PAGE);
+  const [skip, setSkip] = useState(showItems);
+  const [totalRides, setTotalRides] = useState(totalCount);
 
   useEffect(() => {
+    console.log('useEffect is run');
     if (router.query.orderBy || router.query.skip) {
       const url = '/api/rides/query?';
       const params = [];
@@ -34,7 +36,7 @@ const Rides: NextPage<Props> = ({ rides, count }) => {
           setFilteredRides(data.rides);
 
           if (router.query.skip && skip !== router.query.skip) {
-            setSkip(() => Number(router.query.skip) + 50);
+            setSkip(() => Number(router.query.skip) + RIDES_ON_PAGE);
           }
         });
     }
@@ -43,13 +45,13 @@ const Rides: NextPage<Props> = ({ rides, count }) => {
   return (
     <div>
       <h1>Bike rides</h1>
-      <h2>{numberWithCommas(totalRides)} results</h2>
+      <h2>{numberWithCommas(totalCount)} results</h2>
       <RidesFilter />
       <Pagination
-        prevHref={skip > 50 ? getNavPageUrl(router, skip - 100): false}
+        prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2): false}
         nextHref={getNavPageUrl(router, skip)}
         nextPageNumber={skip / RIDES_ON_PAGE + 1}
-        totalPages={numberWithCommas(Math.ceil(totalRides / RIDES_ON_PAGE))}
+        totalPages={numberWithCommas(Math.ceil(totalCount / RIDES_ON_PAGE))}
       />
       <Table rows={filteredRides} />
     </div>
@@ -57,9 +59,9 @@ const Rides: NextPage<Props> = ({ rides, count }) => {
 };
 
 export async function getStaticProps() {
-  const { rides, totalCount }: { rides: Ride[]; count: number } =
+  const { rides, totalCount }: { rides: Ride[], totalCount: number } =
     await getRides();
-  return { props: { rides: rides, count: totalCount } };
+  return { props: { rides, totalCount } };
 }
 
 export default Rides;
