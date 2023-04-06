@@ -8,7 +8,14 @@ declare global {
     station_address: string;
     capacity: number;
     longitude: string | Decimal;
-    latitude: string | Decimal;
+    latitude: string | Decimal;  
+  };
+
+  type StationStats = {
+    departuresCount: number;
+    returnsCount: number;
+    averageReturnDistance: number;
+    averageDepartureDistance: number;  
   };
 
   type Ride = {
@@ -19,9 +26,27 @@ declare global {
     return_station_id: number;
     return_station_name: string;
     duration: number | string;
-    distance: number;
+    distance: number | Decimal;
     id: number;
   };
 
   type prisma = PrismaClient;
+
+  type PaginationProps = {
+    prevHref: string;
+    nextPageNumber: number;
+    totalPages: string;
+    nextHref: string;
+  };
+
+  type DateFormatOptions = {
+    day: '2-digit';
+    month: 'short';
+    weekday: 'short';
+    hour: 'numeric';
+    minute: 'numeric';
+    second: 'numeric';
+    hour12: true | false;
+    hourCycle: 'h23';
+  };
 }
