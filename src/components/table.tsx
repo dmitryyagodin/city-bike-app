@@ -1,6 +1,7 @@
 import TableRow from './tableRow';
 
-export default function Table({ rows }) {
+
+export default function Table({ rows }: { rows: Ride[] }) {
   return (
     <table>
       <thead>

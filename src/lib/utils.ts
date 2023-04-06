@@ -1,16 +1,7 @@
-interface FormatOptions {
-  day: '2-digit';
-  month: 'short';
-  weekday: 'short';
-  hour: 'numeric';
-  minute: 'numeric';
-  second: 'numeric';
-  hour12: true | false;
-  hourCycle: 'h23';
-}
+import { NextRouter } from "next/router";
 
 export function formatDate(date: Date): string {
-  const formatOptions: FormatOptions = {
+  const formatOptions: DateFormatOptions = {
     day: '2-digit',
     month: 'short',
     weekday: 'short',
@@ -28,7 +19,7 @@ export function getDuration(seconds: number): string {
   return (seconds / 60).toFixed(1);
 }
 
-export function getNavPageUrl(router, skip: number): string {
+export function getNavPageUrl(router: NextRouter, skip: number): string {
   let href = router.asPath;
   if (router.query.skip) {
     href = href.replace(/skip=\d+/, `skip=${skip}`);

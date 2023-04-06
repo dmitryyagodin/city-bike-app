@@ -1,12 +1,18 @@
 
+import type { NextPage } from 'next';
 import { MapContainer, TileLayer, Marker,Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import "leaflet-defaulticon-compatibility";
 
-const Map = ({stations}) => {
+
+type Props = {
+  stations: Station[];
+};
+
+const Map: NextPage<Props> = ({stations}) => {
   return (
-    <MapContainer center={[60.172, 24.941]} zoom={13} scrollWheelZoom={false} style={{height: "100vh", width: "100vw"}}>
+    <MapContainer center={[60.2211, 24.9392]} zoom={12} scrollWheelZoom={true} style={{height: "100vh", width: "100vw"}}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

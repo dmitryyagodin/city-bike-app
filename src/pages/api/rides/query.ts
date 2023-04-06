@@ -1,9 +1,22 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { getRides } from './index';
 
-export default async function handle(req, res) {
-  const query = {};
 
-  if (req.query.orderBy) {
+
+interface OrderByObject {
+  [keys: string]: string
+}
+
+interface Query {
+  orderBy?: OrderByObject[];
+  skip?: number;
+}
+
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+  
+  const query: Query = {};
+
+  if (typeof req.query.orderBy === 'string') {
     const [field, order] = req.query.orderBy.split('-');
     query.orderBy = [{ [field]: order }];
   }

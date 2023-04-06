@@ -1,16 +1,16 @@
 import type { NextPage } from 'next';
-import Table from '../components/table';
+import Table from '../../components/table';
 import { getRides } from '@api/rides';
-import RidesFilter from '../components/ridesFilter';
+import RidesFilter from '../../components/ridesFilter';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Pagination from '../components/pagination';
+import Pagination from '../../components/pagination';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 
 const RIDES_ON_PAGE = 50;
 
 type Props = {
-  rides: { rides: Ride[] };
+  rides: Ride[];
   totalCount: number;
 };
 
@@ -18,9 +18,9 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
   const router = useRouter();
 
   const [filteredRides, setFilteredRides] = useState(rides);
-  const [showItems, setShowItems] = useState(RIDES_ON_PAGE);
-  const [skip, setSkip] = useState(showItems);
-  const [totalRides, setTotalRides] = useState(totalCount);
+  // const [showItems, setShowItems] = useState(RIDES_ON_PAGE);
+  const [skip, setSkip] = useState(RIDES_ON_PAGE);
+  // const [totalRides, setTotalRides] = useState(totalCount);
 
   useEffect(() => {
     console.log('useEffect is run');
@@ -35,7 +35,7 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
         .then((data) => {
           setFilteredRides(data.rides);
 
-          if (router.query.skip && skip !== router.query.skip) {
+          if (router.query.skip && skip.toString() !== router.query.skip) {
             setSkip(() => Number(router.query.skip) + RIDES_ON_PAGE);
           }
         });
@@ -48,7 +48,7 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
       <h2>{numberWithCommas(totalCount)} results</h2>
       <RidesFilter />
       <Pagination
-        prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2): false}
+        prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2): ''}
         nextHref={getNavPageUrl(router, skip)}
         nextPageNumber={skip / RIDES_ON_PAGE + 1}
         totalPages={numberWithCommas(Math.ceil(totalCount / RIDES_ON_PAGE))}

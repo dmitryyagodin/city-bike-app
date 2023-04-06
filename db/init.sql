@@ -16,7 +16,7 @@ CREATE TABLE
         "Kaupunki" TEXT,
         "Stad" TEXT,
         "Operaattor" TEXT,
-        "Kapasiteet" INT,
+        "Kapasiteet" INTEGER,
         "x" DECIMAL(10, 6),
         "y" DECIMAL(11, 6),
         CONSTRAINT "stations_pkey" PRIMARY KEY ("ID")
@@ -30,7 +30,7 @@ CREATE TABLE
         "Departure station name" TEXT NOT NULL,
         "Return station id" INTEGER NOT NULL,
         "Return station name" TEXT NOT NULL,
-        "Covered distance (m)" DECIMAL NOT NULL,
+        "Covered distance (m)" DECIMAL(10,0) NOT NULL,
         "Duration (sec.)" INTEGER NOT NULL
     );
 
@@ -42,21 +42,21 @@ COPY rides
 FROM
     '/tmp/2021-05.csv' CSV HEADER QUOTE '"' DELIMITER ','
 WHERE
-    "Covered distance (m)" >= 10
+    "Covered distance (m)" >= 10    
     AND "Duration (sec.)" >= 10;
 
 COPY rides
 FROM
     '/tmp/2021-06.csv' CSV HEADER QUOTE '"' DELIMITER ','
 WHERE
-    "Covered distance (m)" >= 10
+    "Covered distance (m)" >= 10    
     AND "Duration (sec.)" >= 10;
 
 COPY rides
 FROM
     '/tmp/2021-07.csv' CSV HEADER QUOTE '"' DELIMITER ','
 WHERE
-    "Covered distance (m)" >= 10
+    "Covered distance (m)" >= 10    
     AND "Duration (sec.)" >= 10;
 
 /*

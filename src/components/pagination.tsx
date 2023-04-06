@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-export default function Pagination(props) {
+
+export default function Pagination(props: PaginationProps) {
   return (
     <nav>
       {

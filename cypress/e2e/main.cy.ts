@@ -41,3 +41,5 @@ describe('The stations page should include non-empty ul>li*50', () => {
     });
   });
 });
+
+export {}
