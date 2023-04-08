@@ -8,14 +8,14 @@ declare global {
     station_address: string;
     capacity: number;
     longitude: string | Decimal;
-    latitude: string | Decimal;  
+    latitude: string | Decimal;
   };
 
   type StationStats = {
     departuresCount: number;
     returnsCount: number;
     averageReturnDistance: number;
-    averageDepartureDistance: number;  
+    averageDepartureDistance: number;
   };
 
   type Ride = {
@@ -28,6 +28,25 @@ declare global {
     duration: number | string;
     distance: number | Decimal;
     id: number;
+  };
+
+  type TopConnectionRaw = {
+    departureStationId: number;
+    returnStationId: number;
+    departureStationName: string;
+    returnStationName: string;
+    returnCount: number;
+    departureCount: number;
+    departureRank: number;
+    returnRank: number;
+    currentStationId: number;
+  };
+
+  type TopConnection = {
+    rank: number;
+    stationId: number;
+    stationName: string;
+    count: number;
   };
 
   type prisma = PrismaClient;
