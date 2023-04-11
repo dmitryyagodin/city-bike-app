@@ -22,22 +22,12 @@ const Station: NextPage<Props> = ({
 }) => {
   return (
     <>
-      <h1>Station {station.station_name}</h1>
-      <p>Address: {station.station_address}</p>
-      <p>Capacity: {station.capacity}</p>
-      <p>
-        From: {station.departuresCount} times with an average distance of{' '}
-        {station.averageDepartureDistance} m{' '}
-      </p>
-      <p>
-        To: {station.returnsCount} times with an average distance of{' '}
-        {station.averageReturnDistance} m
-      </p>
       <StationInfo
         dateRange={dateRange}
         stationId={stationId}
         topReturns={topReturns}
         topDepartures={topDepartures}
+        station={station}
       />
     </>
   );
@@ -55,7 +45,7 @@ export async function getStaticProps(context: {
 }) {
   const { stationId } = context.params;
   const dateRange = await queryDateRange();
-  const station = await queryStationDetails(Number(stationId));
+  const station = await queryStationDetails(stationId, dateRange);
   const topConnections = await queryTopConnections(stationId, dateRange);
 
   const { topReturns, topDepartures } = formatTopConnections(topConnections);

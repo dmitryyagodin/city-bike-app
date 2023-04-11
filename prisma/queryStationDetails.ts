@@ -1,6 +1,14 @@
 import prisma from '@db';
 
-export default async function queryStationDetails(stationId) {
+export default async function queryStationDetails(id, dateRange) {
+  const stationId = Number(id);
+  const { minDate, maxDate } = JSON.parse(dateRange);
+
+  // add one more day to include the last of the range
+  const _maxDate = new Date(maxDate);
+  _maxDate.setDate(_maxDate.getDate() + 1);
+  const _minDate = new Date(minDate);
+
   const [station]: [Station & StationStats] = await prisma.$queryRaw`
     SELECT
       s.station_name,
@@ -17,7 +25,9 @@ export default async function queryStationDetails(stationId) {
     LEFT JOIN rides AS r
     ON s.station_id = r.return_station_id
     OR s.station_id = r.departure_station_id
-    WHERE s.station_id = ${Number(stationId)}
+    WHERE s.station_id = ${stationId}
+    AND r.departure_time > ${_minDate}
+    AND r.departure_time < ${_maxDate}
     GROUP BY
       s.station_name,
       s.station_address,

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import queryTopConnections from '../../../../prisma/queryTopConnections';
+import queryStationDetails from '../../../../prisma/queryStationDetails';
 
 export default async function handle(
   req: NextApiRequest,
@@ -11,5 +12,7 @@ export default async function handle(
   const dateRange = JSON.stringify({ minDate: min, maxDate: max });
 
   const topConnections = await queryTopConnections(stationId, dateRange);
-  res.json({ topConnections });
+  const station = await queryStationDetails(stationId, dateRange);
+
+  res.json({ topConnections, station });
 }
