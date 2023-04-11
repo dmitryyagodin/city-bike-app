@@ -3,14 +3,22 @@ export default function formatTopConnections(connections: TopConnectionRaw[]) {
   const topDepartures = [];
 
   connections.forEach((ride) => {
-    if (ride.currentStationId === ride.returnStationId) {
+    if (
+      ride.currentStationId === ride.returnStationId &&
+      ride.departureRank < 6
+    ) {
       topReturns.push({
         rank: ride.departureRank,
         stationId: ride.departureStationId,
         stationName: ride.departureStationName,
         count: ride.departureCount,
       });
-    } else if (ride.currentStationId === ride.departureStationId) {
+    }
+
+    if (
+      ride.currentStationId === ride.departureStationId &&
+      ride.returnRank < 6
+    ) {
       topDepartures.push({
         rank: ride.returnRank,
         stationId: ride.returnStationId,

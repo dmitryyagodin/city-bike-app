@@ -2,14 +2,24 @@ import prisma from '@db';
 import formatTopConnections from '../../lib/formatTopConnections';
 import queryTopConnections from '../../../prisma/queryTopConnections';
 import queryStationDetails from '../../../prisma/queryStationDetails';
+import queryDateRange from '../../../prisma/queryDateRange';
+import StationInfo from '../../components/station/stationInfo';
 
 type Props = {
   station: Station & StationStats;
   topReturns: TopConnection[];
   topDepartures: TopConnection[];
+  stationId: number;
+  dateRange: { minDate: string; maxDate: string };
 };
 
-const Station: NextPage<Props> = ({ station, topReturns, topDepartures }) => {
+const Station: NextPage<Props> = ({
+  station,
+  topReturns,
+  topDepartures,
+  dateRange,
+  stationId,
+}) => {
   return (
     <>
       <h1>Station {station.station_name}</h1>
@@ -23,26 +33,12 @@ const Station: NextPage<Props> = ({ station, topReturns, topDepartures }) => {
         To: {station.returnsCount} times with an average distance of{' '}
         {station.averageReturnDistance} m
       </p>
-      <section>
-        <h2>Top Returns</h2>
-        <ul>
-          {topReturns.map((item) => (
-            <li key={item.stationId}>
-              {item.stationName}: {item.count} times
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h2>Top Departures</h2>
-        <ul>
-          {topDepartures.map((item) => (
-            <li key={item.stationId}>
-              {item.stationName}: {item.count} times
-            </li>
-          ))}
-        </ul>
-      </section>
+      <StationInfo
+        dateRange={dateRange}
+        stationId={stationId}
+        topReturns={topReturns}
+        topDepartures={topDepartures}
+      />
     </>
   );
 };
@@ -58,14 +54,15 @@ export async function getStaticProps(context: {
   params: { stationId: string };
 }) {
   const { stationId } = context.params;
-
+  const dateRange = await queryDateRange();
   const station = await queryStationDetails(Number(stationId));
-
-  const topConnections = await queryTopConnections(Number(stationId));
+  const topConnections = await queryTopConnections(stationId, dateRange);
 
   const { topReturns, topDepartures } = formatTopConnections(topConnections);
 
-  return { props: { station, topReturns, topDepartures } };
+  return {
+    props: { stationId, station, topReturns, topDepartures, dateRange },
+  };
 }
 
 /*
