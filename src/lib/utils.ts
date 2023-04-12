@@ -1,4 +1,4 @@
-import { NextRouter } from "next/router";
+import { NextRouter } from 'next/router';
 
 export function formatDate(date: Date): string {
   const formatOptions: DateFormatOptions = {
@@ -31,6 +31,10 @@ export function getNavPageUrl(router: NextRouter, skip: number): string {
   return href;
 }
 
-export function numberWithCommas(num:number): string {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export function numberWithCommas(num: number): string {
+  if (num && Number.isInteger(num)) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  } else {
+    return '';
+  }
 }

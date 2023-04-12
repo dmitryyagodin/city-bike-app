@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Table from '../../components/table';
 import { getRides } from '@api/rides';
 import RidesFilter from '../../components/ridesFilter';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Pagination from '../../components/pagination';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
@@ -18,28 +18,30 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
   const router = useRouter();
 
   const [filteredRides, setFilteredRides] = useState(rides);
-  // const [showItems, setShowItems] = useState(RIDES_ON_PAGE);
   const [skip, setSkip] = useState(RIDES_ON_PAGE);
-  // const [totalRides, setTotalRides] = useState(totalCount);
 
-  useEffect(() => {
+  const updateNavigation = useCallback(() => {
     if (router.query.orderBy || router.query.skip) {
+      const currentSkip = Number(router.query.skip);
+      const newSkip = currentSkip + RIDES_ON_PAGE;
+
+      setSkip(newSkip);
+
       const url = '/api/rides/query?';
       const params = [];
+
       router.query.orderBy && params.push('orderBy=' + router.query.orderBy);
-      router.query.skip && params.push('skip=' + router.query.skip);
+      currentSkip && params.push('skip=' + currentSkip);
 
       fetch(url + params.join('&'))
         .then((res) => res.json())
         .then((data) => {
           setFilteredRides(data.rides);
-
-          if (router.query.skip && skip.toString() !== router.query.skip) {
-            setSkip(() => Number(router.query.skip) + RIDES_ON_PAGE);
-          }
         });
     }
-  }, [router.query.orderBy, router.query.skip]);
+  }, [router]);
+
+  useEffect(() => updateNavigation(), [updateNavigation]);
 
   return (
     <div>
@@ -47,10 +49,15 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
       <h2>{numberWithCommas(totalCount)} results</h2>
       <RidesFilter />
       <Pagination
-        prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2): ''}
+        prevHref={
+          skip > RIDES_ON_PAGE
+            ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2)
+            : ''
+        }
         nextHref={getNavPageUrl(router, skip)}
         nextPageNumber={skip / RIDES_ON_PAGE + 1}
-        totalPages={numberWithCommas(Math.ceil(totalCount / RIDES_ON_PAGE))}
+        totalPages={Math.ceil(totalCount / RIDES_ON_PAGE)}
+        shallow={false}
       />
       <Table rows={filteredRides} />
     </div>
@@ -58,7 +65,7 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
 };
 
 export async function getStaticProps() {
-  const { rides, totalCount }: { rides: Ride[], totalCount: number } =
+  const { rides, totalCount }: { rides: Ride[]; totalCount: number } =
     await getRides();
   return { props: { rides, totalCount } };
 }

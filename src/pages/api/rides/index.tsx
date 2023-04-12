@@ -14,15 +14,15 @@ const defaultQuery = {
 
 export const getRides = async (query = {}) => {
   query = { ...defaultQuery, ...query };
- 
+
   const rawRides: RawRide[] | null = await prisma.ride.findMany(query);
   const totalCount: number = await prisma.ride.count({});
 
   if (rawRides) {
     const rides: Ride[] = [];
 
-    rawRides.forEach(ride => rides.push(
-      {
+    rawRides.forEach((ride) =>
+      rides.push({
         returnStationId: ride.return_station_id,
         departureStationId: ride.departure_station_id,
         departureStationName: ride.departure_station_name,
@@ -31,11 +31,10 @@ export const getRides = async (query = {}) => {
         returnTime: formatDate(ride.returnTime),
         distance: Number(ride.distance),
         duration: getDuration(ride.duration),
-        id: ride.id
+        id: ride.id,
       })
     );
 
     return JSON.parse(JSON.stringify({ rides, totalCount }));
   }
-
 };
