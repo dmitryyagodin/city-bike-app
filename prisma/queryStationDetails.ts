@@ -1,6 +1,6 @@
 import prisma from '@db';
 
-export default async function queryStationDetails(id, dateRange) {
+export default async function queryStationDetails(id: string, dateRange: string) {
   const stationId = Number(id);
   const { minDate, maxDate } = JSON.parse(dateRange);
 

@@ -12,7 +12,7 @@ export default async function queryTopConnections(
   _maxDate.setDate(_maxDate.getDate() + 1);
   const _minDate = new Date(minDate);
 
-  const connections = await prisma.$queryRaw`
+  const connections: TopConnectionRaw[] = await prisma.$queryRaw`
     WITH rides_by_date AS (
       SELECT
         departure_station_id AS d_id,

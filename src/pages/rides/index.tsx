@@ -23,7 +23,6 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
   // const [totalRides, setTotalRides] = useState(totalCount);
 
   useEffect(() => {
-    console.log('useEffect is run');
     if (router.query.orderBy || router.query.skip) {
       const url = '/api/rides/query?';
       const params = [];

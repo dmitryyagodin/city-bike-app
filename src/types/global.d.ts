@@ -18,15 +18,27 @@ declare global {
     averageDepartureDistance: number;
   };
 
-  type Ride = {
-    departureTime: Date | string;
-    returnTime: Date | string;
+  type RawRide = {
+    departureTime: Date;
+    returnTime: Date;
     departure_station_id: number;
     departure_station_name: string;
     return_station_id: number;
     return_station_name: string;
-    duration: number | string;
+    duration: number;
     distance: number | Decimal;
+    id: number;
+  };
+  
+  type Ride = {
+    departureTime: string;
+    returnTime: string;
+    departureStationId: number;
+    departureStationName: string;
+    returnStationId: number;
+    returnStationName: string;
+    duration: string;
+    distance: number;
     id: number;
   };
 
@@ -68,4 +80,8 @@ declare global {
     hour12: true | false;
     hourCycle: 'h23';
   };
+
+  type HandleFilterEventFunction = (
+     {topConnections, station }: {topConnections: TopConnectionRaw[]; station: Station & StationStats }
+     ) => void;
 }

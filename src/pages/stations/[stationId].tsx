@@ -1,3 +1,4 @@
+import type { NextPage } from 'next';
 import prisma from '@db';
 import formatTopConnections from '../../lib/formatTopConnections';
 import queryTopConnections from '../../../prisma/queryTopConnections';
@@ -9,8 +10,8 @@ type Props = {
   station: Station & StationStats;
   topReturns: TopConnection[];
   topDepartures: TopConnection[];
-  stationId: number;
-  dateRange: { minDate: string; maxDate: string };
+  dateRange: 'string';//{ minDate: string; maxDate: string };
+  stationId: 'string';
 };
 
 const Station: NextPage<Props> = ({
@@ -18,16 +19,16 @@ const Station: NextPage<Props> = ({
   topReturns,
   topDepartures,
   dateRange,
-  stationId,
+  stationId
 }) => {
   return (
     <>
       <StationInfo
         dateRange={dateRange}
-        stationId={stationId}
         topReturns={topReturns}
         topDepartures={topDepartures}
-        station={station}
+        stationWithStats={station}
+        stationId={stationId}
       />
     </>
   );

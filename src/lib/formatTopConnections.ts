@@ -1,6 +1,6 @@
 export default function formatTopConnections(connections: TopConnectionRaw[]) {
-  const topReturns = [];
-  const topDepartures = [];
+  const topReturns: TopConnection[] = [];
+  const topDepartures: TopConnection[] = [];
 
   connections.forEach((ride) => {
     if (

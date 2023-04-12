@@ -1,10 +1,19 @@
-import DateFilter from './dateFilter';
-import StationStats from './stationStats';
-import formatTopConnections from '../../lib/formatTopConnections.ts';
-import { useState } from 'react';
+import type { NextPage } from "next";
+import DateFilter from "./dateFilter";
+import StationStats from "./stationStats";
+import formatTopConnections from "../../lib/formatTopConnections";
+import { useState } from "react";
 
-export default function StationInfo(props) {
-  const station = props.station;
+type Props = {
+  topDepartures: TopConnection[];
+  topReturns: TopConnection[];
+  stationWithStats: Station & StationStats;
+  dateRange: string;
+  stationId: string;
+};
+
+const StationInfo: NextPage<Props> = (props) => {
+  const station = props.stationWithStats;
 
   const [topDepartures, setTopDepartures] = useState(props.topDepartures);
   const [topReturns, setTopReturns] = useState(props.topReturns);
@@ -21,15 +30,22 @@ export default function StationInfo(props) {
     station.averageReturnDistance
   );
 
-  function handleFilterEvent({ topConnections, station }) {
+  function handleFilterEvent({
+    topConnections,
+    stationWithStats,
+  }: {
+    topConnections: TopConnectionRaw[];
+    stationWithStats: Station & StationStats;
+  }) {
     const connections = formatTopConnections(topConnections);
 
     setTopReturns(connections.topReturns);
     setTopDepartures(connections.topDepartures);
-    setDeparturesCount(station.departuresCount);
-    setReturnsCount(station.returnsCount);
-    setAverageDepartureDistance(station.averageDepartureDistance);
-    setAverageReturnDistance(station.averageReturnDistance);
+    
+    setDeparturesCount(stationWithStats.departuresCount);
+    setReturnsCount(stationWithStats.returnsCount);
+    setAverageDepartureDistance(stationWithStats.averageDepartureDistance);
+    setAverageReturnDistance(stationWithStats.averageReturnDistance);
   }
 
   return (
@@ -52,4 +68,6 @@ export default function StationInfo(props) {
       />
     </div>
   );
-}
+};
+
+export default StationInfo;

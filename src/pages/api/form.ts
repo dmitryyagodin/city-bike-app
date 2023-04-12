@@ -73,7 +73,6 @@ function uploadCsv(path: string) {
         const res = await prisma.station.createMany({
           data: csvDataColl,
         });
-        console.log(res);
         csvDataColl = [];
       }
     })
@@ -81,7 +80,6 @@ function uploadCsv(path: string) {
       const res = await prisma.station.createMany({
         data: csvDataColl,
       });
-      console.log(res);
     });
 
   stream.pipe(fileStream);

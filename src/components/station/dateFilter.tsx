@@ -1,6 +1,15 @@
 import { useState } from 'react';
+import type { NextPage } from 'next';
 
-export default function DateFilter({ dateRange, stationId, emitFilterEvent }) {
+type HandleFilterEventFunction = ( {topConnections, stationWithStats }: {topConnections: TopConnectionRaw[]; stationWithStats: Station & StationStats }) => void;
+
+type Props = {
+  dateRange: string;
+  stationId: string;
+  emitFilterEvent: HandleFilterEventFunction;
+};
+
+const DateFilter: NextPage<Props> = ({ dateRange, stationId, emitFilterEvent }) => {
   const { minDate, maxDate } = JSON.parse(dateRange);
 
   const min = new Date(minDate).toISOString().split('T')[0];
@@ -9,7 +18,7 @@ export default function DateFilter({ dateRange, stationId, emitFilterEvent }) {
   const [newMax, setNewMax] = useState(max);
   const [newMin, setNewMin] = useState(min);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let _min = newMin;
     let _max = newMax;
     if (e.target.name === 'ride-min') {
@@ -21,7 +30,6 @@ export default function DateFilter({ dateRange, stationId, emitFilterEvent }) {
     }
 
     const url = `/api/station/stats?stationId=${stationId}&min=${_min}&max=${_max}`;
-    console.log(url);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -56,3 +64,5 @@ export default function DateFilter({ dateRange, stationId, emitFilterEvent }) {
     </div>
   );
 }
+
+export default DateFilter;

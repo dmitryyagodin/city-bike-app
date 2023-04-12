@@ -1,11 +1,22 @@
-export default function StationStats({
+import type { NextPage } from "next";
+type Props = {
+  topDepartures: TopConnection[];
+  topReturns: TopConnection[];
+  departuresCount: number;
+  averageDepartureDistance: number;
+  returnsCount: number;
+  averageReturnDistance: number;
+
+};
+
+const StationStats: NextPage<Props> = ({
   topDepartures,
   topReturns,
   departuresCount,
   averageDepartureDistance,
   returnsCount,
   averageReturnDistance,
-}) {
+}) => {
   return (
     <section>
       <p>
@@ -35,3 +46,5 @@ export default function StationStats({
     </section>
   );
 }
+
+export default StationStats;
