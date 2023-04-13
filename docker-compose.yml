@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: city-bike-db
+    build: db/
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+    volumes:
+      - ./data:/tmp
+      - postgres:/var/lib/postgresql/
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    image: city-bike-app
+    build: .
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - ./prisma:/app/prisma
+      - ./public:/app/public
+      - ./src:/app/src
+  cypress:
+    image: "cypress/included:12.9.0"
+    depends_on:
+      - app
+    environment:
+      - CYPRESS_baseUrl=http://app:3000
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
+volumes:
+  postgres:

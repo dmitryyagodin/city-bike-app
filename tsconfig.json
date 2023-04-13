@@ -1,7 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["src/pages/api/*"],
+      "@db": ["src/lib/prisma"],
+      "@lib": ["src/lib"],
+      "@styles/": ["src/styles/*"],
+      "@components": ["src/components/*"]
+    },
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["cypress", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -13,8 +22,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "declaration": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "paths": {
+    "@/*": ["./*"]
+  }
 }

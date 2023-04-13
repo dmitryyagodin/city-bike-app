@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project working notes
+notes.md
+.env
+*/node_modules/*
+
+/data
+.gitignore
+
+db/**.csv

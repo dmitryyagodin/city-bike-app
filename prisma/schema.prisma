@@ -1,0 +1,39 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+}
+
+model Station {
+  station_id      Int     @id @unique(map: "stations_id_key")
+  station_name    String
+  station_address String
+  capacity        Int
+  longitude       Decimal @db.Decimal(10, 6)
+  latitude        Decimal @db.Decimal(11, 6)
+  rides_departure Ride[]  @relation("departure")
+  rides_return    Ride[]  @relation("return")
+
+  @@map("stations")
+}
+
+model Ride {
+  departureTime        DateTime @map("departure_time")
+  returnTime           DateTime @map("return_time")
+  departureStationId   Int      @map("departure_station_id")
+  departureStationName String   @map("departure_station_name")
+  returnStationId      Int      @map("return_station_id")
+  returnStationName    String   @map("return_station_name")
+  distance             Int
+  duration             Int
+  id                   Int      @id @default(autoincrement())
+  stations_departure   Station  @relation("departure", fields: [departureStationId], references: [station_id], onUpdate: NoAction, map: "departure_station")
+  stations_return      Station  @relation("return", fields: [returnStationId], references: [station_id], onUpdate: NoAction, map: "return_station")
+
+  @@index([departureStationId])
+  @@index([returnStationId])
+  @@map("rides")
+}
