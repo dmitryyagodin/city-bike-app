@@ -31,7 +31,7 @@
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  // "paths": {
-  //   "@/*": ["./*"]
-  // }
+  "paths": {
+    "@/*": ["./*"]
+  }
 }

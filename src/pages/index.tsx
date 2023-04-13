@@ -1,6 +1,7 @@
-import type { NextPage } from "next";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
+import type { NextPage } from 'next';
+import styles from '../styles/Home.module.css';
+import Link from 'next/link';
+import { NoDataView } from '@components';
 
 const Home: NextPage = () => {
   return (

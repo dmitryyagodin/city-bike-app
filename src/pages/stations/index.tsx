@@ -15,13 +15,13 @@ type Props = {
   totalCount: number | 0;
 };
 
-const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
-  ssr: false,
-});
 
 const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   const router = useRouter();
   const { pathname } = router;
+  const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
+    ssr: false,
+  });
 
   const [stationsCount, setStationsCount] = useState(totalCount);
   const [skip, setSkip] = useState(STATIONS_ON_PAGE);
@@ -112,7 +112,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
             })}
           </ul>
         </div>
-        <MapWithNoSSR stations={filteredStations} />
+        <MapWithNoSSR stations={filteredStations}/>
       </div>
     </div>
   );
