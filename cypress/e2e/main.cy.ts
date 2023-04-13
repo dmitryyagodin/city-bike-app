@@ -23,8 +23,8 @@ describe('The rides page should include <table> with 5 <th> cols', () => {
     cy.visit('http://app:3000/rides');
     cy.get('h1').should('exist');
     cy.get('table').within(() => {
-      cy.get('th')
-        .should('have.length', 6)
+      cy.get('td')
+        .should('have.length', 300) // 50 rows x 6 colums
         .each(($el) => expect($el).not.to.be.empty);
     });
   });

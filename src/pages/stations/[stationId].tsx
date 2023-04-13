@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import prisma from '@db';
 import formatTopConnections from '../../lib/formatTopConnections';
-import queryTopConnections from '../../../prisma/queryTopConnections';
-import queryStationDetails from '../../../prisma/queryStationDetails';
-import queryDateRange from '../../../prisma/queryDateRange';
+import getTopConnections from '../../../prisma/getTopConnections';
+import getStationDetails from '../../../prisma/getStationDetails';
+import getDateRange from '../../../prisma/getDateRange';
 import StationInfo from '../../components/station/stationInfo';
 
 type Props = {
@@ -45,9 +45,9 @@ export async function getStaticProps(context: {
   params: { stationId: string };
 }) {
   const { stationId } = context.params;
-  const dateRange = await queryDateRange();
-  const station = await queryStationDetails(stationId, dateRange);
-  const topConnections = await queryTopConnections(stationId, dateRange);
+  const dateRange = await getDateRange();
+  const station = await getStationDetails(stationId, dateRange);
+  const topConnections = await getTopConnections(stationId, dateRange);
 
   const { topReturns, topDepartures } = formatTopConnections(topConnections);
 

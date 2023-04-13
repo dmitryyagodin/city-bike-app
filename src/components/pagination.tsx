@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import { numberWithCommas } from '../lib/utils.ts';
+import { numberWithCommas } from '../lib/utils';
 
 export default function Pagination(props: PaginationProps) {
-  // console.log('Pagination props');
-  // console.log(props);
   return (
     <nav>
       {props.prevHref && (

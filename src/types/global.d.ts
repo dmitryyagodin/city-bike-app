@@ -17,27 +17,15 @@ declare global {
     averageReturnDistance: number;
     averageDepartureDistance: number;
   };
-
-  type RawRide = {
-    departureTime: Date;
-    returnTime: Date;
-    departure_station_id: number;
-    departure_station_name: string;
-    return_station_id: number;
-    return_station_name: string;
-    duration: number;
-    distance: number | Decimal;
-    id: number;
-  };
   
   type Ride = {
-    departureTime: string;
-    returnTime: string;
+    departureTime: string | Date;
+    returnTime: string | Date;
     departureStationId: number;
     departureStationName: string;
     returnStationId: number;
     returnStationName: string;
-    duration: string;
+    duration: string | number;
     distance: number;
     id: number;
   };
@@ -66,8 +54,9 @@ declare global {
   type PaginationProps = {
     prevHref: string;
     nextPageNumber: number;
-    totalPages: string;
+    totalPages: number;
     nextHref: string;
+    shallow: boolean;
   };
 
   type DateFormatOptions = {

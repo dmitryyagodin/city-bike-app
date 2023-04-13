@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import prisma from '@db';
 import { useEffect, useState, useCallback } from 'react';
 import Pagination from '../../components/pagination';
-// import RidesFilter from '../../components/ridesFilter';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
+import dynamic from "next/dynamic";
 
 const STATIONS_ON_PAGE = 50;
 
@@ -12,6 +13,10 @@ type Props = {
   stations: Station[];
   totalCount: number;
 };
+
+const MapWithNoSSR = dynamic(() => import("../../components/map"), {
+  ssr: false
+});
 
 const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   const router = useRouter();
@@ -32,7 +37,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
       setFilteredStations(() => {
         if (router.query.filter) {
-          const searchText = router.query.filter;
+          const searchText = router.query.filter as string;         
           const filtered = stations.filter((station: Station) =>
             station.station_name.includes(searchText)
           );
@@ -45,7 +50,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   }, [router, stations]);
 
   const handleSearch = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
+    (e:  React.ChangeEvent<HTMLInputElement>) => {
       const searchText = e.target.value;
 
       const query = { [e.target.name]: e.target.value };
@@ -70,7 +75,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
         return filtered.slice(0, STATIONS_ON_PAGE);
       });
     },
-    []
+    [pathname, router, stations]
   );
 
   useEffect(() => updateNavigation(), [updateNavigation]);
@@ -79,30 +84,37 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
     <div>
       <h1>Stations</h1>
       <h2>{numberWithCommas(stationsCount)} results</h2>
-      <Pagination
-        prevHref={
-          skip > STATIONS_ON_PAGE
-            ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2)
-            : ''
-        }
-        nextHref={getNavPageUrl(router, skip)}
-        nextPageNumber={skip / STATIONS_ON_PAGE + 1}
-        totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
-        shallow={true}
-      />
-      <label>
-        Search
-        <input type="text" onChange={handleSearch} name="filter" />
-      </label>
-      <ul>
-        {filteredStations.map((station: Station): JSX.Element => {
-          return (
-            <li data-id={station.station_id} key={station.station_id}>
-              {station.station_name}
-            </li>
-          );
-        })}
-      </ul>
+      <div style={{ display: "flex" }}>
+        <div>
+          <Pagination
+            prevHref={
+              skip > STATIONS_ON_PAGE
+                ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2)
+                : ''
+            }
+            nextHref={getNavPageUrl(router, skip)}
+            nextPageNumber={skip / STATIONS_ON_PAGE + 1}
+            totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
+            shallow={true}
+          />
+          <label>
+            Search
+            <input type="text" onChange={handleSearch} name="filter" />
+          </label>
+          <ul>
+            {filteredStations.map((station: Station): JSX.Element => {
+              return (
+                <li data-id={station.station_id} key={station.station_id}>
+                  <Link href={`stations/${station.station_id}`}>
+                    {station.station_name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <MapWithNoSSR stations={filteredStations} />
+      </div>
     </div>
   );
 };

@@ -1,16 +1,24 @@
-import type { NextPage } from 'next';
-import styles from '../styles/Home.module.css';
+import type { NextPage } from "next";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <h1>City-bike-app</h1>
-      <h2>Import csv file to mysql</h2>
-      <form action="api/form" method="post" encType="multipart/form-data">
-        <label htmlFor="csv-file">Choose file:</label>
-        <input type="file" accept=".csv" id="csv-file" name="csv-file" />
-        <button type="submit">Submit</button>
-      </form>
+      <nav>
+        <ul>
+          <li>
+            <Link href="/stations">Stations</Link>
+          </li>
+          <li>
+            <Link href="/rides">Rides</Link>
+          </li>
+          <li>
+            <Link href="/stations/on-map">Map</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

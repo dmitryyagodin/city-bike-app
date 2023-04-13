@@ -1,6 +1,6 @@
 import prisma from '@db';
 
-export default async function queryTopConnections(
+export default async function getTopConnections(
   id: string,
   dateRange: string
 ) {

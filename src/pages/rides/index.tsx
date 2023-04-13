@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Table from '../../components/table';
-import { getRides } from '@api/rides';
+import { getRides } from 'prisma/getRides';
 import RidesFilter from '../../components/ridesFilter';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
@@ -16,7 +16,6 @@ type Props = {
 
 const Rides: NextPage<Props> = ({ rides, totalCount }) => {
   const router = useRouter();
-
   const [filteredRides, setFilteredRides] = useState(rides);
   const [skip, setSkip] = useState(RIDES_ON_PAGE);
 

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getRides } from './index';
+import { getRides } from '../../../../prisma/getRides';
 
 
 

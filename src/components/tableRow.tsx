@@ -1,5 +1,4 @@
 export default function TableRow({ row }: { row: Ride }) {
-  console.log(row);
   return (
     <tr data-id={row.id}>
       <td>{row.departureTime.toString()}</td>
