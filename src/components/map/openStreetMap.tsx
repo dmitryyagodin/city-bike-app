@@ -7,10 +7,10 @@ import "leaflet-defaulticon-compatibility";
 
 
 type Props = {
-  stations: Station[];
+  stations: Station[] | [];
 };
 
-const Map: NextPage<Props> = ({stations}) => {
+const OpenStreetMap: NextPage<Props> = ({stations}) => {
   return (
     <MapContainer center={[60.2211, 24.9392]} zoom={12} scrollWheelZoom={true} style={{height: "100vh", width: "100vw"}}>
       <TileLayer
@@ -33,4 +33,4 @@ const Map: NextPage<Props> = ({stations}) => {
   );
 };
 
-export default Map;
+export default OpenStreetMap;

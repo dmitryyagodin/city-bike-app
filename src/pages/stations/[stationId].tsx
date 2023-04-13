@@ -4,23 +4,17 @@ import formatTopConnections from '../../lib/formatTopConnections';
 import getTopConnections from '../../../prisma/getTopConnections';
 import getStationDetails from '../../../prisma/getStationDetails';
 import getDateRange from '../../../prisma/getDateRange';
-import StationInfo from '../../components/station/stationInfo';
+import { StationInfo } from '@components';
 
 type Props = {
   station: Station & StationStats;
   topReturns: TopConnection[];
   topDepartures: TopConnection[];
-  dateRange: 'string';//{ minDate: string; maxDate: string };
+  dateRange: 'string'; //{ minDate: string; maxDate: string };
   stationId: 'string';
 };
 
-const Station: NextPage<Props> = ({
-  station,
-  topReturns,
-  topDepartures,
-  dateRange,
-  stationId
-}) => {
+const Station: NextPage<Props> = ({ station, topReturns, topDepartures, dateRange, stationId }) => {
   return (
     <>
       <StationInfo
@@ -41,9 +35,7 @@ const Station: NextPage<Props> = ({
  * @returns
  */
 
-export async function getStaticProps(context: {
-  params: { stationId: string };
-}) {
+export async function getStaticProps(context: { params: { stationId: string } }) {
   const { stationId } = context.params;
   const dateRange = await getDateRange();
   const station = await getStationDetails(stationId, dateRange);
@@ -61,13 +53,22 @@ export async function getStaticProps(context: {
  *
  */
 export async function getStaticPaths() {
-  const stations: Station[] = await prisma.station.findMany({});
 
-  const paths = stations.map((station) => ({
-    params: { stationId: station.station_id.toString() },
-  }));
+  try {
+    const stations: Station[] = await prisma.station.findMany({});
 
-  return { paths, fallback: false };
+    const paths = stations.map((station) => ({
+      params: { stationId: station.station_id.toString() },
+    }));
+  
+    return { paths, fallback: false };
+    
+  } catch (err) {
+    throw err;
+  }
+  //  finally {
+  //   return {paths: [], fallback: false};
+  // }
 }
 
 export default Station;

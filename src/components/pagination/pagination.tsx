@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { numberWithCommas } from '../lib/utils';
+import { numberWithCommas } from '../../lib/utils';
 
 export default function Pagination(props: PaginationProps) {
   return (

@@ -2,20 +2,21 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import prisma from '@db';
 import { useEffect, useState, useCallback } from 'react';
-import Pagination from '../../components/pagination';
+import { Pagination, NoDataView } from '@components';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
+import { errorMessages } from '@lib';
 
 const STATIONS_ON_PAGE = 50;
 
 type Props = {
-  stations: Station[];
-  totalCount: number;
+  stations: Station[] | [];
+  totalCount: number | 0;
 };
 
-const MapWithNoSSR = dynamic(() => import("../../components/map"), {
-  ssr: false
+const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
+  ssr: false,
 });
 
 const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
@@ -24,9 +25,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   const [stationsCount, setStationsCount] = useState(totalCount);
   const [skip, setSkip] = useState(STATIONS_ON_PAGE);
-  const [filteredStations, setFilteredStations] = useState(
-    stations.slice(0, STATIONS_ON_PAGE)
-  );
+  const [filteredStations, setFilteredStations] = useState(stations.slice(0, STATIONS_ON_PAGE));
 
   const updateNavigation = useCallback(() => {
     if (router.query.skip) {
@@ -37,7 +36,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
       setFilteredStations(() => {
         if (router.query.filter) {
-          const searchText = router.query.filter as string;         
+          const searchText = router.query.filter as string;
           const filtered = stations.filter((station: Station) =>
             station.station_name.includes(searchText)
           );
@@ -50,7 +49,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   }, [router, stations]);
 
   const handleSearch = useCallback(
-    (e:  React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       const searchText = e.target.value;
 
       const query = { [e.target.name]: e.target.value };
@@ -80,17 +79,19 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   useEffect(() => updateNavigation(), [updateNavigation]);
 
+  if (!stations.length || totalCount == 0) {
+    return <NoDataView message={errorMessages.outOfService} />;
+  }
+
   return (
     <div>
       <h1>Stations</h1>
       <h2>{numberWithCommas(stationsCount)} results</h2>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: 'flex' }}>
         <div>
           <Pagination
             prevHref={
-              skip > STATIONS_ON_PAGE
-                ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2)
-                : ''
+              skip > STATIONS_ON_PAGE ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2) : ''
             }
             nextHref={getNavPageUrl(router, skip)}
             nextPageNumber={skip / STATIONS_ON_PAGE + 1}
@@ -105,9 +106,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
             {filteredStations.map((station: Station): JSX.Element => {
               return (
                 <li data-id={station.station_id} key={station.station_id}>
-                  <Link href={`stations/${station.station_id}`}>
-                    {station.station_name}
-                  </Link>
+                  <Link href={`stations/${station.station_id}`}>{station.station_name}</Link>
                 </li>
               );
             })}
@@ -120,14 +119,22 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 };
 
 export async function getStaticProps() {
-  const stations: Station[] = await prisma.station.findMany({});
-  const totalCount: number = await prisma.station.count({});
+  try {
+    const stations: Station[] = await prisma.station.findMany({});
+    const totalCount = stations?.length || 0;
 
-  stations.forEach((station) => {
-    station.longitude = station.longitude.toString();
-    station.latitude = station.latitude.toString();
-  });
-  return { props: { stations, totalCount } };
+    stations.forEach((station) => {
+      station.longitude = station.longitude.toString();
+      station.latitude = station.latitude.toString();
+    });
+    return { props: { stations, totalCount } };
+
+  } catch (e) {
+    throw e;
+  }
+  //  finally {
+  //   return { props: { stations: [], totalCount: 0 } };
+  // }
 }
 
 export default AllStations;

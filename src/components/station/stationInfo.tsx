@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import DateFilter from "./dateFilter";
 import StationStats from "./stationStats";
-import formatTopConnections from "../../lib/formatTopConnections";
+import {formatTopConnections} from "@lib";
 import { useState } from "react";
 
 type Props = {
