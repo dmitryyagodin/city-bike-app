@@ -79,6 +79,10 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   useEffect(() => updateNavigation(), [updateNavigation]);
 
+  const [hovered, setHovered] = useState(0);
+
+  console.log('rerendered');
+
   if (!stations.length || totalCount == 0) {
     return <NoDataView message={errorMessages.outOfService} />;
   }
@@ -105,14 +109,19 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
           <ul>
             {filteredStations.map((station: Station): JSX.Element => {
               return (
-                <li data-id={station.station_id} key={station.station_id}>
-                  <Link href={`stations/${station.station_id}`}>{station.station_name}</Link>
+                <li
+                  onMouseEnter={() => setHovered(station.station_id)}
+                  onMouseLeave={() => setHovered(0)}
+                  data-id={station.station_id}
+                  key={station.station_id}
+                >
+                  {station.station_name}
                 </li>
               );
             })}
           </ul>
         </div>
-        <MapWithNoSSR stations={filteredStations} />
+        <MapWithNoSSR stations={filteredStations} hovered={hovered} />
       </div>
     </div>
   );
@@ -128,7 +137,6 @@ export async function getStaticProps() {
       station.latitude = station.latitude.toString();
     });
     return { props: { stations, totalCount } };
-
   } catch (e) {
     throw e;
   }
