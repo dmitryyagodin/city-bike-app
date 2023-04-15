@@ -6,26 +6,31 @@ import { useMap } from 'react-leaflet';
 
 type Props = {
   stations: Station[] | [];
-  hovered: number;
+  active: number;
 };
 
-const getBounds = (stations: Station[]) => {
+const getBounds = (stations: Station[] | []) => {
+  if (!stations.length) {
+    return null;
+  }
   return new LatLngBounds(
     stations.map((station) => {
       return [Number(station.latitude), Number(station.longitude)];
     })
-  ).pad(0.1);
+    ).pad(0.1);
 };
 
-const MapBounds: NextPage<Props> = ({ stations, hovered }) => {
+const MapBounds: NextPage<Props> = ({ stations, active }) => {
   const map = useMap();
   const [bounds, setBounds] = useState(getBounds(stations));
 
   useEffect(() => {
     if (stations.length) {
       const newBounds = getBounds(stations);
-      setBounds(newBounds);
-      map.fitBounds(newBounds);
+      if (newBounds) {
+        setBounds(newBounds);
+        map.fitBounds(newBounds);
+      }
     }
   }, [map, stations]);
 
@@ -35,12 +40,12 @@ const MapBounds: NextPage<Props> = ({ stations, hovered }) => {
 
   return (
     <>
-      {stations.map((station) => (
+      {bounds && stations.map((station) => (
         <MapMarker
           key={station.station_id}
           station={station}
           bounds={bounds}
-          hovered={station.station_id === hovered}
+          active={station.station_id === active}
         />
       ))}
       ;

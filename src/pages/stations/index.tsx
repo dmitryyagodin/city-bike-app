@@ -1,14 +1,13 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import prisma from '@db';
 import { useEffect, useState, useCallback } from 'react';
-import { Pagination, NoDataView } from '@components';
+import { Pagination, NoDataView, StyledLink, StyledList } from '@components';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 import dynamic from 'next/dynamic';
 import { errorMessages } from '@lib';
 
-const STATIONS_ON_PAGE = 50;
+const STATIONS_ON_PAGE = 25;
 
 type Props = {
   stations: Station[] | [];
@@ -79,7 +78,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   useEffect(() => updateNavigation(), [updateNavigation]);
 
-  const [hovered, setHovered] = useState(0);
+  const [active, setActive] = useState(0);
 
   console.log('rerendered');
 
@@ -90,7 +89,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   return (
     <div>
       <h1>Stations</h1>
-      <h2>{numberWithCommas(stationsCount)} results</h2>
+      <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
       <div style={{ display: 'flex' }}>
         <div>
           <Pagination
@@ -106,22 +105,26 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
             Search
             <input type="text" onChange={handleSearch} name="filter" />
           </label>
-          <ul>
+          <StyledList>
             {filteredStations.map((station: Station): JSX.Element => {
               return (
                 <li
-                  onMouseEnter={() => setHovered(station.station_id)}
-                  onMouseLeave={() => setHovered(0)}
+                  onMouseEnter={() => setActive(station.station_id)}
+                  onMouseLeave={() => setActive(0)}
+                  onFocus={() => setActive(station.station_id)}
+                  onBlur={() => setActive(0)}
                   data-id={station.station_id}
                   key={station.station_id}
                 >
-                  {station.station_name}
+                  <StyledLink href={`stations/${station.station_id}`}>
+                    {station.station_name}
+                  </StyledLink>
                 </li>
               );
             })}
-          </ul>
+          </StyledList>
         </div>
-        <MapWithNoSSR stations={filteredStations} hovered={hovered} />
+        <MapWithNoSSR stations={filteredStations} active={active} />
       </div>
     </div>
   );
@@ -129,7 +132,13 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
 export async function getStaticProps() {
   try {
-    const stations: Station[] = await prisma.station.findMany({});
+    const stations: Station[] = await prisma.station.findMany({
+      orderBy: [
+        {
+          station_id: 'asc',
+        },
+      ],
+    });
     const totalCount = stations?.length || 0;
 
     stations.forEach((station) => {
@@ -140,9 +149,6 @@ export async function getStaticProps() {
   } catch (e) {
     throw e;
   }
-  //  finally {
-  //   return { props: { stations: [], totalCount: 0 } };
-  // }
 }
 
 export default AllStations;

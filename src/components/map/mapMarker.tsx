@@ -1,26 +1,25 @@
 import { LatLngBounds, divIcon } from 'leaflet';
 import type { NextPage } from 'next';
-import Link from 'next/link';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Marker, Popup, useMap } from 'react-leaflet';
-import StyledBikeIcon from './icon';
+import BikeIcon from './icon';
 import { renderToString } from 'react-dom/server';
 
 type Props = {
   station: Station;
   bounds: LatLngBounds;
-  hovered: boolean;
+  active: boolean;
 };
 
-const MapMarker: NextPage<Props> = ({ station, bounds, hovered }) => {
+const MapMarker: NextPage<Props> = ({ station, bounds, active }) => {
   const map = useMap();
   const center = bounds.getCenter();
 
   const icon = divIcon({
-    className: 'custom icon',
-    html: renderToString(<StyledBikeIcon active={hovered} />),
-    iconSize: [64, 64],
-    iconAnchor: [32, 64],
+    className: `custom-icon ${active ? 'active' : 'custom icon'}`,
+    html: renderToString(<BikeIcon />),
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
   });
 
   const eventHandlers = useMemo(
@@ -36,28 +35,20 @@ const MapMarker: NextPage<Props> = ({ station, bounds, hovered }) => {
           animate: true,
           duration: 1,
         });
-      },
+      }
     }),
     [map, station, center]
   );
 
-  // const markerRef = useRef(null);
-
-  useEffect(() => {
-    console.log(hovered);
-  }, [hovered]);
-
   return (
     <Marker
-      // ref={markerRef}
       eventHandlers={eventHandlers}
       position={[station.latitude, station.longitude]}
       icon={icon}
+      zIndexOffset={active ? 200 : 0}
     >
       <Popup>
-        <Link href={`stations/${station.station_id}`}>
-          <h3>{station.station_name}</h3>
-        </Link>
+        <h3>{station.station_name}</h3>
         <p>
           Address: <strong>{station.station_address}</strong>
           <br />

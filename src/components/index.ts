@@ -6,3 +6,5 @@ export {default as TableRow  } from "./rides/tableRow";
 export {default as DateFilter } from "./station/dateFilter";
 export {default as StationInfo } from "./station/stationInfo";
 export {default as StationStats } from "./station/stationStats";
+export { default as StyledLink } from './ui/styledLink';
+export { default as StyledList } from './ui/styledList';
