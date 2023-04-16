@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import prisma from '@db';
 import { useEffect, useState, useCallback } from 'react';
-import { Pagination, NoDataView, StyledLink, StyledList } from '@components';
+import { Pagination, NoDataView, StationsList, StyledAside } from '@components';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 import dynamic from 'next/dynamic';
@@ -49,9 +49,9 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const searchText = e.target.value;
+      const searchText = e.target.value.toLowerCase();
 
-      const query = { [e.target.name]: e.target.value };
+      const query = { [e.target.name]: searchText };
 
       router.push(
         {
@@ -64,7 +64,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
       setFilteredStations(() => {
         const filtered = stations.filter((station: Station) =>
-          station.station_name.includes(searchText)
+          station.station_name.toLowerCase().includes(searchText)
         );
 
         setStationsCount(filtered.length);
@@ -78,8 +78,6 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
   useEffect(() => updateNavigation(), [updateNavigation]);
 
-  const [active, setActive] = useState(0);
-
   console.log('rerendered');
 
   if (!stations.length || totalCount == 0) {
@@ -90,41 +88,22 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
     <div>
       <h1>Stations</h1>
       <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
-      <div style={{ display: 'flex' }}>
-        <div>
-          <Pagination
-            prevHref={
-              skip > STATIONS_ON_PAGE ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2) : ''
-            }
-            nextHref={getNavPageUrl(router, skip)}
-            nextPageNumber={skip / STATIONS_ON_PAGE + 1}
-            totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
-            shallow={true}
-          />
+      <Pagination
+        prevHref={skip > STATIONS_ON_PAGE ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2) : ''}
+        nextHref={getNavPageUrl(router, skip)}
+        nextPageNumber={skip / STATIONS_ON_PAGE + 1}
+        totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
+        shallow={true}
+      />
+      <div>
+        <StyledAside>
           <label>
             Search
             <input type="text" onChange={handleSearch} name="filter" />
           </label>
-          <StyledList>
-            {filteredStations.map((station: Station): JSX.Element => {
-              return (
-                <li
-                  onMouseEnter={() => setActive(station.station_id)}
-                  onMouseLeave={() => setActive(0)}
-                  onFocus={() => setActive(station.station_id)}
-                  onBlur={() => setActive(0)}
-                  data-id={station.station_id}
-                  key={station.station_id}
-                >
-                  <StyledLink href={`stations/${station.station_id}`}>
-                    {station.station_name}
-                  </StyledLink>
-                </li>
-              );
-            })}
-          </StyledList>
-        </div>
-        <MapWithNoSSR stations={filteredStations} active={active} />
+          <StationsList stations={filteredStations} />
+        </StyledAside>
+        <MapWithNoSSR stations={filteredStations} />
       </div>
     </div>
   );

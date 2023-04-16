@@ -6,7 +6,6 @@ import { useMap } from 'react-leaflet';
 
 type Props = {
   stations: Station[] | [];
-  active: number;
 };
 
 const getBounds = (stations: Station[] | []) => {
@@ -20,7 +19,7 @@ const getBounds = (stations: Station[] | []) => {
     ).pad(0.1);
 };
 
-const MapBounds: NextPage<Props> = ({ stations, active }) => {
+const MapBounds: NextPage<Props> = ({ stations }) => {
   const map = useMap();
   const [bounds, setBounds] = useState(getBounds(stations));
 
@@ -40,14 +39,10 @@ const MapBounds: NextPage<Props> = ({ stations, active }) => {
 
   return (
     <>
-      {bounds && stations.map((station) => (
-        <MapMarker
-          key={station.station_id}
-          station={station}
-          bounds={bounds}
-          active={station.station_id === active}
-        />
-      ))}
+      {bounds &&
+        stations.map((station) => (
+          <MapMarker key={station.station_id} station={station} bounds={bounds} />
+        ))}
       ;
     </>
   );

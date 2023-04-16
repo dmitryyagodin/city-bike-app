@@ -1,30 +1,38 @@
+import styled from 'styled-components';
 import { numberWithCommas } from '../../lib/utils';
-import StyledLink from '../ui/styledLink';
-import Image from 'next/image';
+import { ArrowIcon, StyledLink } from '@components';
+
+const StyledNav = styled.nav`
+  display: flex;
+  justify-content: center;
+  column-gap: 24px;
+  text-align: center;
+`;
 
 export default function Pagination(props: PaginationProps) {
   return (
-    <nav>
+    <StyledNav>
       {props.prevHref && (
         <StyledLink href={props.prevHref}>
-          <Image src="/arrow-right.svg" height={20} width={20} alt="next page" />
-          Prev page
-          <span>
+          <ArrowIcon className="nav__arrow-icon--left" />
+          <p>
+            Prev page
             <br />
             {props.nextPageNumber - 2} of {props.totalPages}
-          </span>
+          </p>
         </StyledLink>
       )}
 
       {props.nextPageNumber <= props.totalPages && (
         <StyledLink href={props.nextHref} shallow={props.shallow && true}>
-          Next page
-          <span>
+          <p>
+            Next page
             <br />
             {props.nextPageNumber} of {numberWithCommas(props.totalPages)}
-          </span>
+          </p>
+          <ArrowIcon className="nav__arrow-icon--right" />
         </StyledLink>
       )}
-    </nav>
+    </StyledNav>
   );
 }
