@@ -5,6 +5,8 @@ import getTopConnections from '../../../prisma/getTopConnections';
 import getStationDetails from '../../../prisma/getStationDetails';
 import getDateRange from '../../../prisma/getDateRange';
 import { StationInfo } from '@components';
+import dynamic from 'next/dynamic';
+import styled from 'styled-components';
 
 type Props = {
   station: Station & StationStats;
@@ -14,9 +16,18 @@ type Props = {
   stationId: 'string';
 };
 
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
 const Station: NextPage<Props> = ({ station, topReturns, topDepartures, dateRange, stationId }) => {
+  const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
+    ssr: false,
+  });
+
   return (
-    <>
+    <Grid>
       <StationInfo
         dateRange={dateRange}
         topReturns={topReturns}
@@ -24,7 +35,8 @@ const Station: NextPage<Props> = ({ station, topReturns, topDepartures, dateRang
         stationWithStats={station}
         stationId={stationId}
       />
-    </>
+      <MapWithNoSSR stations={[station]} />
+    </Grid>
   );
 };
 
@@ -53,16 +65,14 @@ export async function getStaticProps(context: { params: { stationId: string } })
  *
  */
 export async function getStaticPaths() {
-
   try {
     const stations: Station[] = await prisma.station.findMany({});
 
     const paths = stations.map((station) => ({
       params: { stationId: station.station_id.toString() },
     }));
-  
+
     return { paths, fallback: false };
-    
   } catch (err) {
     throw err;
   }

@@ -1,13 +1,47 @@
-import { NextPage } from 'next';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useContext } from 'react';
+import { StationContext } from 'src/context/stationContext';
 
-type HandleSearchFunction = (e: React.ChangeEvent<HTMLInputElement>) => void;
+const StationsSearch = () => {
+  const router = useRouter();
+  const { pathname } = router;
 
-type Props = {
-  handleSearch: HandleSearchFunction;
-};
+  const { allStations, setCurrentStations, setStationsCount, setFilteredStations, stationsOnPage } =
+    useContext(StationContext);
 
-const StationsSearch: NextPage<Props> = ({ handleSearch }) => {
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const searchText = e.target.value.toLowerCase();
+
+      const query = { [e.target.name]: searchText };
+
+      router.push(
+        {
+          pathname,
+          query: query,
+        },
+        undefined,
+        { shallow: true }
+      );
+
+      const filtered = allStations.filter((station: Station) =>
+        station.station_name.toLowerCase().includes(searchText)
+      );
+      setStationsCount(filtered.length);
+      setFilteredStations(filtered);
+      setCurrentStations(filtered.slice(0, stationsOnPage));
+    },
+    [
+      allStations,
+      pathname,
+      router,
+      setCurrentStations,
+      setFilteredStations,
+      setStationsCount,
+      stationsOnPage,
+    ]
+  );
+
   return (
     <label>
       Search

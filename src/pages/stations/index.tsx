@@ -1,87 +1,35 @@
 import type { NextPage } from 'next';
 import prisma from '@db';
-import { useEffect, useState, useCallback, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { Pagination, NoDataView, StationsList, StyledAside, StationsSearch } from '@components';
-import { useRouter } from 'next/router';
-import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 import dynamic from 'next/dynamic';
 import { errorMessages } from '@lib';
 import { StationContext } from 'src/context/stationContext';
-
-const STATIONS_ON_PAGE = 25;
+import styled from 'styled-components';
 
 type Props = {
   stations: Station[] | [];
   totalCount: number | 0;
 };
 
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
 const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
   ssr: false,
 });
 
 const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
-  const router = useRouter();
-  const { pathname } = router;
+  const { currentStations, setCurrentStations, setAllStations, setStationsCount, stationsOnPage } =
+    useContext(StationContext);
 
-  const [stationsCount, setStationsCount] = useState(totalCount);
-  const [skip, setSkip] = useState(STATIONS_ON_PAGE);
-  const [filteredStations, setFilteredStations] = useState(stations.slice(0, STATIONS_ON_PAGE));
-
-  // const { currentStations, setCurrentStation } = useContext(StationContext);
-
-  const updateNavigation = useCallback(() => {
-    if (router.query.skip) {
-      const currentSkip = Number(router.query.skip);
-      const newSkip = currentSkip + STATIONS_ON_PAGE;
-
-      setSkip(newSkip);
-
-      setFilteredStations(() => {
-        if (router.query.filter) {
-          const searchText = router.query.filter as string;
-          const filtered = stations.filter((station: Station) =>
-            station.station_name.includes(searchText)
-          );
-          return filtered.slice(currentSkip, newSkip);
-        } else {
-          return stations.slice(currentSkip, newSkip);
-        }
-      });
-    }
-  }, [router, stations]);
-
-  const handleSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const searchText = e.target.value.toLowerCase();
-
-      const query = { [e.target.name]: searchText };
-
-      router.push(
-        {
-          pathname,
-          query: query,
-        },
-        undefined,
-        { shallow: true }
-      );
-
-      setFilteredStations(() => {
-        const filtered = stations.filter((station: Station) =>
-          station.station_name.toLowerCase().includes(searchText)
-        );
-
-        setStationsCount(filtered.length);
-        setSkip(STATIONS_ON_PAGE);
-
-        return filtered.slice(0, STATIONS_ON_PAGE);
-      });
-    },
-    [pathname, router, stations]
-  );
-
-  useEffect(() => updateNavigation(), [updateNavigation]);
-
-  console.log('rerendered');
+  useEffect(() => {
+    setCurrentStations(stations.slice(0, stationsOnPage));
+    setAllStations(stations);
+    setStationsCount(totalCount);
+  }, []);
 
   if (!stations.length || totalCount == 0) {
     return <NoDataView message={errorMessages.outOfService} />;
@@ -90,19 +38,14 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   return (
     <>
       <h1>Stations</h1>
-      <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
-      <Pagination
-        prevHref={skip > STATIONS_ON_PAGE ? getNavPageUrl(router, skip - STATIONS_ON_PAGE * 2) : ''}
-        nextHref={getNavPageUrl(router, skip)}
-        nextPageNumber={skip / STATIONS_ON_PAGE + 1}
-        totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
-        shallow={true}
-      />
-      <StyledAside>
-        <StationsSearch handleSearch={handleSearch} />
-        <StationsList stations={filteredStations} />
-      </StyledAside>
-      <MapWithNoSSR stations={filteredStations} />
+      <Grid>
+        <Pagination shallow={true} />
+        {/* <StyledAside> */}
+        <StationsSearch />
+        <StationsList stations={currentStations} />
+        {/* </StyledAside> */}
+        <MapWithNoSSR stations={currentStations} />
+      </Grid>
     </>
   );
 };
