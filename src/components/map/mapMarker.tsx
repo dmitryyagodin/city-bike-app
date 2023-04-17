@@ -12,7 +12,7 @@ type Props = {
 };
 
 const MapMarker: NextPage<Props> = ({ station, bounds }) => {
-  const { activeStation, setActive } = useContext(StationContext);
+  const { activeStation, setActiveStation } = useContext(StationContext);
   const thisIsActive = activeStation === station.station_id;
 
   const map = useMap();
@@ -28,7 +28,7 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
   const eventHandlers = useMemo(
     () => ({
       click: () => {
-        setActive(station.station_id);
+        setActiveStation(station.station_id);
         map.flyTo([station.latitude, station.longitude], 16, {
           animate: true,
           duration: 1,
@@ -41,13 +41,13 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
         });
       },
       mouseover: () => {
-        setActive(station.station_id);
+        setActiveStation(station.station_id);
       },
       mouseout: () => {
-        setActive(0);
+        setActiveStation(0);
       },
     }),
-    [map, station, center, setActive]
+    [map, station, center, setActiveStation]
   );
 
   return (

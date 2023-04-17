@@ -4,14 +4,14 @@ import { useContext } from 'react';
 import React from 'react';
 
 const StationLink = ({ station }: { station: Station }) => {
-  const { activeStation, setActive } = useContext(StationContext);
+  const { activeStation, setActiveStation } = useContext(StationContext);
 
   return (
     <StyledLink
-      onMouseEnter={() => setActive(station.station_id)}
-      onMouseLeave={() => setActive(0)}
-      onFocus={() => setActive(station.station_id)}
-      onBlur={() => setActive(0)}
+      onMouseEnter={() => setActiveStation(station.station_id)}
+      onMouseLeave={() => setActiveStation(0)}
+      onFocus={() => setActiveStation(station.station_id)}
+      onBlur={() => setActiveStation(0)}
       data-id={station.station_id}
       className={station.station_id === activeStation ? 'active' : ''}
       href={`stations/${station.station_id}`}

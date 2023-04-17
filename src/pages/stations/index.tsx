@@ -1,11 +1,12 @@
 import type { NextPage } from 'next';
 import prisma from '@db';
-import { useEffect, useState, useCallback } from 'react';
-import { Pagination, NoDataView, StationsList, StyledAside } from '@components';
+import { useEffect, useState, useCallback, useContext } from 'react';
+import { Pagination, NoDataView, StationsList, StyledAside, StationsSearch } from '@components';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
 import dynamic from 'next/dynamic';
 import { errorMessages } from '@lib';
+import { StationContext } from 'src/context/stationContext';
 
 const STATIONS_ON_PAGE = 25;
 
@@ -25,6 +26,8 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   const [stationsCount, setStationsCount] = useState(totalCount);
   const [skip, setSkip] = useState(STATIONS_ON_PAGE);
   const [filteredStations, setFilteredStations] = useState(stations.slice(0, STATIONS_ON_PAGE));
+
+  // const { currentStations, setCurrentStation } = useContext(StationContext);
 
   const updateNavigation = useCallback(() => {
     if (router.query.skip) {
@@ -85,7 +88,7 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
   }
 
   return (
-    <div>
+    <>
       <h1>Stations</h1>
       <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
       <Pagination
@@ -95,17 +98,12 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
         totalPages={Math.ceil(stationsCount / STATIONS_ON_PAGE)}
         shallow={true}
       />
-      <div>
-        <StyledAside>
-          <label>
-            Search
-            <input type="text" onChange={handleSearch} name="filter" />
-          </label>
-          <StationsList stations={filteredStations} />
-        </StyledAside>
-        <MapWithNoSSR stations={filteredStations} />
-      </div>
-    </div>
+      <StyledAside>
+        <StationsSearch handleSearch={handleSearch} />
+        <StationsList stations={filteredStations} />
+      </StyledAside>
+      <MapWithNoSSR stations={filteredStations} />
+    </>
   );
 };
 

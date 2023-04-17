@@ -3,12 +3,16 @@ import React, { ReactNode, useState } from 'react';
 
 type StationContextType = {
   activeStation: number | 0;
-  setActive: (id: number) => void;
+  setActiveStation: (id: number) => void;
+  currentStations: Station[] | [];
+  setCurrentStations: (stations: Station[]) => void;
 };
 
 const contextDefaultValues: StationContextType = {
   activeStation: 0,
-  setActive: () => {},
+  setActiveStation: () => {},
+  currentStations: [],
+  setCurrentStations: () => {},
 };
 
 export const StationContext = React.createContext<StationContextType>(contextDefaultValues);
@@ -18,14 +22,21 @@ type Props = {
 };
 
 export const ContextProvider = ({ children }: Props) => {
-  const [activeStation, setActiveStation] = useState(0);
+  const [activeStation, setActive] = useState(0);
+  const [currentStations, setCurrent] = useState([]);
 
-  const setActive = (id: number) => {
-    setActiveStation(id);
+  const setActiveStation = (id: number) => {
+    setActive(id);
+  };
+
+  const setCurrentStations = (stations: Station[]) => {
+    setCurrent(stations);
   };
 
   return (
-    <StationContext.Provider value={{ activeStation, setActive }}>
+    <StationContext.Provider
+      value={{ activeStation, setActiveStation, currentStations, setCurrentStations }}
+    >
       {children}
     </StationContext.Provider>
   );
