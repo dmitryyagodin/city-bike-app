@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import { getRides } from 'prisma/getRides';
+import getStations from 'prisma/getStations';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
-import { NoDataView, Table, RidesFilter, Pagination } from '@components';
+import { NoDataView, Table, RidesFilter, RidesPagination, RidesSearch } from '@components';
 import { errorMessages } from '@lib';
 
 const RIDES_ON_PAGE = 50;
@@ -11,9 +12,10 @@ const RIDES_ON_PAGE = 50;
 type Props = {
   rides: Ride[] | null;
   totalCount: number | null;
+  stations: Station[];
 };
 
-const Rides: NextPage<Props> = ({ rides, totalCount }) => {
+const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
   const router = useRouter();
   const [filteredRides, setFilteredRides] = useState(rides);
   const [skip, setSkip] = useState(RIDES_ON_PAGE);
@@ -49,22 +51,28 @@ const Rides: NextPage<Props> = ({ rides, totalCount }) => {
     <div>
       <h1>Bike rides</h1>
       <h2>{numberWithCommas(totalCount)} results</h2>
-      <RidesFilter />
-      <Pagination
-        prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2) : ''}
-        nextHref={getNavPageUrl(router, skip)}
-        nextPageNumber={skip / RIDES_ON_PAGE + 1}
-        totalPages={Math.ceil(totalCount / RIDES_ON_PAGE)}
-        shallow={false}
-      />
-      <Table rows={filteredRides || []} />
+      <div style={{ display: 'flex' }}>
+        <RidesSearch stations={stations} />
+        <div>
+          <RidesPagination
+            prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2) : ''}
+            nextHref={getNavPageUrl(router, skip)}
+            nextPageNumber={skip / RIDES_ON_PAGE + 1}
+            totalPages={Math.ceil(totalCount / RIDES_ON_PAGE)}
+            shallow={false}
+          />
+          <Table rows={filteredRides || []} />
+        </div>
+      </div>
     </div>
   );
 };
 
 export async function getStaticProps() {
-    const { rides, totalCount } = await getRides();
-    return { props: { rides, totalCount } }; 
+  const { rides, totalCount } = await getRides();
+  const { stations } = await getStations();
+  
+  return { props: { rides, totalCount, stations } };
 }
 
 export default Rides;

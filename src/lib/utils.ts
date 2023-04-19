@@ -1,5 +1,3 @@
-import { NextRouter } from 'next/router';
-
 export function formatDate(date: Date): string {
   const formatOptions: DateFormatOptions = {
     day: '2-digit',
@@ -37,4 +35,25 @@ export function numberWithCommas(num: number): string {
   } else {
     return '';
   }
+}
+
+export function updateSearchParams(e, router) {
+  const { pathname } = router;
+  const value = e.target.value.toLowerCase();
+  const newQuery = { [e.target.name]: value };
+
+  const query = { ...router.query, ...newQuery };
+
+  if (!value) {
+    delete query[e.target.name];
+  }
+
+  router.push(
+    {
+      pathname,
+      query: query,
+    },
+    undefined,
+    { shallow: true }
+  );
 }

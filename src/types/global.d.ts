@@ -51,12 +51,12 @@ declare global {
 
     type prisma = PrismaClient;
 
-    type PaginationProps = {
-        prevHref: string;
-        nextPageNumber: number;
-        totalPages: number;
-        nextHref: string;
-        shallow: boolean;
+    type RidesPaginationProps = {
+      prevHref: string;
+      nextPageNumber: number;
+      totalPages: number;
+      nextHref: string;
+      shallow: boolean;
     };
 
     type DateFormatOptions = {
