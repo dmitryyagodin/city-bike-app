@@ -7,7 +7,7 @@ import getDateRange from '../../../prisma/getDateRange';
 import StationInfo from '../../components/station/stationInfo';
 
 type Props = {
-  station: Station & StationStats;
+  stationWithStats: Station & StationStats;
   topReturns: TopConnection[];
   topDepartures: TopConnection[];
   dateRange: 'string';//{ minDate: string; maxDate: string };
@@ -15,19 +15,23 @@ type Props = {
 };
 
 const Station: NextPage<Props> = ({
-  station,
+  stationWithStats,
   topReturns,
   topDepartures,
   dateRange,
   stationId
 }) => {
+
+  if (!stationWithStats) {
+    return <p>The requested page has no data to view</p>;
+  }
   return (
     <>
       <StationInfo
         dateRange={dateRange}
         topReturns={topReturns}
         topDepartures={topDepartures}
-        stationWithStats={station}
+        stationWithStats={stationWithStats}
         stationId={stationId}
       />
     </>
@@ -46,13 +50,13 @@ export async function getStaticProps(context: {
 }) {
   const { stationId } = context.params;
   const dateRange = await getDateRange();
-  const station = await getStationDetails(stationId, dateRange);
+  const stationWithStats = await getStationDetails(stationId, dateRange);
   const topConnections = await getTopConnections(stationId, dateRange);
-
   const { topReturns, topDepartures } = formatTopConnections(topConnections);
+  
 
   return {
-    props: { stationId, station, topReturns, topDepartures, dateRange },
+    props: { stationId, stationWithStats, topReturns, topDepartures, dateRange },
   };
 }
 
