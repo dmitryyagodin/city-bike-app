@@ -16,7 +16,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
           <StyledInput
             list="stations-list"
             name="departure_station"
-            onInput={(e) => updateSearchParams(e, router)}
+            onChange={(e) => updateSearchParams(e, router)}
             pattern={`^(${stationSearchPattern})$`}
             placeholder="select station"
           />
@@ -26,7 +26,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
           <StyledInput
             list="stations-list"
             name="return_station"
-            onInput={(e) => updateSearchParams(e, router)}
+            onChange={(e) => updateSearchParams(e, router)}
             pattern={`^(${stationSearchPattern})$`}
             placeholder="select station"
           />

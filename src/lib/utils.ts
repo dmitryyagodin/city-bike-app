@@ -1,3 +1,5 @@
+import { NextRouter } from 'next/router';
+
 export function formatDate(date: Date): string {
   const formatOptions: DateFormatOptions = {
     day: '2-digit',
@@ -37,7 +39,7 @@ export function numberWithCommas(num: number): string {
   }
 }
 
-export function updateSearchParams(e, router) {
+export function updateSearchParams(e: React.ChangeEvent<HTMLInputElement>, router: NextRouter) {
   const { pathname } = router;
   const value = e.target.value.toLowerCase();
   const newQuery = { [e.target.name]: value };

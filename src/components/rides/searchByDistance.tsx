@@ -15,7 +15,7 @@ const SearchByDistance = () => {
           <StyledInput
             type="number"
             name="max_distance"
-            onInput={(e) => updateSearchParams(e, router)}
+            onChange={(e) => updateSearchParams(e, router)}
             min="0"
             max="1000"
           />
@@ -25,7 +25,7 @@ const SearchByDistance = () => {
           <StyledInput
             type="number"
             name="max_distance"
-            onInput={(e) => updateSearchParams(e, router)}
+            onChange={(e) => updateSearchParams(e, router)}
             min="0"
             max="1000"
           />
