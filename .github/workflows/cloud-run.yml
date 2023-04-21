@@ -28,6 +28,9 @@ jobs:
       - name: Authorize Docker push
         run: gcloud auth configure-docker
       
+      - name: Print db url
+        run: |
+          echo ${{secrets.DATABASE_URL}}
       - name: Build and tag the docker image
         run: |-
           docker build --build-arg DATABASE_URL=${{secrets.DATABASE_URL}}  . --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
