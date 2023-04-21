@@ -31,7 +31,7 @@ jobs:
       
       - name: Build and tag the docker image
         run: |-
-          docker build --build-arg DATABASE_URL=$DATABASE_URL  . --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker build . --build-arg DATABASE_URL=$DATABASE_URL --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
       
       - name: Push the image to the Google Container Registry
         run: |-
