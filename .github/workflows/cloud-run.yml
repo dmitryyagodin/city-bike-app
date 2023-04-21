@@ -29,6 +29,8 @@ jobs:
         run: gcloud auth configure-docker
       
       - name: Build and tag the docker image
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
         run: |-
           docker build --build-arg DATABASE_URL=$DATABASE_URL . --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
       
