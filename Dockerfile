@@ -1,6 +1,7 @@
 FROM node:16-alpine
 
 WORKDIR /app
+ENV DATABASE_URL ${DATABASE_URL}
 
 COPY . .
 
