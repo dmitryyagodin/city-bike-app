@@ -2,9 +2,9 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json /app/
+COPY . .
 
-RUN npm install
+RUN npm ci --only=production
 
 COPY next.config.js ./next.config.js
 COPY tsconfig.json ./tsconfig.json
@@ -13,4 +13,5 @@ COPY prisma ./prisma
 COPY public ./public
 COPY src ./src
 RUN npx prisma generate
-CMD ["npm", "run", "dev"]
+RUN npm run build
+CMD ["npm", "start"]
