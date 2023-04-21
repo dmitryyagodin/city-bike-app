@@ -29,7 +29,7 @@ jobs:
       
       - name: Build and tag the docker image       
         run: |-
-          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA ./docker/app-prod.Dockerfile
+          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA -f ./docker/app-prod.Dockerfile .
       - name: Push the image to the GCP Container Registry
         run: |-
           docker push gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
