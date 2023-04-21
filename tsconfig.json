@@ -6,7 +6,7 @@
       "@db": ["src/lib/prisma"],
       "@lib": ["src/lib"],
       "@styles/": ["src/styles/*"],
-      "@components": ["src/components/*"]
+      "@components": ["src/components/index.ts"]
     },
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -31,7 +31,7 @@
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "paths": {
-    "@/*": ["./*"]
-  }
+  // "paths": {
+  //   "@/*": ["./*"]
+  // }
 }

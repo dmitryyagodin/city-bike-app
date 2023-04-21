@@ -5,7 +5,7 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "semi": "off",
+    "semi": "error",
     "@typescript-eslint/semi": [
       "warn"
     ],

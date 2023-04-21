@@ -1,9 +1,3 @@
--- SELECT 'CREATE DATABASE city_bikes'
-
--- WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'city_bikes')\gexec
-
--- CREATE EXTENSION IF NOT EXISTS postgis;
-
 CREATE TABLE
     IF NOT EXISTS "stations" (
         "FID" TEXT,

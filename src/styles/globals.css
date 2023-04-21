@@ -1,3 +1,11 @@
+/* color scheme applied "Square" harmony rule */
+:root {
+  --primary: #4B0082;
+  --secondary: #B52B04;
+  --accent: #E1FC17;
+  --accent2: #49FCF9;
+  --white: #FFF5FF;
+}
 html,
 body {
   padding: 0;
@@ -23,4 +31,10 @@ a {
     color: white;
     background: black;
   }
+}
+
+.leaflet-marker-icon .custom-icon:hover,
+.leaflet-marker-icon .custom-icon:focus,
+.leaflet-marker-icon .cusom-icon:focus-visible {
+  z-index: 600 !important;
 }

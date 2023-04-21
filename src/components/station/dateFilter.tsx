@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
 
-type HandleFilterEventFunction = ( {topConnections, stationWithStats }: {topConnections: TopConnectionRaw[]; stationWithStats: Station & StationStats }) => void;
+type HandleFilterEventFunction = ({
+  topConnections,
+  stationWithStats,
+}: {
+  topConnections: TopConnectionRaw[];
+  stationWithStats: Station & StationStats;
+}) => void;
 
 type Props = {
   dateRange: string;
@@ -63,6 +69,6 @@ const DateFilter: NextPage<Props> = ({ dateRange, stationId, emitFilterEvent }) 
       </label>
     </div>
   );
-}
+};
 
 export default DateFilter;
