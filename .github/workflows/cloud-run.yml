@@ -30,18 +30,8 @@ jobs:
         run: gcloud auth configure-docker
       
       - name: Build and tag the docker image
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
-          build-args: |
-            DATABASE_URL=${{secrets.DATABASE_URL}}   
-      
-      - name: Push the image to the Google Container Registry
         run: |-
-          docker push gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker build --build-arg DATABASE_URL=${{secrets.DATABASE_URL}} --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA .          
       
       - name: Deploy
         run: |-
