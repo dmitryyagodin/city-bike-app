@@ -8,7 +8,6 @@ env:
   PROJECT_ID: ${{secrets.CLOUD_RUN_PROJECT_NAME}}
   REGION: europe-north1
   REPO_NAME: city-bikes-cloudrun
-  DATABASE_URL: ${{secrets.DATABASE_URL}}
 
 jobs:
   build-and-deploy:
