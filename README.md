@@ -52,3 +52,6 @@ Uses  [React Leaflet](https://react-leaflet.js.org/docs/start-setup/)
 
 Read more:
 [E2E testing in Next.js with Cypress and TypeScript](https://blog.logrocket.com/end-to-end-testing-next-js-apps-cypress-typescript/)
+
+# Deployment
+https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/
