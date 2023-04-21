@@ -9,7 +9,7 @@ export default async function getStationDetails(id: string, dateRange: string) {
   _maxDate.setDate(_maxDate.getDate() + 1);
   const _minDate = new Date(minDate);
 
-  const [station]: [Station & StationStats] = await prisma.$queryRaw`
+  const [station]: [Station & StationStats | []] = await prisma.$queryRaw`
     SELECT
       s.station_name,
       s.station_address,
@@ -35,5 +35,5 @@ export default async function getStationDetails(id: string, dateRange: string) {
       s.longitude,
       s.latitude;
   `;
-  return station;
+  return station || null;
 }
