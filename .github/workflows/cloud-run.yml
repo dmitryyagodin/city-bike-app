@@ -30,7 +30,10 @@ jobs:
       
       - name: Build and tag the docker image       
         run: |-
-          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t gcr.io/${{secrets.CLOUD_RUN_PROJECT_NAME}}/city-bikes-cloudrun:$GITHUB_SHA .
+          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA .
+      - name: Push the image to the GCP Container Registry
+        run: |-
+          docker push gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
       - name: Deploy
         run: |-
           gcloud run deploy $REPO_NAME \
