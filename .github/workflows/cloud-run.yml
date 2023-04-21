@@ -30,7 +30,7 @@ jobs:
       
       - name: Build and tag the docker image       
         run: |-
-          docker build --tag "gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA" \
+          docker build -t gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA \
                  --build-arg DATABASE_URL=$DATABASE_URL_ARG .
       
       - name: Deploy
