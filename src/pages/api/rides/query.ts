@@ -13,13 +13,19 @@ interface Query {
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const query: Query = {};
 
-  if (typeof req.query.orderBy === 'string') {
-    const [field, order] = req.query.orderBy.split('-');
-    query.orderBy = [{ [field]: order }];
+  // if (typeof req.query.orderBy === 'string') {
+  //   const [field, order] = req.query.orderBy.split('-');
+  //   query.orderBy = [{ [field]: order }];
+  // }
+  // console.log(req.body.orderBy);
+
+  if (req.method === 'POST') {
+    query.orderBy = JSON.parse(req.body).orderBy;
+    // query.orderBy = [{ distance: 'asc' }, { duration: 'desc' }];
   }
 
   if (req.query.skip) query.skip = Number(req.query.skip);
 
   const { rides, totalCount } = await getRides(query);
-    res.json({ rides, totalCount });
+  res.json({ rides, totalCount });
 }

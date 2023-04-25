@@ -17,6 +17,7 @@ export { default as StationLink } from './station/stationLink';
 export { default as ArrowIcon } from './pagination/arrowIcon';
 export { default as StyledAside } from './ui/styledAside';
 export { default as StyledSortButton } from './ui/styledSortButton';
+export { default as StyledTableRow } from './ui/styledTableRow';
 export { default as Layout } from './layout/layout';
 export { default as SearchByDuration } from './rides/searchByDuration';
 export { default as SearchByDistance } from './rides/searchByDistance';

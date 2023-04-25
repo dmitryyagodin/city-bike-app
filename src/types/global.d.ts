@@ -60,14 +60,14 @@ declare global {
     };
 
     type DateFormatOptions = {
-        day: '2-digit';
-        month: 'short';
-        weekday: 'short';
-        hour: 'numeric';
-        minute: 'numeric';
-        second: 'numeric';
-        hour12: true | false;
-        hourCycle: 'h23';
+      day: '2-digit';
+      month: 'short';
+      weekday?: 'short';
+      hour: 'numeric';
+      minute: 'numeric';
+      second: 'numeric';
+      hour12: true | false;
+      hourCycle: 'h23';
     };
 
     type HandleFilterEventFunction = ({
