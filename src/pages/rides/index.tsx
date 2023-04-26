@@ -1,14 +1,11 @@
 import type { NextPage } from 'next';
 import { getRides } from 'prisma/getRides';
 import getStations from 'prisma/getStations';
-import { useEffect, useState, useCallback, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
+import { useEffect, useState, useContext } from 'react';
+import { numberWithCommas } from '../../lib/utils';
 import { NoDataView, Table, RidesPagination, RidesSearch } from '@components';
 import { errorMessages } from '@lib';
 import { RidesContext } from 'src/context/ridesContext';
-
-const RIDES_ON_PAGE = 50;
 
 type Props = {
   rides: Ride[] | null;
@@ -17,65 +14,58 @@ type Props = {
 };
 
 const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
-  const { sortParams, setIsLoading } = useContext(RidesContext);
-  const router = useRouter();
+  
+  const { searchParams, setIsLoading, setRidesCount, ridesCount } = useContext(RidesContext);
+  
+  useEffect(() => {
+    totalCount && setRidesCount(totalCount);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [filteredRides, setFilteredRides] = useState(rides);
-  const [skip, setSkip] = useState(RIDES_ON_PAGE);
 
   useEffect(() => {
     const url = '/api/rides/query';
 
-    if (JSON.stringify(sortParams) !== '{}') {
-      const paramsAsArr = Object.entries(sortParams).map(([k, v]) => ({ [k]: v }));
+    if (JSON.stringify(searchParams) !== '{}') {
+      const queryObject: RideQuery = {};
+      if (searchParams.orderBy) {
+        const orderByArray = Object.entries(searchParams.orderBy).map(([k, v]) => ({ [k]: v }));
+        queryObject.orderBy = orderByArray;
+      }
+      
+      if (searchParams.skip) {
+        queryObject.skip = searchParams.skip;
+      }
+      
+      if (searchParams.where) {
+        queryObject.where = searchParams.where;
+      }
 
-      fetch(url, { method: 'POST', body: JSON.stringify({ orderBy: paramsAsArr }) })
+      fetch(url, { method: 'POST', body: JSON.stringify(queryObject)})
         .then((res) => res.json())
         .then((data) => {
           setFilteredRides(data.rides);
+          setRidesCount(data.totalCount);
           setIsLoading(false);
         });
     }
-  }, [sortParams]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
-  const updateNavigation = useCallback(() => {
-    setIsLoading(true);
-    if (router.query.skip) {
-      const currentSkip = Number(router.query.skip);
-      const newSkip = currentSkip + RIDES_ON_PAGE;
 
-      setSkip(newSkip);
-
-      const url = `/api/rides/query?skip=${currentSkip}`;
-
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          setFilteredRides(data.rides);
-          setIsLoading(false);
-        });
-    }
-  }, [router]);
-
-  useEffect(() => updateNavigation(), [updateNavigation]);
-
-  if (!rides || !totalCount) {
+  if (!rides || !ridesCount) {
     return <NoDataView message={errorMessages.outOfService} />;
   }
 
   return (
     <div>
       <h1>Bike rides</h1>
-      <h2>{numberWithCommas(totalCount) + ' results'}</h2>
+      <h2>{numberWithCommas(ridesCount) + ' results'}</h2>
       <div>
         <RidesSearch stations={stations} />
         <div>
-          <RidesPagination
-            prevHref={skip > RIDES_ON_PAGE ? getNavPageUrl(router, skip - RIDES_ON_PAGE * 2) : ''}
-            nextHref={getNavPageUrl(router, skip)}
-            nextPageNumber={skip / RIDES_ON_PAGE + 1}
-            totalPages={Math.ceil(totalCount / RIDES_ON_PAGE)}
-            shallow={false}
-          />
+          <RidesPagination  />
           <Table rows={filteredRides || []} />
         </div>
       </div>

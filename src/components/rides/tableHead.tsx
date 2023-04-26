@@ -13,21 +13,22 @@ enum ColumnNames {
 }
 
 export default function TableHead() {
-  const { sortParams, setSortParams, setIsLoading } = useContext(RidesContext);
+  const { searchParams, setSearchParams, setIsLoading } = useContext(RidesContext);
 
   const toggleOrder: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
     const target = e.currentTarget as HTMLButtonElement;
+    const newOrderClause = target.hasAttribute('asc') ? {[target.name]: 'desc' } : {[target.name]: 'asc' };
+    const nextOrderClause: OrderBy = { ...searchParams.orderBy, ...newOrderClause };
 
-    if (target.getAttribute('asc')) {
+    if (target.hasAttribute('asc')) {
       target.removeAttribute('asc');
       target.setAttribute('desc', 'true');
-      setSortParams({ ...sortParams, [target.name]: 'desc' });
     } else {
       target.removeAttribute('desc');
       target.setAttribute('asc', 'true');
-      setSortParams({ ...sortParams, [target.name]: 'asc' });
     }
+    setSearchParams({ ...searchParams, orderBy: nextOrderClause});
   };
 
   return (

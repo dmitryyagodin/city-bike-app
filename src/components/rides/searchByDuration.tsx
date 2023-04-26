@@ -14,20 +14,20 @@ const SearchByDuration = () => {
         <label>
           <StyledInput
             type="number"
-            name="max_distance"
+            name="min_duration"
             onChange={(e) => updateSearchParams(e, router)}
             min="0"
-            max="1000"
+            max="100000"
           />
         </label>
         <label>
           Duration less:
           <StyledInput
             type="number"
-            name="max_distance"
+            name="max_duration"
             onChange={(e) => updateSearchParams(e, router)}
             min="0"
-            max="1000"
+            max="100000"
           />
         </label>
       </fieldset>

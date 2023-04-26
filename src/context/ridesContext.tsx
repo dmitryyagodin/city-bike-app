@@ -1,60 +1,38 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { ReactNode, useState } from 'react';
 
-// const ITEMS_ON_PAGE = 50;
-
-// type WhereObject = {
-//   departureStation?: string;
-//   returnStation?: string;
-// };
-
-// type WhereQuery = {
-//   where: { [key]: string }[];
-// };
-
-// type RidesQuery = {
-//   where: WhereQuery;
-// };
-
-type SortParams = {
-  departureTime?: 'asc' | 'desc';
-  departureStation?: 'asc' | 'desc';
-  distance?: 'asc' | 'desc';
-  duration?: 'asc' | 'desc';
-  returnStation?: 'asc' | 'desc';
-  returnTime?: 'asc' | 'desc';
-};
+const ITEMS_ON_PAGE = 50;
 
 type RidesContextType = {
-  sortParams: SortParams;
+  searchParams: SearchParams;
   isLoading: boolean;
   setIsLoading: (val: boolean) => void;
-  // skipItems: number;
-  // ridesCount: number;
-  // itemsOnPage: number;
+  skipItems: number;
+  ridesCount: number;
+  itemsOnPage: number;
   // allRides: Ride[] | [];
   // currentStations: Ride[] | [];
   // ridesQuery: RidesQuery;
-  // setSkipNumber: (num: number) => void;
-  // setRidesCount: (count: number) => void;
+  setSkipItems: (num: number) => void;
+  setRidesCount: (count: number) => void;
   // setAllRides: (stations: Ride[]) => void;
   // setCurrentStations: (stations: Ride[]) => void;
   // setRidesQuery: (queryObj: RidesQuery) => void;
-  setSortParams: (sortObj: SortParams) => void;
+  setSearchParams: (sortObj: SearchParams) => void;
 };
 
 const contextDefaultValues: RidesContextType = {
-  sortParams: {},
-  setSortParams: () => {},
-  isLoading: true,
+  searchParams: {},
+  setSearchParams: () => {},
+  isLoading: false,
   setIsLoading: () => {},
-  // skipItems: 0,
-  // ridesCount: 0,
-  // itemsOnPage: ITEMS_ON_PAGE,
+  skipItems: 0,
+  ridesCount: 0,
+  itemsOnPage: ITEMS_ON_PAGE,
   // allRides: [],
   // currentStations: [],
-  // setSkipNumber: () => {},
-  // setRidesCount: () => {},
+  setSkipItems: () => {},
+  setRidesCount: () => {},
   // setAllRides: () => {},
   // setCurrentStations: () => {},
 };
@@ -68,38 +46,38 @@ type Props = {
 export const RidesContextProvider = ({ children }: Props) => {
   // const [currentStations, setCurrent] = useState<Ride[]>([]);
   // const [allRides, setRides] = useState<Ride[]>([]);
-  // const [ridesCount, setCount] = useState(0);
-  // const [skipItems, setSkip] = useState(ITEMS_ON_PAGE);
+  const [ridesCount, setCount] = useState(0);
+  const [skipItems, setSkip] = useState(ITEMS_ON_PAGE);
   // const [ridesQuery, setQuery] = useState('');
-  const [sortParams, setParams] = useState({});
-  const [isLoading, setLoading] = useState(true);
+  const [searchParams, setParams] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
-  // const itemsOnPage = ITEMS_ON_PAGE;
+  const itemsOnPage = ITEMS_ON_PAGE;
 
   // const setCurrentStations = (stations: Ride[]) => setCurrent(stations);
   // const setAllRides = (stations: Ride[]) => setRides(stations);
-  // const setRidesCount = (count: number) => setCount(count);
-  // const setSkipNumber = (num: number) => setSkip(num);
+  const setRidesCount = (count: number) => setCount(count);
+  const setSkipItems = (num: number) => setSkip(num);
   // const setRidesQuery = (queryObject: RidesQuery) => setQuery(queryObject);
-  const setSortParams = (params: SortParams) => setParams(params);
+  const setSearchParams = (params: SearchParams) => setParams(params);
   const setIsLoading = (val: boolean) => setLoading(val);
 
   return (
     <RidesContext.Provider
       value={{
-        sortParams,
-        setSortParams,
+        searchParams,
+        setSearchParams,
         isLoading,
         setIsLoading,
         // currentStations,
         // setCurrentStations,
         // allRides,
         // setAllRides,
-        // setRidesCount,
-        // ridesCount,
-        // skipItems,
-        // setSkipNumber,
-        // itemsOnPage,
+        setRidesCount,
+        ridesCount,
+        skipItems,
+        setSkipItems,
+        itemsOnPage,
         // ridesQuery,
         // setRidesQuery,
       }}

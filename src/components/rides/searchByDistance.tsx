@@ -14,10 +14,10 @@ const SearchByDistance = () => {
         <label>
           <StyledInput
             type="number"
-            name="max_distance"
+            name="min_distance"
             onChange={(e) => updateSearchParams(e, router)}
             min="0"
-            max="1000"
+            max="100000"
           />
         </label>
         <label>
@@ -27,7 +27,7 @@ const SearchByDistance = () => {
             name="max_distance"
             onChange={(e) => updateSearchParams(e, router)}
             min="0"
-            max="1000"
+            max="100000"
           />
         </label>
       </fieldset>

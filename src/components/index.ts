@@ -1,7 +1,6 @@
 export { default as NoDataView } from "./noDataView/noDataView";
 export { default as Pagination } from "./pagination/pagination";
 export { default as RidesPagination } from './pagination/ridesPagination';
-export { default as RidesFilter } from './rides/ridesSort';
 export { default as RidesSearch } from './rides/ridesSearch';
 export { default as Table } from './rides/table';
 export { default as TableRow } from './rides/tableRow';

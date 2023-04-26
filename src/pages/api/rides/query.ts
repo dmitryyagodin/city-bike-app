@@ -8,23 +8,27 @@ interface OrderByObject {
 interface Query {
   orderBy?: OrderByObject[];
   skip?: number;
+  where?: { AND: []};
 }
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const query: Query = {};
 
-  // if (typeof req.query.orderBy === 'string') {
-  //   const [field, order] = req.query.orderBy.split('-');
-  //   query.orderBy = [{ [field]: order }];
-  // }
-  // console.log(req.body.orderBy);
-
   if (req.method === 'POST') {
-    query.orderBy = JSON.parse(req.body).orderBy;
-    // query.orderBy = [{ distance: 'asc' }, { duration: 'desc' }];
+    const {orderBy, where} =  JSON.parse(req.body);
+    console.log('--- BODY******');
+    console.log(JSON.parse(req.body));
+    console.log('-----BODY******');
+
+    if (orderBy) query.orderBy = orderBy;
+    if (where) query.where = where;
   }
 
   if (req.query.skip) query.skip = Number(req.query.skip);
+
+  console.log('-----QUERY******');
+  console.log(query);
+  console.log('-----QUERY******');
 
   const { rides, totalCount } = await getRides(query);
   res.json({ rides, totalCount });

@@ -13,11 +13,9 @@ const defaultQuery = {
 // };
 
 export const getRides = async (query = {}) => {
-  query = { ...defaultQuery, ...query };
-
   try {
-    const rides: Ride[] = await prisma.ride.findMany(query);
-    const totalCount: number = await prisma.ride.count({});
+    const rides: Ride[] = await prisma.ride.findMany({ ...defaultQuery, ...query });
+    const totalCount: number = await prisma.ride.count(query);
 
     if (rides) {
       rides.forEach((ride) => {
@@ -33,7 +31,4 @@ export const getRides = async (query = {}) => {
   } catch (e) {
     throw e;
   }
-  //  finally {
-  //   return {rides: null, totalCount: null};
-  // }
 };

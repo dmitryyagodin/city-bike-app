@@ -7,7 +7,7 @@ export function formatDate(date: Date): string {
     // weekday: 'short',
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric',
+    // second: 'numeric',
     hour12: false,
     hourCycle: 'h23',
   };

@@ -65,7 +65,7 @@ declare global {
       weekday?: 'short';
       hour: 'numeric';
       minute: 'numeric';
-      second: 'numeric';
+      second?: 'numeric';
       hour12: true | false;
       hourCycle: 'h23';
     };
@@ -77,4 +77,36 @@ declare global {
         topConnections: TopConnectionRaw[];
         station: Station & StationStats;
     }) => void;
+
+    type OrderBy = {
+        departureTime?: 'asc' | 'desc';
+        departureStation?: 'asc' | 'desc';
+        distance?: 'asc' | 'desc';
+        duration?: 'asc' | 'desc';
+        returnStation?: 'asc' | 'desc';
+        returnTime?: 'asc' | 'desc';
+    };
+
+    type WhereClause = {
+        AND: AndClause[];
+    };
+
+    type AndClause = {
+      departureStationName?: string;
+      returnStationName?: string;
+      distance?: {gte: number} | {lte: number};
+      duration?: {gte: number} | {lte: number};
+    };
+      
+    type SearchParams = {
+        orderBy?: OrderBy;
+        skip?: number;
+        where?: WhereClause;
+    };
+
+    type RideQuery = {
+        orderBy?: OrderBy[];
+        skip?: number;
+        where?: WhereClause
+    };
 }
