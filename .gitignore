@@ -43,6 +43,8 @@ notes.md
 /data
 ignore
 .gitignore
+.dockerignore
+ignore
 
 
 db/**.csv

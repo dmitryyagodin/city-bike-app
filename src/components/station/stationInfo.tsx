@@ -18,17 +18,13 @@ const StationInfo: NextPage<Props> = (props) => {
   const [topDepartures, setTopDepartures] = useState(props.topDepartures);
   const [topReturns, setTopReturns] = useState(props.topReturns);
 
-  const [departuresCount, setDeparturesCount] = useState(
-    station.departuresCount
-  );
+  const [departuresCount, setDeparturesCount] = useState(station.departuresCount);
   const [returnsCount, setReturnsCount] = useState(station.returnsCount);
 
   const [averageDepartureDistance, setAverageDepartureDistance] = useState(
     station.averageDepartureDistance
   );
-  const [averageReturnDistance, setAverageReturnDistance] = useState(
-    station.averageReturnDistance
-  );
+  const [averageReturnDistance, setAverageReturnDistance] = useState(station.averageReturnDistance);
 
   function handleFilterEvent({
     topConnections,
@@ -41,7 +37,7 @@ const StationInfo: NextPage<Props> = (props) => {
 
     setTopReturns(connections.topReturns);
     setTopDepartures(connections.topDepartures);
-    
+
     setDeparturesCount(stationWithStats.departuresCount);
     setReturnsCount(stationWithStats.returnsCount);
     setAverageDepartureDistance(stationWithStats.averageDepartureDistance);

@@ -1,19 +1,10 @@
 import TableRow from './tableRow';
-
+import TableHead from './tableHead';
 
 export default function Table({ rows }: { rows: Ride[] }) {
   return (
     <table>
-      <thead>
-        <tr>
-          <th>Departure Time</th>
-          <th>Departure</th>
-          <th>Distance</th>
-          <th>Duration</th>
-          <th>Return</th>
-          <th>Return time</th>
-        </tr>
-      </thead>
+      <TableHead />
       <tbody>
         {rows.map((row, i) => {
           return <TableRow key={i} row={row}></TableRow>;

@@ -1,18 +1,19 @@
 services:
   postgres:
     image: city-bike-db
-    build: db/
+    build:
+      dockerfile: ./docker/db-dev.Dockerfile
     ports:
       - 5432:5432
     env_file:
       - ./.env
     volumes:
-      - ./data:/tmp
       - postgres:/var/lib/postgresql/
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   app:
     image: city-bike-app
-    build: .
+    build:
+      dockerfile: ./docker/app-dev.Dockerfile
     ports:
       - 3000:3000
     env_file:

@@ -4,7 +4,7 @@ export function formatDate(date: Date): string {
   const formatOptions: DateFormatOptions = {
     day: '2-digit',
     month: 'short',
-    weekday: 'short',
+    // weekday: 'short',
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
@@ -15,8 +15,8 @@ export function formatDate(date: Date): string {
   return date.toLocaleString('EN-GB', formatOptions);
 }
 
-export function getDuration(seconds: number): string {
-  return (seconds / 60).toFixed(1);
+export function getDuration(seconds: number): number {
+  return Math.round(seconds / 60);
 }
 
 export function getNavPageUrl(router: NextRouter, skip: number): string {
@@ -37,4 +37,25 @@ export function numberWithCommas(num: number): string {
   } else {
     return '';
   }
+}
+
+export function updateSearchParams(e: React.ChangeEvent<HTMLInputElement>, router: NextRouter) {
+  const { pathname } = router;
+  const value = e.target.value.toLowerCase();
+  const newQuery = { [e.target.name]: value };
+
+  const query = { ...router.query, ...newQuery };
+
+  if (!value) {
+    delete query[e.target.name];
+  }
+
+  router.push(
+    {
+      pathname,
+      query: query,
+    },
+    undefined,
+    { shallow: true }
+  );
 }

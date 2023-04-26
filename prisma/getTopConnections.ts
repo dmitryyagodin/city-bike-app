@@ -84,5 +84,5 @@ export default async function getTopConnections(
       dep_rank < 6
       OR ret_rank < 6;`;
 
-  return connections;
+  return connections || null;
 }

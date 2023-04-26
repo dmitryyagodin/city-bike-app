@@ -51,23 +51,23 @@ declare global {
 
     type prisma = PrismaClient;
 
-    type PaginationProps = {
-        prevHref: string;
-        nextPageNumber: number;
-        totalPages: number;
-        nextHref: string;
-        shallow: boolean;
+    type RidesPaginationProps = {
+      prevHref: string;
+      nextPageNumber: number;
+      totalPages: number;
+      nextHref: string;
+      shallow: boolean;
     };
 
     type DateFormatOptions = {
-        day: '2-digit';
-        month: 'short';
-        weekday: 'short';
-        hour: 'numeric';
-        minute: 'numeric';
-        second: 'numeric';
-        hour12: true | false;
-        hourCycle: 'h23';
+      day: '2-digit';
+      month: 'short';
+      weekday?: 'short';
+      hour: 'numeric';
+      minute: 'numeric';
+      second: 'numeric';
+      hour12: true | false;
+      hourCycle: 'h23';
     };
 
     type HandleFilterEventFunction = ({

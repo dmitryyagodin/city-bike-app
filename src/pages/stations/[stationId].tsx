@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 
 type Props = {
-  station: Station & StationStats;
+  stationWithStats: Station & StationStats;
   topReturns: TopConnection[];
   topDepartures: TopConnection[];
   dateRange: 'string'; //{ minDate: string; maxDate: string };
@@ -21,21 +21,30 @@ export const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
-const Station: NextPage<Props> = ({ station, topReturns, topDepartures, dateRange, stationId }) => {
+const Station: NextPage<Props> = ({
+  stationWithStats,
+  topReturns,
+  topDepartures,
+  dateRange,
+  stationId,
+}) => {
   const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
     ssr: false,
   });
 
+  if (!stationWithStats) {
+    return <p>The requested page has no data to view</p>;
+  }
   return (
     <Grid>
       <StationInfo
         dateRange={dateRange}
         topReturns={topReturns}
         topDepartures={topDepartures}
-        stationWithStats={station}
+        stationWithStats={stationWithStats}
         stationId={stationId}
       />
-      <MapWithNoSSR stations={[station]} />
+      <MapWithNoSSR stations={[stationWithStats]} />
     </Grid>
   );
 };
@@ -50,13 +59,12 @@ const Station: NextPage<Props> = ({ station, topReturns, topDepartures, dateRang
 export async function getStaticProps(context: { params: { stationId: string } }) {
   const { stationId } = context.params;
   const dateRange = await getDateRange();
-  const station = await getStationDetails(stationId, dateRange);
+  const stationWithStats = await getStationDetails(stationId, dateRange);
   const topConnections = await getTopConnections(stationId, dateRange);
-
   const { topReturns, topDepartures } = formatTopConnections(topConnections);
 
   return {
-    props: { stationId, station, topReturns, topDepartures, dateRange },
+    props: { stationId, stationWithStats, topReturns, topDepartures, dateRange },
   };
 }
 

@@ -34,9 +34,9 @@ describe('The stations page should include non-empty ul>li*50', () => {
   it('Finds the table with 5 columns', () => {
     cy.visit('http://app:3000/stations');
 
-    cy.get('ul').within(() => {
+    cy.get('main ul').within(() => {
       cy.get('li')
-        .should('have.length', 50)
+        .should('have.length', 10)
         .each(($el) => expect($el).not.to.be.empty);
     });
   });
