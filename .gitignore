@@ -41,6 +41,8 @@ notes.md
 */node_modules/*
 
 /data
+ignore
 .gitignore
+
 
 db/**.csv
