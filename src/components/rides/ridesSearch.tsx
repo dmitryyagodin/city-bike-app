@@ -1,5 +1,5 @@
 import React, { FormEvent, useContext } from 'react';
-import { SearchByDuration, SearchByStationName, SearchByDistance } from '@components';
+import { SearchByDuration, SearchByStationName, SearchByDistance, StyledButton } from '@components';
 import { RidesContext } from 'src/context/ridesContext';
 
 interface CustomElements extends HTMLFormControlsCollection   {
@@ -17,7 +17,7 @@ interface CustomForm extends HTMLFormElement {
 
 const RidesSearch = ({ stations }: { stations: Station[] }) => {
 
-  const {setSearchParams, searchParams, setIsLoading }  = useContext(RidesContext);
+  const {setSearchParams, searchParams, setIsLoading, isLoading }  = useContext(RidesContext);
 
   function onSubmit(e: FormEvent<CustomForm>) {
     e.preventDefault();
@@ -79,7 +79,7 @@ const RidesSearch = ({ stations }: { stations: Station[] }) => {
         <SearchByStationName stations={stations} />
         <SearchByDistance />
         <SearchByDuration />
-        <button type="submit">Search</button>
+        <StyledButton type="submit" disabled={isLoading}>Search</StyledButton>
       </form>
     </div>
   );

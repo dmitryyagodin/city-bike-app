@@ -2,14 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const StyledArrowIcon = styled.svg`
-  & path {
-    fill: #4b0082;
-  }
-  a:hover & path,
-  a:focus & path {
-    fill: #fff5ff;
-  }
-
   .nav__arrow-icon--left & {
     transform: rotate(180deg);
   }

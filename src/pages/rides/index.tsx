@@ -3,7 +3,7 @@ import { getRides } from 'prisma/getRides';
 import getStations from 'prisma/getStations';
 import { useEffect, useState, useContext } from 'react';
 import { numberWithCommas } from '../../lib/utils';
-import { NoDataView, Table, RidesPagination, RidesSearch } from '@components';
+import { NoDataView, Table, RidesPagination, RidesSearch, StyledButton } from '@components';
 import { errorMessages } from '@lib';
 import { RidesContext } from 'src/context/ridesContext';
 
@@ -53,6 +53,10 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  const handleReset = () => {
+    setIsLoading(true);
+     window.location.reload();
+  };
 
   if (!rides || !ridesCount) {
     return <NoDataView message={errorMessages.outOfService} />;
@@ -64,6 +68,7 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
       <h2>{numberWithCommas(ridesCount) + ' results'}</h2>
       <div>
         <RidesSearch stations={stations} />
+        <StyledButton onClick={handleReset}>Reset results</StyledButton>
         <div>
           <RidesPagination  />
           <Table rows={filteredRides || []} />

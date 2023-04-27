@@ -5,7 +5,9 @@ import { updateSearchParams } from 'src/lib/utils';
 
 const SearchByStationName = ({ stations }: { stations: Station[] }) => {
   const router = useRouter();
-  const stationSearchPattern = stations.map((station) => station.station_name).join('|');
+  // const stationSearchPattern = stations
+  //   .map((station) => station.station_name.replace(/\(M\)/g, '\x28M\x29'))
+  //   .join('|');
 
   return (
     <details>
@@ -17,7 +19,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
             list="stations-list"
             name="departure_station"
             onChange={(e) => updateSearchParams(e, router)}
-            pattern={`^(${stationSearchPattern})$`}
+            // pattern={`^(${stationSearchPattern})$`}
             placeholder="select station"
           />
         </label>
@@ -27,7 +29,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
             list="stations-list"
             name="return_station"
             onChange={(e) => updateSearchParams(e, router)}
-            pattern={`^(${stationSearchPattern})$`}
+            // pattern={`^(${stationSearchPattern})$`}
             placeholder="select station"
           />
         </label>

@@ -35,7 +35,7 @@ export function numberWithCommas(num: number): string {
   if (num && Number.isInteger(num)) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   } else {
-    return '';
+    return '0';
   }
 }
 

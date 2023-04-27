@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import prisma from '@db';
 import { useEffect, useContext } from 'react';
-import { Pagination, NoDataView, StationsList, StyledAside, StationsSearch } from '@components';
+import { Pagination, NoDataView, StationsList, StationsSearch } from '@components';
 import dynamic from 'next/dynamic';
 import { errorMessages } from '@lib';
 import { StationContext } from 'src/context/stationContext';
@@ -40,10 +40,8 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
       <h1>Stations</h1>
       <Grid>
         <Pagination shallow={true} />
-        {/* <StyledAside> */}
         <StationsSearch />
         <StationsList stations={currentStations} />
-        {/* </StyledAside> */}
         <MapWithNoSSR stations={currentStations} />
       </Grid>
     </>

@@ -47,7 +47,7 @@ export const RidesContextProvider = ({ children }: Props) => {
   // const [currentStations, setCurrent] = useState<Ride[]>([]);
   // const [allRides, setRides] = useState<Ride[]>([]);
   const [ridesCount, setCount] = useState(0);
-  const [skipItems, setSkip] = useState(ITEMS_ON_PAGE);
+  const [skipItems, setSkip] = useState(0);
   // const [ridesQuery, setQuery] = useState('');
   const [searchParams, setParams] = useState({});
   const [isLoading, setLoading] = useState(false);

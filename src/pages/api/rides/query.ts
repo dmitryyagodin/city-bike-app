@@ -15,16 +15,15 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   const query: Query = {};
 
   if (req.method === 'POST') {
-    const {orderBy, where} =  JSON.parse(req.body);
+    const {orderBy, where, skip} =  JSON.parse(req.body);
     console.log('--- BODY******');
     console.log(JSON.parse(req.body));
     console.log('-----BODY******');
 
     if (orderBy) query.orderBy = orderBy;
     if (where) query.where = where;
+    if (skip) query.skip = skip;
   }
-
-  if (req.query.skip) query.skip = Number(req.query.skip);
 
   console.log('-----QUERY******');
   console.log(query);

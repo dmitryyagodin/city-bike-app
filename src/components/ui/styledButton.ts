@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledSortButton = styled.button`
+const StyledButton = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,6 +13,7 @@ const StyledSortButton = styled.button`
   cursor: pointer;
   text-transform: uppercase;
   font-weight: 700;
+  transition: 0.4s;
 
   & span {
     flex: 1;
@@ -39,6 +40,16 @@ const StyledSortButton = styled.button`
   &[desc] svg path:nth-child(1) {
     fill-opacity: 0%;
   }
+
+  :disabled {
+    opacity: 0.7;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      pointer-events: none;
+    }    
+  }
 `;
 
-export default StyledSortButton;
+export default StyledButton;
