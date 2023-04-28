@@ -9,7 +9,7 @@ const StyledButton = styled.button`
   font-size: 1rem;
   background-color: #fff5ff;
   column-gap: 8px;
-  color: #4b0082;
+  color: ${({ theme }) => theme.color.primary};
   cursor: pointer;
   text-transform: uppercase;
   font-weight: 700;
@@ -22,7 +22,7 @@ const StyledButton = styled.button`
   &:focus,
   &:hover {
     color: #fff5ff;
-    background-color: #4b0082;
+    background-color: ${({ theme }) => theme.color.primary};
 
     & svg {
       fill: #fff5ff;
@@ -30,7 +30,7 @@ const StyledButton = styled.button`
   }
 
   & svg {
-    fill: #4b0082;
+    fill:  ${({ theme }) => theme.color.primary};
     height: 1.1rem;
   }
 
@@ -49,10 +49,10 @@ const StyledButton = styled.button`
     &:focus-visible {
       pointer-events: none;
       background-color: #fff5ff;
-      color: #4b0082;
+      color: ${({ theme }) => theme.color.primary};;
 
       & svg {
-        fill: #4b0082;
+        fill: ${({ theme }) => theme.color.primary};;
       }
     }
   }

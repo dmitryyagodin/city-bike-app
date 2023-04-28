@@ -4,7 +4,7 @@ import Link from 'next/link';
 const StyledLink = styled(Link)`
   font-size: 1.2rem;
   font-weight: 700;
-  color: #4b0082;
+  color: ${({ theme }) => theme.color.primary};;
   display: flex;
   align-items: center;
   column-gap: 12px;
@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   &.active,
   :hover,
   :focus {
-    background-color: #4b0082;
+    background-color:  ${({ theme }) => theme.color.primary};;
     color: #fff5ff;
   }
 

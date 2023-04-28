@@ -6,7 +6,7 @@ const StyledInput = styled.input`
   }
 
   &:valid {
-    border: 3px solid #4b0082;
+    border: 2px solid ${({ theme }) => theme.color.primary};
   }
 `;
 

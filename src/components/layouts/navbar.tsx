@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import Container from '../ui/container';
 
 // export default function Navbar({ children }: { children: JSX.Element }) {
 export default function Navbar() {
   return (
-    <>
+    <Container>
       <header />
       <nav>
         <ul>
@@ -18,8 +19,7 @@ export default function Navbar() {
           </li>
         </ul>
       </nav>
-      {/* {children} */}
       <header />
-    </>
+    </Container>
   );
 }

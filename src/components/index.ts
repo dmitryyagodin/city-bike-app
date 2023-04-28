@@ -1,7 +1,7 @@
 export { default as NoDataView } from "./noDataView/noDataView";
 export { default as Container } from './ui/container';
 export { default as Row } from './ui/row';
-export { default as Column } from './ui/column';
+export { default as Col } from './ui/col';
 export { default as Pagination } from './pagination/pagination';
 export { default as RidesPagination } from './pagination/ridesPagination';
 export { default as RidesSearch } from './rides/ridesSearch';
@@ -20,7 +20,7 @@ export { default as ArrowIcon } from './pagination/arrowIcon';
 export { default as StyledButton } from './ui/styledButton';
 export { default as StyledTableRow } from './ui/styledTableRow';
 export { default as StyledHeading } from './ui/styledHeading';
-export { default as Layout } from './layout/layout';
+export { default as Layout } from './layouts/layout';
 export { default as SearchByDuration } from './rides/searchByDuration';
 export { default as SearchByDistance } from './rides/searchByDistance';
 export { default as SearchByStationName } from './rides/searchByStationName';

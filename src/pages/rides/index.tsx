@@ -12,7 +12,7 @@ import {
   StyledHeading,
   Container,
   Row,
-  Column,
+  Col,
 } from '@components';
 import { errorMessages } from '@lib';
 import { RidesContext } from 'src/context/ridesContext';
@@ -74,21 +74,24 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
 
   return (
     <Container>
-      <Row>
-        <Column xs="12">
+      <Row>     
+        <Col mobileS={12}>
           <h1>Bike rides</h1>
           <StyledHeading className={isLoading ? 'is-loading' : ''}>
             {numberWithCommas(ridesCount) + ' results'}
           </StyledHeading>
-        </Column>
-        <Column xs="12" md="4">
+        </Col>
+
+        <Col laptopS={4}>
           <RidesSearch stations={stations} />
           <StyledButton onClick={handleReset}>Reset results</StyledButton>
-        </Column>
-        <Column xs="12" md="8">
+        </Col>
+
+        <Col laptopS={8}>
           <RidesPagination />
           <Table rows={filteredRides || []} />
-        </Column>
+        </Col>
+
       </Row>
     </Container>
   );
