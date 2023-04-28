@@ -1,6 +1,10 @@
 import { NextRouter } from 'next/router';
 
 export function formatDate(date: Date): string {
+  // date comes incorrectly as UTC zone and needs to be localized
+  const timeZoneOffset = -3; //UTC+3
+  date.setHours(date.getHours() + timeZoneOffset);
+
   const formatOptions: DateFormatOptions = {
     day: '2-digit',
     month: 'short',

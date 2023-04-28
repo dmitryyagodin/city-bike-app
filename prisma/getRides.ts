@@ -6,16 +6,10 @@ const defaultQuery = {
   take: 50,
 };
 
-// const countQuery = {
-//   select: {
-//     _all: true,
-//   },
-// };
 
 export const getRides = async (query = {}) => {
   try {
     const rides: Ride[] = await prisma.ride.findMany({ ...defaultQuery, ...query });
-
     const totalCount: number = await prisma.ride.count({...query, skip: 0});
 
     if (rides) {
