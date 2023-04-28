@@ -28,7 +28,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   console.log('-----QUERY******');
   console.log(query);
   console.log('-----QUERY******');
-
   const { rides, totalCount } = await getRides(query);
   res.json({ rides, totalCount });
 }

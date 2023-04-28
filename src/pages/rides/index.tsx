@@ -3,7 +3,17 @@ import { getRides } from 'prisma/getRides';
 import getStations from 'prisma/getStations';
 import { useEffect, useState, useContext } from 'react';
 import { numberWithCommas } from '../../lib/utils';
-import { NoDataView, Table, RidesPagination, RidesSearch, StyledButton } from '@components';
+import {
+  NoDataView,
+  Table,
+  RidesPagination,
+  RidesSearch,
+  StyledButton,
+  StyledHeading,
+  Container,
+  Row,
+  Column,
+} from '@components';
 import { errorMessages } from '@lib';
 import { RidesContext } from 'src/context/ridesContext';
 
@@ -14,12 +24,12 @@ type Props = {
 };
 
 const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
-  
-  const { searchParams, setIsLoading, setRidesCount, ridesCount } = useContext(RidesContext);
-  
+  const { searchParams, isLoading, setIsLoading, setRidesCount, ridesCount, setSearchParams } =
+    useContext(RidesContext);
+
   useEffect(() => {
     totalCount && setRidesCount(totalCount);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [filteredRides, setFilteredRides] = useState(rides);
@@ -33,16 +43,16 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
         const orderByArray = Object.entries(searchParams.orderBy).map(([k, v]) => ({ [k]: v }));
         queryObject.orderBy = orderByArray;
       }
-      
+
       if (searchParams.skip) {
         queryObject.skip = searchParams.skip;
       }
-      
+
       if (searchParams.where) {
         queryObject.where = searchParams.where;
       }
 
-      fetch(url, { method: 'POST', body: JSON.stringify(queryObject)})
+      fetch(url, { method: 'POST', body: JSON.stringify(queryObject) })
         .then((res) => res.json())
         .then((data) => {
           setFilteredRides(data.rides);
@@ -50,12 +60,12 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
           setIsLoading(false);
         });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleReset = () => {
     setIsLoading(true);
-     window.location.reload();
+    setSearchParams({ skip: 0 });
   };
 
   if (!rides || !ridesCount) {
@@ -63,18 +73,24 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
   }
 
   return (
-    <div>
-      <h1>Bike rides</h1>
-      <h2>{numberWithCommas(ridesCount) + ' results'}</h2>
-      <div>
-        <RidesSearch stations={stations} />
-        <StyledButton onClick={handleReset}>Reset results</StyledButton>
-        <div>
-          <RidesPagination  />
+    <Container>
+      <Row>
+        <Column xs="12">
+          <h1>Bike rides</h1>
+          <StyledHeading className={isLoading ? 'is-loading' : ''}>
+            {numberWithCommas(ridesCount) + ' results'}
+          </StyledHeading>
+        </Column>
+        <Column xs="12" md="4">
+          <RidesSearch stations={stations} />
+          <StyledButton onClick={handleReset}>Reset results</StyledButton>
+        </Column>
+        <Column xs="12" md="8">
+          <RidesPagination />
           <Table rows={filteredRides || []} />
-        </div>
-      </div>
-    </div>
+        </Column>
+      </Row>
+    </Container>
   );
 };
 

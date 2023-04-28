@@ -48,7 +48,13 @@ const StyledButton = styled.button`
     &:focus,
     &:focus-visible {
       pointer-events: none;
-    }    
+      background-color: #fff5ff;
+      color: #4b0082;
+
+      & svg {
+        fill: #4b0082;
+      }
+    }
   }
 `;
 
