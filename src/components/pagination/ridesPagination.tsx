@@ -1,4 +1,4 @@
-import { ArrowIcon, StyledButton } from '@components';
+import { ArrowIcon, Col, StyledButton } from '@components';
 import { numberWithCommas } from '../../lib/utils';
 import styled from 'styled-components';
 import React, { useContext } from 'react';
@@ -9,6 +9,7 @@ const StyledNav = styled.div`
   justify-content: center;
   column-gap: 24px;
   text-align: center;
+  padding: 12px 8px;
 `;
 
 function RidesPagination() {
@@ -41,23 +42,31 @@ function RidesPagination() {
 
   return (
     <StyledNav>
-      {prevPageNumber > 0 && (
-        <StyledButton onClick={handlePagination} data-prev-btn disabled={isLoading}>
-          <ArrowIcon className="nav__arrow-icon--left" />
-          Prev page
-          <br />
-          {numberWithCommas(prevPageNumber)} of {numberWithCommas(totalPages)}
-        </StyledButton>
-      )}
-
-      {nextPageNumber <= totalPages && (
-        <StyledButton onClick={handlePagination} data-next-btn disabled={isLoading}>
-          Next page
-          <br />
-          {numberWithCommas(nextPageNumber)} of {numberWithCommas(totalPages)}
-          <ArrowIcon className="nav__arrow-icon--right" />
-        </StyledButton>
-      )}
+      <Col mobileS={6}>
+        {prevPageNumber > 0 && (
+          <StyledButton
+            className="ml-auto"
+            onClick={handlePagination}
+            data-prev-btn
+            disabled={isLoading}
+          >
+            <ArrowIcon className="icon--left" />
+            Prev page
+            <br />
+            {numberWithCommas(prevPageNumber)} of {numberWithCommas(totalPages)}
+          </StyledButton>
+        )}
+      </Col>
+      <Col mobileS={6}>
+        {nextPageNumber <= totalPages && (
+          <StyledButton onClick={handlePagination} data-next-btn disabled={isLoading}>
+            Next page
+            <br />
+            {numberWithCommas(nextPageNumber)} of {numberWithCommas(totalPages)}
+            <ArrowIcon className="icon--right" />
+          </StyledButton>
+        )}
+      </Col>
     </StyledNav>
   );
 }

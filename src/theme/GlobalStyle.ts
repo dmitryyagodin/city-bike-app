@@ -19,11 +19,28 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
+        font-family: Roboto-400, Helvetica, sans-serif;
+        
+        @media (min-width: 576px) {
+            font-size: 1.4rem;
+        }
+        
+        @media (min-width: 768px) {
+            font-size: 1.6rem;
+        }
     }
 
     p {
         margin: 0;
+    }
+
+    .ml-auto {
+        margin-left: auto;
+    }
+
+    .mt-2 {
+        margin-top: 12px;
     }
 `;
 

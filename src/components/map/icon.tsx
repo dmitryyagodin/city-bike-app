@@ -1,29 +1,29 @@
 import styled from 'styled-components';
 
 export const StyledBikeIcon = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
+  width: 100%;
+  height: 100%;
+  display: flex;
 
-    .active & svg,
-    & svg:hover,
-    & svg:focus {
-        background-color: var(--primary);
-        border-color: var(--white);
-        & path {
-          fill: var(--white);
-        }
+  .active & svg,
+  & svg:hover,
+  & svg:focus {
+    background-color: #4b0082;
+    border-color: white;
+    & path {
+      fill: white;
     }
+  }
 
-    & svg {
-      border-radius: 50%;
-      border: 2px solid var(--primary);
-      background-color: var(--white);
-      padding: 5px;
-      & path {
-        fill: var(--primary);
-      }
+  & svg {
+    border-radius: 50%;
+    border: 2px solid #4b0082;
+    background-color: white;
+    padding: 5px;
+    & path {
+      fill: #4b0082;
     }
+  }
 `;
 
 const BikeIcon = () => {

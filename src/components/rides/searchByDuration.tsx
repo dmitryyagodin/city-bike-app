@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledInput } from '@components';
+import { StyledDetails, StyledInput } from '@components';
 import { updateSearchParams } from 'src/lib/utils';
 
 const SearchByDuration = () => {
   const router = useRouter();
 
   return (
-    <details>
+    <StyledDetails>
       <summary>Search by duration (minutes)</summary>
       <fieldset>
         Duration from:
@@ -31,7 +31,7 @@ const SearchByDuration = () => {
           />
         </label>
       </fieldset>
-    </details>
+    </StyledDetails>
   );
 };
 

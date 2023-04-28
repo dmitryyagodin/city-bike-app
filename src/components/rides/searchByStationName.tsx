@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledInput } from '@components';
+import { StyledDetails, StyledInput } from '@components';
 import { updateSearchParams } from 'src/lib/utils';
 
 const SearchByStationName = ({ stations }: { stations: Station[] }) => {
@@ -10,7 +10,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
   //   .join('|');
 
   return (
-    <details>
+    <StyledDetails>
       <summary>Search by station name</summary>
       <fieldset>
         From:
@@ -39,7 +39,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
           })}
         </datalist>
       </fieldset>
-    </details>
+    </StyledDetails>
   );
 };
 

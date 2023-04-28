@@ -2,9 +2,8 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 const StyledLink = styled(Link)`
-  font-size: 1.2rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.color.primary};;
+  color: ${({ theme }) => theme.color.primary};
   display: flex;
   align-items: center;
   column-gap: 12px;
@@ -13,7 +12,7 @@ const StyledLink = styled(Link)`
   &.active,
   :hover,
   :focus {
-    background-color:  ${({ theme }) => theme.color.primary};;
+    background-color: ${({ theme }) => theme.color.primary};
     color: #fff5ff;
   }
 

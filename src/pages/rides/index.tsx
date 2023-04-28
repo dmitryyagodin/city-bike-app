@@ -8,7 +8,6 @@ import {
   Table,
   RidesPagination,
   RidesSearch,
-  StyledButton,
   StyledHeading,
   Container,
   Row,
@@ -24,7 +23,7 @@ type Props = {
 };
 
 const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
-  const { searchParams, isLoading, setIsLoading, setRidesCount, ridesCount, setSearchParams } =
+  const { searchParams, isLoading, setIsLoading, setRidesCount, ridesCount } =
     useContext(RidesContext);
 
   useEffect(() => {
@@ -63,18 +62,13 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  const handleReset = () => {
-    setIsLoading(true);
-    setSearchParams({ skip: 0 });
-  };
-
   if (!rides || !ridesCount) {
     return <NoDataView message={errorMessages.outOfService} />;
   }
 
   return (
     <Container>
-      <Row>     
+      <Row>
         <Col mobileS={12}>
           <h1>Bike rides</h1>
           <StyledHeading className={isLoading ? 'is-loading' : ''}>
@@ -84,14 +78,12 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
 
         <Col laptopS={4}>
           <RidesSearch stations={stations} />
-          <StyledButton onClick={handleReset}>Reset results</StyledButton>
         </Col>
 
         <Col laptopS={8}>
           <RidesPagination />
           <Table rows={filteredRides || []} />
         </Col>
-
       </Row>
     </Container>
   );

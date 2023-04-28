@@ -8,10 +8,14 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   & td,
   & th {
-    padding: 12px 15px; 
+    padding: 6px 8px;
   }
 
-  @media (max-width: 550px) {
+  & td {
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
     & thead {
       display: none;
     }
@@ -19,7 +23,9 @@ const StyledTable = styled.table`
     display: block;
     width: 100%;
 
-    & tbody, & tr, & td {
+    & tbody,
+    & tr,
+    & td {
       display: block;
       width: 100%;
     }
@@ -29,19 +35,19 @@ const StyledTable = styled.table`
     }
 
     & td {
-      text-align: right;
+      text-align: left;
       padding-left: 50%;
-      position: relative; 
+      position: relative;
     }
     & td::before {
       content: attr(data-label);
       position: absolute;
       left: 0;
       width: 50%;
+      padding-right: 15px;
       padding-left: 15px;
-      font-size: 16px;
       font-weight: 700;
-      text-align: left;
+      text-align: right;
     }
   }
 `;

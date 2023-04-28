@@ -1,17 +1,17 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledInput } from '@components';
+import { StyledDetails, StyledInput } from '@components';
 import { updateSearchParams } from '../../lib/utils';
 
 const SearchByDistance = () => {
   const router = useRouter();
 
   return (
-    <details>
+    <StyledDetails>
       <summary>Search by distance (km)</summary>
       <fieldset>
-        Distance from:
         <label>
+          Distance from:
           <StyledInput
             type="number"
             name="min_distance"
@@ -31,7 +31,7 @@ const SearchByDistance = () => {
           />
         </label>
       </fieldset>
-    </details>
+    </StyledDetails>
   );
 };
 

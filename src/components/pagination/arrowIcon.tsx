@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const StyledArrowIcon = styled.svg`
-  .nav__arrow-icon--left & {
+  height: 2rem;
+
+  .icon--left & {
     transform: rotate(180deg);
   }
 `;

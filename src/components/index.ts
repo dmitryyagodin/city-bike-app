@@ -15,6 +15,8 @@ export { default as StationsSearch } from './stations/stationsSearch';
 export { default as StyledLink } from './ui/styledLink';
 export { default as StyledList } from './ui/styledList';
 export { default as StyledInput } from './ui/styledInput';
+export { default as StyledDetails } from './ui/styledDetails';
+
 export { default as StationLink } from './station/stationLink';
 export { default as ArrowIcon } from './pagination/arrowIcon';
 export { default as StyledButton } from './ui/styledButton';

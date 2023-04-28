@@ -5,8 +5,7 @@ const StyledButton = styled.button`
   justify-content: space-between;
   align-items: center;
   padding: 6px;
-  width: 100%;
-  font-size: 1rem;
+  /* width: auto; */
   background-color: #fff5ff;
   column-gap: 8px;
   color: ${({ theme }) => theme.color.primary};
@@ -30,8 +29,8 @@ const StyledButton = styled.button`
   }
 
   & svg {
-    fill:  ${({ theme }) => theme.color.primary};
-    height: 1.1rem;
+    fill: ${({ theme }) => theme.color.primary};
+    height: 2rem;
   }
 
   &[asc] svg path:nth-child(2) {
@@ -49,12 +48,16 @@ const StyledButton = styled.button`
     &:focus-visible {
       pointer-events: none;
       background-color: #fff5ff;
-      color: ${({ theme }) => theme.color.primary};;
+      color: ${({ theme }) => theme.color.primary};
 
       & svg {
-        fill: ${({ theme }) => theme.color.primary};;
+        fill: ${({ theme }) => theme.color.primary};
       }
     }
+  }
+
+  th & {
+    width: 100%;
   }
 `;
 

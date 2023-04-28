@@ -1,6 +1,5 @@
 import { ThemeProvider } from 'styled-components';
 import { ReactNode } from 'react';
-import getCSSWidthString from 'src/lib/getCSSWidthString';
 
 const baseColor = {
   black: '#282828',
