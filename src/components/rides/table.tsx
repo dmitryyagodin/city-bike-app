@@ -7,7 +7,7 @@ export default function Table({ rows }: { rows: Ride[] }) {
       <TableHead />
       <tbody>
         {rows.map((row, i) => {
-          return <TableRow key={i} row={row}></TableRow>;
+          return <TableRow key={i} rowNumber={i + 1} row={row}></TableRow>;
         })}
       </tbody>
     </table>

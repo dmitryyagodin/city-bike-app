@@ -33,6 +33,7 @@ export default function TableHead() {
   return (
     <thead>
       <tr>
+        <th>#</th>
         {Object.entries(ColumnNames).map(([property, value], index) => {
           return (
             <th key={index}>
