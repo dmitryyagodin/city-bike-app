@@ -21,6 +21,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-size: 1.2rem;
         font-family: Roboto-400, Helvetica, sans-serif;
+        background-color: #f9f2ff;
+        color: #090010;
         
         @media (min-width: 576px) {
             font-size: 1.4rem;
