@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledDetails, StyledInput } from '@components';
+import { StyledDetails, StyledFieldset, StyledInput } from '@components';
 import { updateSearchParams } from 'src/lib/utils';
 
-const SearchByStationName = ({ stations }: { stations: Station[] }) => {
+const FilterByStationName = ({ stations }: { stations: Station[] }) => {
   const router = useRouter();
   // const stationSearchPattern = stations
   //   .map((station) => station.station_name.replace(/\(M\)/g, '\x28M\x29'))
@@ -11,10 +11,12 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
 
   return (
     <StyledDetails>
-      <summary>Search by station name</summary>
-      <fieldset>
-        From:
+      <summary>
+        <h3>By station name</h3>
+      </summary>
+      <StyledFieldset>
         <label>
+          From station
           <StyledInput
             list="stations-list"
             name="departure_station"
@@ -24,7 +26,7 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
           />
         </label>
         <label>
-          To:
+          To station
           <StyledInput
             list="stations-list"
             name="return_station"
@@ -33,14 +35,15 @@ const SearchByStationName = ({ stations }: { stations: Station[] }) => {
             placeholder="select station"
           />
         </label>
+
         <datalist id="stations-list">
           {stations.map((station) => {
             return <option key={`departure-${station.station_id}`} value={station.station_name} />;
           })}
         </datalist>
-      </fieldset>
+      </StyledFieldset>
     </StyledDetails>
   );
 };
 
-export default SearchByStationName;
+export default FilterByStationName;

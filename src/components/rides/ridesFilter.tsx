@@ -1,10 +1,11 @@
 import React, { FormEvent, useContext } from 'react';
 import {
-  SearchByDuration,
-  SearchByStationName,
-  SearchByDistance,
+  FilterByDuration,
+  FilterByStationName,
+  FilterByDistance,
   StyledButton,
   Col,
+  Row,
 } from '@components';
 import { RidesContext } from 'src/context/ridesContext';
 
@@ -21,7 +22,7 @@ interface CustomForm extends HTMLFormElement {
   readonly elements: CustomElements;
 }
 
-const RidesSearch = ({ stations }: { stations: Station[] }) => {
+const RidesFilter = ({ stations }: { stations: Station[] }) => {
   const { setSearchParams, searchParams, setIsLoading, isLoading } = useContext(RidesContext);
 
   function onSubmit(e: FormEvent<CustomForm>) {
@@ -84,22 +85,33 @@ const RidesSearch = ({ stations }: { stations: Station[] }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <form onSubmit={onSubmit}>
-        <SearchByStationName stations={stations} />
-        <SearchByDistance />
-        <SearchByDuration />
-        <Col mobileS={6} className="mt-2">
-          <StyledButton type="submit" disabled={isLoading}>
-            Search
-          </StyledButton>
+    <form onSubmit={onSubmit}>
+      <legend>
+        <h2>Filter rides</h2>
+      </legend>
+      <Row gap={16} justify="space-around">
+        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+          <FilterByStationName stations={stations} />
         </Col>
-        <Col mobileS={6} className="mt-2">
-          <StyledButton onClick={handleReset}>Reset</StyledButton>
+        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+          <FilterByDistance />
         </Col>
-      </form>
-    </div>
+        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+          <FilterByDuration />
+        </Col>
+        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+          <Row gap={16} justify={'center'}>
+            <StyledButton type="submit" disabled={isLoading}>
+              Filter
+            </StyledButton>
+            <StyledButton onClick={handleReset} disabled={isLoading}>
+              Reset
+            </StyledButton>
+          </Row>
+        </Col>
+      </Row>
+    </form>
   );
 };
 
-export default RidesSearch;
+export default RidesFilter;

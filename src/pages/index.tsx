@@ -1,10 +1,16 @@
 import type { NextPage } from "next";
+import Head from 'next/head';
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <h1>City-bike-app</h1>
-    </div>
+    <>
+      <Head>
+        <title>City-bike Helsinki | Homepage</title>
+      </Head>
+      <div>
+        <h1>City-bike-app</h1>
+      </div>
+    </>
   );
 };
 

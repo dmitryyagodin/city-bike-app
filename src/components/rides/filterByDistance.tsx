@@ -1,15 +1,17 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledDetails, StyledInput } from '@components';
+import { StyledDetails, StyledFieldset, StyledInput } from '@components';
 import { updateSearchParams } from '../../lib/utils';
 
-const SearchByDistance = () => {
+const FilterByDistance = () => {
   const router = useRouter();
 
   return (
     <StyledDetails>
-      <summary>Search by distance (km)</summary>
-      <fieldset>
+      <summary>
+        <h3>By distance (km)</h3>
+      </summary>
+      <StyledFieldset>
         <label>
           Distance from:
           <StyledInput
@@ -30,9 +32,9 @@ const SearchByDistance = () => {
             max="100000"
           />
         </label>
-      </fieldset>
+      </StyledFieldset>
     </StyledDetails>
   );
 };
 
-export default SearchByDistance;
+export default FilterByDistance;

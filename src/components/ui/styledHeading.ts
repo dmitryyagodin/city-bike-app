@@ -5,6 +5,7 @@ const StyledHeading = styled.h2`
   &.is-loading {
     ${LoadingElement};
   }
+  text-align: center;
 `;
 
 export default StyledHeading;

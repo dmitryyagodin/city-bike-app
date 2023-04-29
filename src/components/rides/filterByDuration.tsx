@@ -1,17 +1,19 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { StyledDetails, StyledInput } from '@components';
+import { StyledDetails, StyledFieldset, StyledInput } from '@components';
 import { updateSearchParams } from 'src/lib/utils';
 
-const SearchByDuration = () => {
+const FilterByDuration = () => {
   const router = useRouter();
 
   return (
     <StyledDetails>
-      <summary>Search by duration (minutes)</summary>
-      <fieldset>
-        Duration from:
+      <summary>
+        <h3>By duration (mins)</h3>
+      </summary>
+      <StyledFieldset>
         <label>
+          Duration from:
           <StyledInput
             type="number"
             name="min_duration"
@@ -30,9 +32,9 @@ const SearchByDuration = () => {
             max="100000"
           />
         </label>
-      </fieldset>
+      </StyledFieldset>
     </StyledDetails>
   );
 };
 
-export default SearchByDuration;
+export default FilterByDuration;

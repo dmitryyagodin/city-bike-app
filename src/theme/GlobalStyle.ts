@@ -42,6 +42,10 @@ const GlobalStyle = createGlobalStyle`
     .mt-2 {
         margin-top: 12px;
     }
+
+    .text-center {
+        text-align: center;
+    }
 `;
 
 export {GlobalStyle};

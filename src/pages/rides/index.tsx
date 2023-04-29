@@ -7,11 +7,12 @@ import {
   NoDataView,
   Table,
   RidesPagination,
-  RidesSearch,
+  RidesFilter,
   StyledHeading,
   Container,
   Row,
   Col,
+  StyledAside,
 } from '@components';
 import { errorMessages } from '@lib';
 import { RidesContext } from 'src/context/ridesContext';
@@ -70,17 +71,19 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
     <Container>
       <Row>
         <Col mobileS={12}>
-          <h1>Bike rides</h1>
+          <h1 className="text-center">Bike rides</h1>
           <StyledHeading className={isLoading ? 'is-loading' : ''}>
             {numberWithCommas(ridesCount) + ' results'}
           </StyledHeading>
         </Col>
 
-        <Col laptopS={4}>
-          <RidesSearch stations={stations} />
+        <Col laptopL={3}>
+          <StyledAside>
+            <RidesFilter stations={stations} />
+          </StyledAside>
         </Col>
 
-        <Col laptopS={8}>
+        <Col laptopL={9}>
           <RidesPagination />
           <Table rows={filteredRides || []} />
         </Col>
