@@ -18,13 +18,13 @@ describe('The home page should be accessible', () => {
   });
 });
 
-describe('The rides page should include <table> with 5 <th> cols', () => {
-  it('Finds the table with 5 columns', () => {
+describe('The rides page should include <table> with 6 <th> cols', () => {
+  it('Finds the table with 6 columns', () => {
     cy.visit('http://app:3000/rides');
     cy.get('h1').should('exist');
     cy.get('table').within(() => {
       cy.get('td')
-        .should('have.length', 250) // 50 rows x 5 colums
+        .should('have.length', 300) // 50 rows x 6 colums
         .each(($el) => expect($el).not.to.be.empty);
     });
   });
