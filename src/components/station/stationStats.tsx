@@ -20,12 +20,10 @@ const StationStats: NextPage<Props> = ({
   return (
     <section>
       <p>
-        From: {departuresCount} times with an average distance of{' '}
-        {averageDepartureDistance} m{' '}
+        From: {departuresCount} times with an average distance of {averageDepartureDistance} m{' '}
       </p>
       <p>
-        To: {returnsCount} times with an average distance of{' '}
-        {averageReturnDistance} m
+        To: {returnsCount} times with an average distance of {averageReturnDistance} m
       </p>
       <h2>Top Returns</h2>
       <ul>
@@ -45,6 +43,6 @@ const StationStats: NextPage<Props> = ({
       </ul>
     </section>
   );
-}
+};
 
 export default StationStats;

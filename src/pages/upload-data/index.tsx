@@ -1,9 +1,8 @@
 import type { NextPage } from 'next';
-import styles from '../../styles/Home.module.css';
 
 const UploadData: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <h1>City-bike-app</h1>
       <h2>Import csv file to mysql</h2>
       <form action="api/form" method="post" encType="multipart/form-data">
