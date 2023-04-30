@@ -6,13 +6,25 @@ export default function TableRow({ row, rowNumber }: { row: Ride; rowNumber: num
   const { isLoading, skipItems } = useContext(RidesContext);
 
   return (
-    <StyledTableRow data-id={row.id} className={isLoading ? 'is-loading' : ''}>
-      <td data-label={'#'}>{rowNumber + skipItems}</td>
-      <td data-label={'Date/Time:'}>{row.departureTime.toString()}</td>
-      <td data-label={'From Station:'}>{row.departureStationName}</td>
-      <td data-label={'Distance (km):'}>{(row.distance / 1000).toFixed(2)}</td>
-      <td data-label={'Duration (min):'}>{row.duration}</td>
-      <td data-label={'To Station:'}>{row.returnStationName}</td>
+    <StyledTableRow role="row" data-id={row.id} className={isLoading ? 'is-loading' : ''}>
+      <td role="cell" data-label={'#'}>
+        {rowNumber + skipItems}
+      </td>
+      <td role="cell" data-label={'Date/Time:'}>
+        {row.departureTime.toString()}
+      </td>
+      <td role="cell" data-label={'From Station:'}>
+        {row.departureStationName}
+      </td>
+      <td role="cell" data-label={'Distance (km):'}>
+        {(row.distance / 1000).toFixed(2)}
+      </td>
+      <td role="cell" data-label={'Duration (min):'}>
+        {row.duration}
+      </td>
+      <td role="cell" data-label={'To Station:'}>
+        {row.returnStationName}
+      </td>
     </StyledTableRow>
   );
 }

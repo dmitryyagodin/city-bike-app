@@ -12,6 +12,8 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         height: 100%;
+        background-color: #f9f2ff;
+        color: #090010;
     }
     
     html {
@@ -39,8 +41,36 @@ const GlobalStyle = createGlobalStyle`
         margin-left: auto;
     }
 
+    .mr-auto {
+        margin-left: auto;
+    }
+
+    .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .mt-2 {
         margin-top: 12px;
+    }
+
+    .mb-2 {
+        margin-bottom: 12px;
+    }
+
+    .my-2 {
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    .flex-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-row {
+        display: flex;
+        flex-direction: row;
     }
 
     .text-center {

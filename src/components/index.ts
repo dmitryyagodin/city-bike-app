@@ -18,12 +18,14 @@ export { default as StyledInput } from './ui/styledInput';
 export { default as StyledDetails } from './ui/styledDetails';
 export { default as StyledAside } from './ui/styledAside';
 export { default as StyledFieldset } from './ui/styledFieldset';
+export { default as StyledTable } from './ui/styledTable';
+export { default as StyledTableHead } from './ui/styledTableHead';
 
 export { default as StationLink } from './station/stationLink';
 export { default as ArrowIcon } from './pagination/arrowIcon';
 export { default as StyledButton } from './ui/styledButton';
 export { default as StyledTableRow } from './ui/styledTableRow';
-export { default as StyledHeading } from './ui/styledHeading';
+export { default as StyledCaption } from './ui/styledCaption';
 export { default as Layout } from './layouts/layout';
 export { default as FilterByDuration } from './rides/filterByDuration';
 export { default as FilterByDistance } from './rides/filterByDistance';

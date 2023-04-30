@@ -13,11 +13,15 @@ const baseColor = {
 
 const color = {
   ...baseColor,
-  primary:'#4B0082',
+  primary: '#4B0082',
+  primaryDark: '#090010',
   secondary: '#B52B04',
   accent: '#E1FC17',
   accent2: '#49FCF9',
   pinky: '#FFF5FF',
+  base5: '#efdafe',
+  base10: '#e8c9fe',
+  background: '#f9f2ff',
 };
 
 const containerSize = {

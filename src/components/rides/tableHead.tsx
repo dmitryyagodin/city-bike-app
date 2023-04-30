@@ -1,6 +1,5 @@
-// import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { StyledButton } from '@components';
+import { StyledButton, StyledTableHead } from '@components';
 import { RidesContext } from '../../context/ridesContext';
 
 enum ColumnNames {
@@ -17,7 +16,9 @@ export default function TableHead() {
   const toggleOrder: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsLoading(true);
     const target = e.currentTarget as HTMLButtonElement;
-    const newOrderClause = target.hasAttribute('asc') ? {[target.name]: 'desc' } : {[target.name]: 'asc' };
+    const newOrderClause = target.hasAttribute('asc')
+      ? { [target.name]: 'desc' }
+      : { [target.name]: 'asc' };
     const nextOrderClause: OrderBy = { ...searchParams.orderBy, ...newOrderClause };
 
     if (target.hasAttribute('asc')) {
@@ -27,16 +28,16 @@ export default function TableHead() {
       target.removeAttribute('desc');
       target.setAttribute('asc', 'true');
     }
-    setSearchParams({ ...searchParams, orderBy: nextOrderClause});
+    setSearchParams({ ...searchParams, orderBy: nextOrderClause });
   };
 
   return (
-    <thead>
-      <tr>
-        <th>#</th>
+    <StyledTableHead role="rowgroup">
+      <tr role="row">
+        <th role="columnheader">#</th>
         {Object.entries(ColumnNames).map(([property, value], index) => {
           return (
-            <th key={index}>
+            <th key={index} role="columnheader">
               <StyledButton name={property} onClick={toggleOrder} disabled={isLoading}>
                 <span>{value}</span>
                 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
@@ -48,6 +49,6 @@ export default function TableHead() {
           );
         })}
       </tr>
-    </thead>
+    </StyledTableHead>
   );
 }

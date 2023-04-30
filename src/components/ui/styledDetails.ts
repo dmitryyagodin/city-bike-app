@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledDetails = styled.details`
   padding: 2rem 1rem;
-  border-bottom: 2px solid ${({ theme }) => theme.color.primary};
+  border-bottom: 1px solid ${({ theme }) => theme.color.primary};
   & summary {
     cursor: pointer;
     list-style: none;
