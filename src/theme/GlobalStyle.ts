@@ -60,6 +60,10 @@ const GlobalStyle = createGlobalStyle`
         margin-bottom: 12px;
     }
 
+    .mr-2 {
+        margin-right: 12px;
+    }
+
     .my-2 {
         margin-top: 12px;
         margin-bottom: 12px;
@@ -78,6 +82,20 @@ const GlobalStyle = createGlobalStyle`
     .text-center {
         text-align: center;
     }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        border: 0;
+        padding: 0;
+        
+        white-space: nowrap;
+        clip-path: inset(100%);
+        clip: rect(0 0 0 0);
+        overflow: hidden;
+    }
 `;
 
-export {GlobalStyle};
+export { GlobalStyle };

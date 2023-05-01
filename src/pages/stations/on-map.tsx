@@ -8,24 +8,22 @@ type Props = {
   stations: Station[] | [];
 };
 const StationsOnMap: NextPage<Props> = ({ stations }) => {
-  
-  const MapWithNoSSR = dynamic(() => import("../../components/map/openStreetMap"), {
-    ssr: false
+  const MapWithNoSSR = dynamic(() => import('../../components/map/openStreetMap'), {
+    ssr: false,
   });
 
   if (!stations.length) {
     return <NoDataView message={errorMessages.outOfService} />;
   }
   return (
-    <div>
-      <h1>Stations</h1>
-      <MapWithNoSSR stations={stations}/>
-    </div>
+    <>
+      <h1 className="visually-hidden">All stations on a map</h1>
+      <MapWithNoSSR stations={stations} height="calc(100vh - 160px)" width="100%" />
+    </>
   );
 };
 
 export async function getServerSideProps() {
-
   try {
     const stations: Station[] = await prisma.station.findMany({});
     stations.forEach((station) => {
@@ -33,13 +31,9 @@ export async function getServerSideProps() {
       station.latitude = station.latitude.toString();
     });
     return { props: { stations } };
-    
   } catch (e) {
     throw e;
   }
-  //  finally {
-  //   return {props: {stations: []}};
-  // }
 }
 
 export default StationsOnMap;

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useContext } from 'react';
 import { StationContext } from 'src/context/stationContext';
+import Col from '../ui/col';
 
 const StationsSearch = () => {
   const router = useRouter();
@@ -43,9 +44,15 @@ const StationsSearch = () => {
   );
 
   return (
-    <label>
-      Search
-      <input type="text" onChange={handleSearch} name="filter" />
+    <label className="mt-2 mb-2 mr-2 flex-column">
+      Search by station name
+      <input
+        className="mt-2"
+        type="text"
+        onChange={handleSearch}
+        name="filter"
+        placeholder="station name"
+      />
     </label>
   );
 };

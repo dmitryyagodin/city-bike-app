@@ -38,13 +38,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link
-            rel="preload"
-            href="/fonts/Roboto-400.woff2"
-            as="font"
-            type="font/woff2"
-            crossOrigin=""
-          />
+          <link rel="preload" href="/fonts/Roboto-400.woff2" as="font" type="font/woff2" />
         </Head>
         <body>
           <Main />

@@ -7,11 +7,13 @@ import MapBoundsByStations from './mapBounds';
 
 type Props = {
   stations: Station[] | [];
+  height?: string;
+  width?: string;
 };
 
-const OpenStreetMap: NextPage<Props> = ({ stations }) => {
+const OpenStreetMap: NextPage<Props> = ({ stations, height, width }) => {
   return (
-    <MapContainer scrollWheelZoom={true} style={{ height: '50vh', width: '50vw' }}>
+    <MapContainer scrollWheelZoom={true} style={{ height: height || '', width: width || '50vw' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

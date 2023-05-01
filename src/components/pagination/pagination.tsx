@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { getNavPageUrl, numberWithCommas } from '../../lib/utils';
-import { ArrowIcon, StyledLink } from '@components';
+import { ArrowIcon, Col, StyledLink } from '@components';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import { StationContext } from 'src/context/stationContext';
@@ -10,6 +10,24 @@ const StyledNav = styled.nav`
   justify-content: center;
   column-gap: 24px;
   text-align: center;
+  & a {
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &:focus,
+    &:hover {
+      color: #fff5ff;
+      background-color: ${({ theme }) => theme.color.primary};
+
+      & svg {
+        fill: #fff5ff;
+      }
+    }
+  }
+
+  & svg {
+    fill: ${({ theme }) => theme.color.primary};
+  }
 `;
 
 export default function Pagination({ shallow }: { shallow: boolean }) {
@@ -47,29 +65,32 @@ export default function Pagination({ shallow }: { shallow: boolean }) {
   }, [router.query.skip, router.query.filter]);
 
   return (
-    <StyledNav>
-      <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
-      {prevHref && (
-        <StyledLink href={prevHref} shallow={shallow && true}>
-          <ArrowIcon className="nav__arrow-icon--left" />
-          <p>
-            Prev page
-            <br />
-            {nextPageNumber - 2} of {totalPages}
-          </p>
-        </StyledLink>
-      )}
+    <StyledNav className="mb-2">
+      <Col mobileS={6}>
+        {prevHref && (
+          <StyledLink className="ml-auto" href={prevHref} shallow={shallow && true}>
+            <ArrowIcon className="icon--left" />
+            <p>
+              Prev page
+              <br />
+              {nextPageNumber - 2} of {totalPages}
+            </p>
+          </StyledLink>
+        )}
+      </Col>
 
-      {nextPageNumber <= totalPages && (
-        <StyledLink href={nextHref} shallow={shallow && true}>
-          <p>
-            Next page
-            <br />
-            {nextPageNumber} of {numberWithCommas(totalPages)}
-          </p>
-          <ArrowIcon className="nav__arrow-icon--right" />
-        </StyledLink>
-      )}
+      <Col mobileS={6}>
+        {nextPageNumber <= totalPages && (
+          <StyledLink href={nextHref} shallow={shallow && true}>
+            <p>
+              Next page
+              <br />
+              {nextPageNumber} of {numberWithCommas(totalPages)}
+            </p>
+            <ArrowIcon className="icon--right" />
+          </StyledLink>
+        )}
+      </Col>
     </StyledNav>
   );
 }

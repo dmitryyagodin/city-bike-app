@@ -8,6 +8,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   column-gap: 12px;
   padding: 12px;
+  width: fit-content;
 
   &.active,
   :hover,
