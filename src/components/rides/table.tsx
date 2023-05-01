@@ -1,67 +1,27 @@
 import TableRow from './tableRow';
 import TableHead from './tableHead';
+import { StyledCaption, StyledTable } from '@components';
+import { useContext } from 'react';
+import { RidesContext } from 'src/context/ridesContext';
+import { numberWithCommas } from 'src/lib/utils';
 
-import styled from 'styled-components';
-
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  & td,
-  & th {
-    padding: 6px 8px;
-  }
-
-  & td {
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    & thead {
-      display: none;
-    }
-
-    display: block;
-    width: 100%;
-
-    & tbody,
-    & tr,
-    & td {
-      display: block;
-      width: 100%;
-    }
-
-    & tr {
-      margin-bottom: 15px;
-    }
-
-    & td {
-      text-align: left;
-      padding-left: 50%;
-      position: relative;
-    }
-    & td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0;
-      width: 50%;
-      padding-right: 15px;
-      padding-left: 15px;
-      font-weight: 700;
-      text-align: right;
-    }
-  }
-`;
- 
 export default function Table({ rows }: { rows: Ride[] }) {
-  return (
-    <StyledTable>
+  const ridesCtx = useContext(RidesContext);
+
+  return rows.length ? (
+    <StyledTable role="table">
+      <StyledCaption className={ridesCtx.isLoading ? 'is-loading' : ''}>
+        {numberWithCommas(ridesCtx.ridesCount) + ' results'}
+      </StyledCaption>
       <TableHead />
-      <tbody>
+      <tbody role="rowgroup">
         {rows.map((row, i) => {
           return <TableRow key={i} rowNumber={i + 1} row={row}></TableRow>;
         })}
       </tbody>
     </StyledTable>
+  ) : (
+    <p className="text-center">{numberWithCommas(ridesCtx.ridesCount) + ' results'}</p>
   );
 }
  

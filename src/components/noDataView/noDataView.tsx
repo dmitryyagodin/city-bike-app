@@ -7,7 +7,6 @@ type Props = {
 const NoDataView: NextPage<Props> = ({ message }) => {
   return (
     <>
-      <h1></h1>
       <p>{message}</p>
     </>
   );

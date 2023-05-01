@@ -2,19 +2,7 @@ import type { NextPage } from 'next';
 import { getRides } from 'prisma/getRides';
 import getStations from 'prisma/getStations';
 import { useEffect, useState, useContext } from 'react';
-import { numberWithCommas } from '../../lib/utils';
-import {
-  NoDataView,
-  Table,
-  RidesPagination,
-  RidesFilter,
-  StyledHeading,
-  Container,
-  Row,
-  Col,
-  StyledAside,
-} from '@components';
-import { errorMessages } from '@lib';
+import { Table, RidesPagination, RidesFilter, Container, Row, Col, StyledAside } from '@components';
 import { RidesContext } from 'src/context/ridesContext';
 
 type Props = {
@@ -24,8 +12,7 @@ type Props = {
 };
 
 const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
-  const { searchParams, isLoading, setIsLoading, setRidesCount, ridesCount } =
-    useContext(RidesContext);
+  const { searchParams, setIsLoading, setRidesCount } = useContext(RidesContext);
 
   useEffect(() => {
     totalCount && setRidesCount(totalCount);
@@ -63,18 +50,11 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  if (!rides || !ridesCount) {
-    return <NoDataView message={errorMessages.outOfService} />;
-  }
-
   return (
     <Container>
       <Row>
         <Col mobileS={12}>
           <h1 className="text-center">Bike rides</h1>
-          <StyledHeading className={isLoading ? 'is-loading' : ''}>
-            {numberWithCommas(ridesCount) + ' results'}
-          </StyledHeading>
         </Col>
 
         <Col laptopL={3}>

@@ -5,7 +5,7 @@ import {
   FilterByDistance,
   StyledButton,
   Col,
-  Row,
+  StyledFieldset,
 } from '@components';
 import { RidesContext } from 'src/context/ridesContext';
 
@@ -86,30 +86,32 @@ const RidesFilter = ({ stations }: { stations: Station[] }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <legend>
-        <h2>Filter rides</h2>
-      </legend>
-      <Row gap={16} justify="space-around">
-        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+      <StyledFieldset>
+        <legend>
+          <h2>Filter rides</h2>
+        </legend>
+        <Col mobileL={12} laptopS={4} laptopL={12}>
           <FilterByStationName stations={stations} />
         </Col>
-        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+        <Col mobileL={12} laptopS={4} laptopL={12}>
           <FilterByDistance />
         </Col>
-        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
+        <Col mobileL={12} laptopS={4} laptopL={12}>
           <FilterByDuration />
         </Col>
-        <Col mobileS={12} tablet={5} laptopL={12} className="mt-2">
-          <Row gap={16} justify={'center'}>
-            <StyledButton type="submit" disabled={isLoading}>
+        <Col mobileL={12}>
+          <Col mobileS={6}>
+            <StyledButton className="mx-auto my-2" type="submit" disabled={isLoading}>
               Filter
             </StyledButton>
-            <StyledButton onClick={handleReset} disabled={isLoading}>
+          </Col>
+          <Col mobileS={6}>
+            <StyledButton className="mx-auto my-2" onClick={handleReset} disabled={isLoading}>
               Reset
             </StyledButton>
-          </Row>
+          </Col>
         </Col>
-      </Row>
+      </StyledFieldset>
     </form>
   );
 };

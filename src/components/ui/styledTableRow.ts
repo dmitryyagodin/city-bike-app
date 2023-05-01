@@ -7,11 +7,11 @@ const StyledTableRow = styled.tr`
   }
 
   &:nth-child(even) {
-    background-color: #fff5ff;
+    background-color: ${({ theme }) => theme.color.base10};
   }
 
   &:nth-child(odd) {
-    background-color: #ffd6ff;
+    background-color: ${({ theme }) => theme.color.base5};
   }
 `;
 
