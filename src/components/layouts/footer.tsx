@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
   margin-top: auto;
-  height: 100px;
   background-color: ${({ theme }) => theme.color.primary};
 
   & ul {

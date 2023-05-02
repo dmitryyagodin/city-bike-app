@@ -4,7 +4,7 @@ import formatTopConnections from '../../lib/formatTopConnections';
 import getTopConnections from '../../../prisma/getTopConnections';
 import getStationDetails from '../../../prisma/getStationDetails';
 import getDateRange from '../../../prisma/getDateRange';
-import { StationInfo } from '@components';
+import { Col, Container, Row, StationInfo } from '@components';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 
@@ -36,16 +36,22 @@ const Station: NextPage<Props> = ({
     return <p>The requested page has no data to view</p>;
   }
   return (
-    <Grid>
-      <StationInfo
-        dateRange={dateRange}
-        topReturns={topReturns}
-        topDepartures={topDepartures}
-        stationWithStats={stationWithStats}
-        stationId={stationId}
-      />
-      <MapWithNoSSR stations={[stationWithStats]} />
-    </Grid>
+    <Container>
+      <Row>
+        <Col mobileS={12} laptopL={6}>
+          <StationInfo
+            dateRange={dateRange}
+            topReturns={topReturns}
+            topDepartures={topDepartures}
+            stationWithStats={stationWithStats}
+            stationId={stationId}
+          />
+        </Col>
+        <Col mobileS={12} laptopL={6}>
+          <MapWithNoSSR stations={[stationWithStats]} width="100%" height="calc(100vh - 160px)" />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
@@ -84,9 +90,6 @@ export async function getStaticPaths() {
   } catch (err) {
     throw err;
   }
-  //  finally {
-  //   return {paths: [], fallback: false};
-  // }
 }
 
 export default Station;

@@ -5,6 +5,8 @@ const STATIONS_ON_PAGE = 10;
 
 type StationContextType = {
   skip: number;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
   activeStation: number | 0;
   stationsCount: number;
   stationsOnPage: number;
@@ -21,6 +23,8 @@ type StationContextType = {
 
 const contextDefaultValues: StationContextType = {
   skip: 0,
+  isLoading: false,
+  setIsLoading: () => {},
   activeStation: 0,
   stationsCount: 0,
   stationsOnPage: STATIONS_ON_PAGE,
@@ -48,6 +52,7 @@ export const ContextProvider = ({ children }: Props) => {
   const [stationsCount, setCount] = useState(0);
   const [skip, setSkip] = useState(STATIONS_ON_PAGE);
   const [filteredStations, setFiltered] = useState<Station[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
   const stationsOnPage = STATIONS_ON_PAGE;
 
@@ -57,10 +62,13 @@ export const ContextProvider = ({ children }: Props) => {
   const setStationsCount = (count: number) => setCount(count);
   const setSkipNumber = (num: number) => setSkip(num);
   const setFilteredStations = (stations: Station[]) => setFiltered(stations);
+  const setIsLoading = (loading: boolean) => setLoading(loading);
 
   return (
     <StationContext.Provider
       value={{
+        isLoading,
+        setIsLoading,
         activeStation,
         setActiveStation,
         currentStations,

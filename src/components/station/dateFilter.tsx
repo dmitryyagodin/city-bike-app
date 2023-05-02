@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import type { NextPage } from 'next';
+import Row from '../ui/row';
+import Col from '../ui/col';
+import { StationContext } from 'src/context/stationContext';
 
 type HandleFilterEventFunction = ({
   topConnections,
@@ -18,6 +21,8 @@ type Props = {
 const DateFilter: NextPage<Props> = ({ dateRange, stationId, emitFilterEvent }) => {
   const { minDate, maxDate } = JSON.parse(dateRange);
 
+  const { setIsLoading } = useContext(StationContext);
+
   const min = new Date(minDate).toISOString().split('T')[0];
   const max = new Date(maxDate).toISOString().split('T')[0];
 
@@ -25,6 +30,7 @@ const DateFilter: NextPage<Props> = ({ dateRange, stationId, emitFilterEvent }) 
   const [newMin, setNewMin] = useState(min);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     let _min = newMin;
     let _max = newMax;
     if (e.target.name === 'ride-min') {
@@ -40,34 +46,42 @@ const DateFilter: NextPage<Props> = ({ dateRange, stationId, emitFilterEvent }) 
       .then((res) => res.json())
       .then((data) => {
         emitFilterEvent(data);
+        setIsLoading(false);
       });
   };
 
   return (
-    <div>
-      <label>
-        Rides from date:
-        <input
-          type="date"
-          name="ride-min"
-          value={newMin}
-          min={min}
-          max={newMax}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Rides until date:
-        <input
-          type="date"
-          name="ride-max"
-          value={newMax}
-          min={newMin}
-          max={max}
-          onChange={handleChange}
-        />
-      </label>
-    </div>
+    <Row>
+      <Col mobileS={6}>
+        <h2>Filter rides by date</h2>
+        <Col mobileS={7} className="mt-2">
+          <label className="flex-column">
+            From date:
+            <input
+              type="date"
+              name="ride-min"
+              value={newMin}
+              min={min}
+              max={newMax}
+              onChange={handleChange}
+            />
+          </label>
+        </Col>
+        <Col mobileS={7} className="mt-2">
+          <label className="flex-column">
+            Till date:
+            <input
+              type="date"
+              name="ride-max"
+              value={newMax}
+              min={newMin}
+              max={max}
+              onChange={handleChange}
+            />
+          </label>
+        </Col>
+      </Col>
+    </Row>
   );
 };
 

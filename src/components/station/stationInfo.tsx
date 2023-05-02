@@ -4,6 +4,7 @@ import StationStats from "./stationStats";
 import {formatTopConnections} from "@lib";
 import { useState } from "react";
 
+
 type Props = {
   topDepartures: TopConnection[];
   topReturns: TopConnection[];
@@ -45,15 +46,19 @@ const StationInfo: NextPage<Props> = (props) => {
   }
 
   return (
-    <div>
-      <h1>Station {station.station_name}</h1>
-      <p>Address: {station.station_address}</p>
-      <p>Capacity: {station.capacity}</p>
+    <>
+      <h1 className="text-center">{station.station_name}</h1>
+      <address className="text-center">Address: {station.station_address}</address>
+      <p className="text-center">
+        Capacity: <strong>{station.capacity}</strong>
+      </p>
+
       <DateFilter
         dateRange={props.dateRange}
         stationId={props.stationId}
         emitFilterEvent={handleFilterEvent}
       />
+
       <StationStats
         topDepartures={topDepartures}
         topReturns={topReturns}
@@ -62,7 +67,7 @@ const StationInfo: NextPage<Props> = (props) => {
         averageDepartureDistance={averageDepartureDistance}
         averageReturnDistance={averageReturnDistance}
       />
-    </div>
+    </>
   );
 };
 
