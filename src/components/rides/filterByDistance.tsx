@@ -1,10 +1,10 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { Col, Row, StyledDetails, StyledInput } from '@components';
-import { updateSearchParams } from '../../lib/utils';
+// import { updateSearchParams } from '../../lib/utils';
 
 const FilterByDistance = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <StyledDetails>
@@ -19,7 +19,7 @@ const FilterByDistance = () => {
             <StyledInput
               type="number"
               name="min_distance"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               min="0"
               max="100000"
             />
@@ -32,7 +32,7 @@ const FilterByDistance = () => {
             <StyledInput
               type="number"
               name="max_distance"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               min="0"
               max="100000"
             />

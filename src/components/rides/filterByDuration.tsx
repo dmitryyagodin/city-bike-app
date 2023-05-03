@@ -1,10 +1,10 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { Col, Row, StyledDetails, StyledInput } from '@components';
-import { updateSearchParams } from 'src/lib/utils';
+// import { updateSearchParams } from 'src/lib/utils';
 
 const FilterByDuration = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <StyledDetails>
@@ -18,7 +18,7 @@ const FilterByDuration = () => {
             <StyledInput
               type="number"
               name="min_duration"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               min="0"
               max="100000"
             />
@@ -31,7 +31,7 @@ const FilterByDuration = () => {
             <StyledInput
               type="number"
               name="max_duration"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               min="0"
               max="100000"
             />

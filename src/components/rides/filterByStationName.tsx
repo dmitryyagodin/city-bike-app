@@ -1,10 +1,10 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { Col, Row, StyledDetails, StyledInput } from '@components';
-import { updateSearchParams } from 'src/lib/utils';
+// import { updateSearchParams } from 'src/lib/utils';
 
 const FilterByStationName = ({ stations }: { stations: Station[] }) => {
-  const router = useRouter();
+  // const router = useRouter();
   // const stationSearchPattern = stations
   //   .map((station) => station.station_name.replace(/\(M\)/g, '\x28M\x29'))
   //   .join('|');
@@ -21,7 +21,7 @@ const FilterByStationName = ({ stations }: { stations: Station[] }) => {
             <StyledInput
               list="stations-list"
               name="departure_station"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               // pattern={`^(${stationSearchPattern})$`}
               placeholder="select station"
             />
@@ -34,7 +34,7 @@ const FilterByStationName = ({ stations }: { stations: Station[] }) => {
             <StyledInput
               list="stations-list"
               name="return_station"
-              onChange={(e) => updateSearchParams(e, router)}
+              // onChange={(e) => updateSearchParams(e, router)}
               // pattern={`^(${stationSearchPattern})$`}
               placeholder="select station"
             />

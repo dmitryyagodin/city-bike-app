@@ -30,3 +30,4 @@ export { default as Layout } from './layouts/layout';
 export { default as FilterByDuration } from './rides/filterByDuration';
 export { default as FilterByDistance } from './rides/filterByDistance';
 export { default as FilterByStationName } from './rides/filterByStationName';
+export {default as PageLoader } from './layouts/pageLoader';
