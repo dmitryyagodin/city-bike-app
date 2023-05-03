@@ -5,6 +5,7 @@ import { Marker, Popup, useMap } from 'react-leaflet';
 import BikeIcon from './icon';
 import { renderToString } from 'react-dom/server';
 import { StationContext } from 'src/context/stationContext';
+import Link from 'next/link';
 
 type Props = {
   station: Station;
@@ -16,7 +17,7 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
   const thisIsActive = activeStation === station.station_id;
 
   const map = useMap();
-  const center = bounds.getCenter();
+  // const center = bounds.getCenter();
 
   const icon = divIcon({
     className: `custom-icon ${thisIsActive ? 'active' : 'custom icon'}`,
@@ -34,12 +35,12 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
           duration: 1,
         });
       },
-      popupclose: () => {
-        map.flyTo(center, 12, {
-          animate: true,
-          duration: 1,
-        });
-      },
+      // popupclose: () => {
+      //   map.flyTo(center, 12, {
+      //     animate: true,
+      //     duration: 1,
+      //   });
+      // },
       mouseover: () => {
         setActiveStation(station.station_id);
       },
@@ -47,7 +48,7 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
         setActiveStation(0);
       },
     }),
-    [map, station, center, setActiveStation]
+    [map, station, setActiveStation]
   );
 
   return (
@@ -63,6 +64,7 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
           <br />
           Capacity: <strong>{station.capacity}</strong>
         </p>
+        <Link href={`stations/${station.station_id}`}>To station page</Link>
       </Popup>
     </Marker>
   );

@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic';
 import { errorMessages } from '@lib';
 import { StationContext } from 'src/context/stationContext';
 import { numberWithCommas } from 'src/lib/utils';
+import Head from 'next/head';
 
 type Props = {
   stations: Station[] | [];
@@ -39,33 +40,44 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
     setCurrentStations(stations.slice(0, stationsOnPage));
     setAllStations(stations);
     setStationsCount(totalCount);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stations, totalCount]);
 
   if (!stations.length || totalCount == 0) {
     return <NoDataView message={errorMessages.outOfService} />;
   }
 
   return (
-    <Container className="mb-2">
-      <Row>
-        <Col mobileS={12}>
-          <h1 className="text-center">Bike stations</h1>
-        </Col>
+    <>
+      <Head>
+        <title>Helsinki city bike stations</title>
+        <meta
+          name="description"
+          content="Helsinki city bike stations. Explore the list of stations, search by name and view on a map"
+          key="desc"
+        />
+      </Head>
+      <Container className="mb-2">
+        <Row>
+          <Col mobileS={12}>
+            <h1 className="text-center">Bike stations</h1>
+          </Col>
 
-        <Col mobileS={12} tablet={3}>
-          <StyledAside>
-            <StationsSearch />
-            <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
-            <StationsList stations={currentStations} />
-          </StyledAside>
-        </Col>
+          <Col mobileS={12} tablet={3}>
+            <StyledAside>
+              <StationsSearch />
+              <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
+              <StationsList stations={currentStations} />
+            </StyledAside>
+          </Col>
 
-        <Col mobileS={12} tablet={9} className="flex-column">
-          <Pagination shallow={true} />
-          <MapWithNoSSR stations={currentStations} width="100%" height="520px" />
-        </Col>
-      </Row>
-    </Container>
+          <Col mobileS={12} tablet={9} className="flex-column">
+            <Pagination shallow={true} />
+            <MapWithNoSSR stations={currentStations} width="100%" height="520px" />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

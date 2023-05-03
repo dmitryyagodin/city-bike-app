@@ -4,6 +4,7 @@ import getStations from 'prisma/getStations';
 import { useEffect, useState, useContext } from 'react';
 import { Table, RidesPagination, RidesFilter, Container, Row, Col, StyledAside } from '@components';
 import { RidesContext } from 'src/context/ridesContext';
+import Head from 'next/head';
 
 type Props = {
   rides: Ride[] | null;
@@ -51,31 +52,41 @@ const Rides: NextPage<Props> = ({ rides, totalCount, stations }) => {
   }, [searchParams]);
 
   return (
-    <Container>
-      <Row>
-        <Col mobileS={12}>
-          <h1 className="text-center">Bike rides</h1>
-        </Col>
+    <>
+      <Head>
+        <title>Helsinki city bike rides</title>
+        <meta
+          name="description"
+          content="Helsinki city bike rides. Filter and sort by bike station names, distance and ride duration"
+          key="desc"
+        />
+      </Head>
+      <Container>
+        <Row>
+          <Col mobileS={12}>
+            <h1 className="text-center">Bike rides</h1>
+          </Col>
 
-        <Col laptopL={3}>
-          <StyledAside>
-            <RidesFilter stations={stations} />
-          </StyledAside>
-        </Col>
+          <Col laptopL={3}>
+            <StyledAside>
+              <RidesFilter stations={stations} />
+            </StyledAside>
+          </Col>
 
-        <Col laptopL={9}>
-          <RidesPagination />
-          <Table rows={filteredRides || []} />
-        </Col>
-      </Row>
-    </Container>
+          <Col laptopL={9}>
+            <RidesPagination />
+            <Table rows={filteredRides || []} />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
 export async function getStaticProps() {
   const { rides, totalCount } = await getRides();
   const { stations } = await getStations();
-  
+
   return { props: { rides, totalCount, stations } };
 }
 

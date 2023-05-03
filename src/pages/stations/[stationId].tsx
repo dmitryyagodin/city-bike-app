@@ -7,6 +7,7 @@ import getDateRange from '../../../prisma/getDateRange';
 import { Col, Container, Row, StationInfo } from '@components';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
+import Head from 'next/head';
 
 type Props = {
   stationWithStats: Station & StationStats;
@@ -36,22 +37,32 @@ const Station: NextPage<Props> = ({
     return <p>The requested page has no data to view</p>;
   }
   return (
-    <Container>
-      <Row>
-        <Col mobileS={12} laptopL={6}>
-          <StationInfo
-            dateRange={dateRange}
-            topReturns={topReturns}
-            topDepartures={topDepartures}
-            stationWithStats={stationWithStats}
-            stationId={stationId}
-          />
-        </Col>
-        <Col mobileS={12} laptopL={6}>
-          <MapWithNoSSR stations={[stationWithStats]} width="100%" height="calc(100vh - 160px)" />
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Head>
+        <title>Helsinki city bike station | {stationWithStats.station_name || ''}</title>
+        <meta
+          name="description"
+          content={`Helsinki city bike station ${stationWithStats.station_name || ''}. Top departures & top returns. Filter stats by date`}
+          key="desc"
+        />
+      </Head>
+      <Container>
+        <Row>
+          <Col mobileS={12} laptopL={6}>
+            <StationInfo
+              dateRange={dateRange}
+              topReturns={topReturns}
+              topDepartures={topDepartures}
+              stationWithStats={stationWithStats}
+              stationId={stationId}
+            />
+          </Col>
+          <Col mobileS={12} laptopL={6}>
+            <MapWithNoSSR stations={[stationWithStats]} width="100%" height="calc(100vh - 160px)" />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
