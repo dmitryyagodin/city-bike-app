@@ -51,6 +51,7 @@ const StationsSearch = () => {
         onChange={handleSearch}
         name="filter"
         placeholder="station name"
+        maxLength={200}
       />
     </label>
   );

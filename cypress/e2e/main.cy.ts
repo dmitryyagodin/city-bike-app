@@ -30,7 +30,7 @@ describe('The rides page should include <table> with 6 <th> cols', () => {
   });
 });
 
-describe('The stations page should include non-empty ul>li*50', () => {
+describe('The stations page should include non-empty ul>li*10', () => {
   it('Finds the table with 5 columns', () => {
     cy.visit('http://app:3000/stations');
 
@@ -39,6 +39,13 @@ describe('The stations page should include non-empty ul>li*50', () => {
         .should('have.length', 10)
         .each(($el) => expect($el).not.to.be.empty);
     });
+  });
+});
+
+describe('The stations page should include filter intput field', () => {
+  it('Finds the filter intput field', () => {
+    cy.visit('http://app:3000/stations');
+    cy.get('input[name="filter"]').should('exist');
   });
 });
 

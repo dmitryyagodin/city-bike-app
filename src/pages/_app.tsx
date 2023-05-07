@@ -12,9 +12,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   useEffect(() => {
     Router.events.on('routeChangeStart', (url) => {
-      const isStationStaticPage = /stations\?skip=/.test(url);
-
-      if (!isStationStaticPage) {
+      // do not use isLoading UI for same page client-side rendering
+      const isClientSideRendering = /stations\?skip=/.test(url) || /stations\?filter=/.test(url);
+      console.log('isClientSiderendering ', isClientSideRendering);
+      if (!isClientSideRendering) {
         setIsLoading(true);
       }
     });
