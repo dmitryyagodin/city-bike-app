@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useContext } from 'react';
 import { StationContext } from 'src/context/stationContext';
-import Col from '../ui/col';
 
 const StationsSearch = () => {
   const router = useRouter();

@@ -65,9 +65,13 @@ const AllStations: NextPage<Props> = ({ stations, totalCount }) => {
 
           <Col mobileS={12} tablet={3}>
             <StyledAside>
-              <StationsSearch />
-              <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
-              <StationsList stations={currentStations} />
+              <Col mobileS={6} tablet={10}>
+                <StationsSearch />
+              </Col>
+              <Col mobileS={12}>
+                <h2>{numberWithCommas(stationsCount) || 'No'} results</h2>
+                <StationsList stations={currentStations} />
+              </Col>
             </StyledAside>
           </Col>
 

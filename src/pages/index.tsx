@@ -10,11 +10,11 @@ const Home: NextPage = () => {
         <meta name="description" content="Helsinki city bike. Homepage" key="desc" />
       </Head>
       <Container>
-        <Row>
+        <Row className="text-center">
           <Col mobileS={12}>
             <h1>Helsinki city bikes</h1>
           </Col>
-          <Col mobileS={8} desktop={4}>
+          <Col mobileS={8} desktop={4} className="mx-auto">
             <p>
               A demo web app allowing to explore city bike stations and rides associated with them.
               The data belongs to City Bike Finland and covers over 400 stations and 1.5 million
