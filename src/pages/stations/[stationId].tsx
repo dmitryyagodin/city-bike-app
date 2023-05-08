@@ -39,7 +39,7 @@ const Station: NextPage<Props> = ({
   return (
     <>
       <Head>
-        <title>Helsinki city bike station | {stationWithStats.station_name || ''}</title>
+        <title>{`Helsinki city bike station | ${stationWithStats.station_name || ''}`}</title>
         <meta
           name="description"
           content={`Helsinki city bike station ${stationWithStats.station_name || ''}. Top departures & top returns. Filter stats by date`}
