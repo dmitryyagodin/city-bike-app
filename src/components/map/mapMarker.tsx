@@ -5,7 +5,21 @@ import { Marker, Popup, useMap } from 'react-leaflet';
 import BikeIcon from './icon';
 import { renderToString } from 'react-dom/server';
 import { StationContext } from 'src/context/stationContext';
-import Link from 'next/link';
+import styled from 'styled-components';
+import { StyledLink } from '@components';
+
+const StyledPopup = styled(Popup)`
+  font-size: 16px;
+
+  & h3 {
+    font-size: 20px;
+  }
+`;
+
+const StyledPopupLink = styled(StyledLink)`
+  font-family: Roboto-400, Helvetica, sans-serif;
+  font-size: 16px;
+`;
 
 type Props = {
   station: Station;
@@ -53,19 +67,20 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
 
   return (
     <Marker
+      key={station.station_id}
       eventHandlers={eventHandlers}
       position={[station.latitude, station.longitude]}
       icon={icon}
     >
-      <Popup>
+      <StyledPopup>
         <h3>{station.station_name}</h3>
         <p>
           Address: <strong>{station.station_address}</strong>
           <br />
           Capacity: <strong>{station.capacity}</strong>
         </p>
-        <Link href={`stations/${station.station_id}`}>To station page</Link>
-      </Popup>
+        <StyledPopupLink href={`stations/${station.station_id}`}>To station page</StyledPopupLink>
+      </StyledPopup>
     </Marker>
   );
 };
