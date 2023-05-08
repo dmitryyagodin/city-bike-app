@@ -13,18 +13,20 @@ The data is owned by City Bike Finland. (see more about [License and information
   - <https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv>
   - <https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv>
 
-2. place them inside the ``db`` folder
+2. place them inside the `db` folder
     - 2021-05.csv
     - 2021-06.csv
     - 2021-07.csv
     - stations.csv (__rename the last file to exactly this name__)
-3. Start docker containers with ``docker compose up -D``
-4. Open browser on ``localhost:3000``
+3. Start docker containers with `docker compose up -D`
+4. Open browser on `localhost:3000`
 ## Data import
 
 npm install
 
+```bash
 docker compose up -d
+```
 
 Init prisma-schema
 npx prisma init
@@ -40,10 +42,12 @@ tsc --noEmit
 
 ## Testing
 
+Cypress tests are launched automatically in separate container whenever `docker compose up` is run
+
+Re-run the tests **anytime** while app and db containers are running with:
 
 ```bash
-# Start the app containers and exist after completing the cypress tests
-docker-compose up --exit-code-from cypress
+npm run test
 ```
 
 ## Map
@@ -53,5 +57,5 @@ Uses  [React Leaflet](https://react-leaflet.js.org/docs/start-setup/)
 Read more:
 [E2E testing in Next.js with Cypress and TypeScript](https://blog.logrocket.com/end-to-end-testing-next-js-apps-cypress-typescript/)
 
-# Deployment
-https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/
+## Deployment
+The app is deployed on GCP cloud run and its most recent version can be accessed here: [city-bikes-cloudrun](https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/)
