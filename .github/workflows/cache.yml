@@ -31,5 +31,5 @@ jobs:
       
       - name: Build and tag the docker image       
         run: |-
-          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t testDockerImage -f ./docker/app-prod.Dockerfile .
+          docker build --build-arg DATABASE_URL=$DATABASE_URL_ARG -t test_docker_image -f ./docker/app-prod.Dockerfile .
       
