@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
 export const StyledBikeIcon = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-
   .active & svg,
   & svg:hover,
   & svg:focus {
@@ -16,6 +12,7 @@ export const StyledBikeIcon = styled.div`
   }
 
   & svg {
+    width: 100%;
     border-radius: 50%;
     border: 2px solid #4b0082;
     background-color: white;

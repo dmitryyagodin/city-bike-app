@@ -16,7 +16,7 @@ const Home: NextPage = () => {
           </Col>
           <Col mobileS={8} desktop={4} className="mx-auto">
             <p>
-              A demo web app allowing to explore city bike stations and rides associated with them.
+              This is a demo web app. It lists city bike stations and the rides associated with them.
               The data belongs to City Bike Finland and covers over 400 stations and 1.5 million
               rides from May to July 2021.
             </p>
