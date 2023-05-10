@@ -1,11 +1,26 @@
 # City-bike-app
+- See it running on GCP's cloud run [city-bikes-cloudrun](https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/).
+- Database is hosted on GCP's compute engine virtual machine.
+- Stack
+  -  PostgreSQL (database)
+  -  [Prisma](https://www.prisma.io/) for data fetching
+  -  [Next.js](https://nextjs.org/) for server-side rendering, static page generation, React client components
+  -  Typescript
+  -  [Styled Components](https://styled-components.com/) for css styles
+  -  [React-leaflet](https://react-leaflet.js.org/docs/start-setup/) for maps
 
-## Quick start
+## Requirements
+- The app is built and run in docker containers (tested on docker version 20.10.23).
+- A testing container is not fully isolated and also needs dependencies to be installed locally (works at least with `node v16.13.2 (npm v8.1.2)` and `v18.16.0 (npm v9.5.1)`
 
-Running the app requires docker and docker compose to be installed. 
+## To run locally
 
+1. Clone this repo as
+```bash
+git clone git@github.com:dmitryyagodin/city-bike-app.git
+```
 
-1. Download the following data files
+2. Download the data files
 The data is owned by City Bike Finland. (see more about [License and information](https://www.avoindata.fi/data/en/dataset/hsl-n-kaupunkipyoraasemat/resource/a23eef3a-cc40-4608-8aa2-c730d17e8902))
 
   - <https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv>
@@ -13,36 +28,31 @@ The data is owned by City Bike Finland. (see more about [License and information
   - <https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv>
   - <https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv>
 
-2. place them inside the `db` folder
+3. Copy the files to the repo's `db` folder
+> :warning: **Make sure that the file names are exactly as follows**: needed for correct database seeding
+
     - 2021-05.csv
     - 2021-06.csv
     - 2021-07.csv
-    - stations.csv (__rename the last file to exactly this name__)
-3. Start docker containers with `docker compose up -D`
-4. Open browser on `localhost:3000`
-## Data import
+    - stations.csv
 
-npm install
-
+4. Create `.env` file and add the following database url:
 ```bash
-docker compose up -d
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/city-bikes
 ```
-
-Init prisma-schema
-npx prisma init
-
-Push database shemes to postgres:
-npx prisma db push
-
-Seed transformed data to the database
-npx prisma db seed
-
-Check types wihout compiling the code to js
-tsc --noEmit
+5. Install dependencies (while the app will have everything it needs inside its own docker container, testing  with Cypress doesn't have that yet)  
+```
+npm install
+```
+6. Build and Start docker containers
+```
+docker compose up
+```
+8. Open browser on `localhost:3000`
 
 ## Testing
 
-Cypress tests are launched automatically in separate container whenever `docker compose up` is run
+Cypress E2E tests are launched automatically in separate container whenever `docker compose up` is run
 
 Re-run the tests **anytime** while app and db containers are running with:
 
@@ -50,12 +60,15 @@ Re-run the tests **anytime** while app and db containers are running with:
 npm run test
 ```
 
-## Map
-
-Uses  [React Leaflet](https://react-leaflet.js.org/docs/start-setup/)
-
-Read more:
-[E2E testing in Next.js with Cypress and TypeScript](https://blog.logrocket.com/end-to-end-testing-next-js-apps-cypress-typescript/)
-
 ## Deployment
-The app is deployed on GCP cloud run and its most recent version can be accessed here: [city-bikes-cloudrun](https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/)
+GitHub Actions is used to automatically rebuild and deploy the app to the GCP's cloud run [city-bikes-cloudrun](https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/). See details in `.github/workflows/cloud-run.yml` file.
+
+> :warning: **Database querying speed is not optimal**: since the database is hosted on GCP's free tier virtual machine with limited memory allocation, minimal CPU capacity and high latency. 
+
+## Static Site Generation (SSG)
+
+The app benefits from Next's in-build SSG features to pre-generate some of the pages statically and speed up initial load. For example, each station's page is served as static with initial stats.
+
+## Data import
+
+The raw data contains many duplicates - pairs of entries with the same departure and return timestamps, same departure and return stations, same distance - a highly unlikely scenario. These were eventually excluded along with the required minimim duration (10 sec) and distance (10 min).
