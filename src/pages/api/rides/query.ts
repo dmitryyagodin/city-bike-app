@@ -16,18 +16,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
   if (req.method === 'POST') {
     const {orderBy, where, skip} =  JSON.parse(req.body);
-    console.log('--- BODY******');
-    console.log(JSON.parse(req.body));
-    console.log('-----BODY******');
 
     if (orderBy) query.orderBy = orderBy;
     if (where) query.where = where;
     if (skip) query.skip = skip;
   }
 
-  console.log('-----QUERY******');
-  console.log(query);
-  console.log('-----QUERY******');
   const { rides, totalCount } = await getRides(query);
   res.json({ rides, totalCount });
 }
