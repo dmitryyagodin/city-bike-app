@@ -25,7 +25,7 @@
     "incremental": true,
     "declaration": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "cypressconfigts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,
