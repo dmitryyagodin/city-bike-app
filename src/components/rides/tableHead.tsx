@@ -14,13 +14,18 @@ export default function TableHead() {
   const { searchParams, setSearchParams, setIsLoading, isLoading } = useContext(RidesContext);
 
   const toggleOrder: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    setIsLoading(true);
     const target = e.currentTarget as HTMLButtonElement;
-    const newOrderClause = target.hasAttribute('asc')
-      ? { [target.name]: 'desc' }
-      : { [target.name]: 'asc' };
-    const nextOrderClause: OrderBy = { ...searchParams.orderBy, ...newOrderClause };
+    const sortButtons = document.querySelectorAll('th button');
 
+    setIsLoading(true);
+
+    sortButtons.forEach(button => {
+      if (button !== target) {
+        button.removeAttribute('desc');
+        button.removeAttribute('asc');
+      }
+    });
+    
     if (target.hasAttribute('asc')) {
       target.removeAttribute('asc');
       target.setAttribute('desc', 'true');
@@ -28,7 +33,12 @@ export default function TableHead() {
       target.removeAttribute('desc');
       target.setAttribute('asc', 'true');
     }
-    setSearchParams({ ...searchParams, orderBy: nextOrderClause });
+
+    const newOrderClause = target.hasAttribute('asc')
+      ? { [target.name]: 'desc' }
+      : { [target.name]: 'asc' };
+    
+    setSearchParams({ ...searchParams, orderBy: newOrderClause });
   };
 
   return (
