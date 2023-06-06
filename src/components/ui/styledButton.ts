@@ -33,10 +33,10 @@ const StyledButton = styled.button`
     height: 2rem;
   }
 
-  &[asc] svg path:nth-child(2) {
+  &[asc] svg path:nth-child(1) {
     fill-opacity: 0%;
   }
-  &[desc] svg path:nth-child(1) {
+  &[desc] svg path:nth-child(2) {
     fill-opacity: 0%;
   }
 
