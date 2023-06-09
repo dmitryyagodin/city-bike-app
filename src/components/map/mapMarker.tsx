@@ -79,7 +79,11 @@ const MapMarker: NextPage<Props> = ({ station, bounds }) => {
           <br />
           Capacity: <strong>{station.capacity}</strong>
         </p>
-        <StyledPopupLink href={`stations/${station.station_id}`}>To station page</StyledPopupLink>
+        {station.station_id && (
+          <StyledPopupLink href={`/stations/${station.station_id}`}>
+            To station page
+          </StyledPopupLink>
+        )}
       </StyledPopup>
     </Marker>
   );
