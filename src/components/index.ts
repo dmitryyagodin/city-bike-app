@@ -19,6 +19,7 @@ export { default as StyledDetails } from './ui/styledDetails';
 export { default as StyledAside } from './ui/styledAside';
 export { default as StyledFieldset } from './ui/styledFieldset';
 export { default as StyledTable } from './ui/styledTable';
+export { default as StyledStationStatsRow } from './ui/styledStationStatsRow';
 export { default as StyledTableHead } from './ui/styledTableHead';
 
 export { default as StationLink } from './station/stationLink';
