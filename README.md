@@ -1,4 +1,6 @@
 # City-bike-app
+This is a demo web app. It lists city bike stations and the rides associated with them. The data belongs to City Bike Finland and covers over 400 stations and 1.5 million rides from May to July 2021.
+
 - See it running on GCP's cloud run [city-bikes-cloudrun](https://city-bikes-cloudrun-7cnpdfqijq-lz.a.run.app/).
 - Database is hosted on GCP's compute engine virtual machine.
 - Stack
